@@ -2,6 +2,7 @@
 
 #include "s3c_uart.h"
 #include "s3c6410.h"
+#include "testimage.h"
 
 #define FIN 12000000
 #define LCD_PWR_CON GPNCON_REG
@@ -138,8 +139,9 @@ void set_lcd_pos(int ltx, int lty, int rbx, int rby){
     S3C_VIDOSDxB_OSD_RBY_F(rby- 1);
 }
 
-void drawing(int x, int y){
+void drawing(){
   unsigned int *phy_addr = FB_ADDR;
+  int i, j;
 
   /* Buffer Address*/ 
   S3C_VIDW00ADD0B0 = FB_ADDR; 
@@ -149,8 +151,13 @@ void drawing(int x, int y){
     S3C_VIDWxxADD2_PAGEWIDTH_F(PAGE_WIDTH);
 
   /* Implement your drawing code */
-  phy_addr[y*800+x] = 0xffffff;
-
+  for(i = 0; i<testimage_height; i++)
+  {
+    for(j = 0; j<testimage_width; j++)
+    {
+      phy_addr[800*i+j] = testimage[i][j];
+    }
+  }
 
   set_wincon0_enable();
   set_vidcon0_enable(); 
