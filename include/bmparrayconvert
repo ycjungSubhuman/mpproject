@@ -60,7 +60,7 @@ else:
 with open(resname + ".h", "w+") as outfile:
 	outfile.write("int "+resname+"_width = "+str(width)+";\n")
 	outfile.write("int "+resname+"_height = "+str(height)+";\n")
-	outfile.write("char "+resname+"["+str(height)+"]"+"["+str(width)+"] = {")
+	outfile.write("unsigned int "+resname+"["+str(height)+"]"+"["+str(width)+"] = {")
 	try:
 		with open(filename, "rb") as bmpfile:
 			bmpfile.seek(offset)
