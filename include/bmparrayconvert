@@ -58,6 +58,8 @@ else:
 	resname = raw_input()
 
 with open(resname + ".h", "w+") as outfile:
+	outfile.write("#ifndef __"+resname.upper()+"_H\n")
+	outfile.write("#define __"+resname.upper()+"_H\n")
 	outfile.write("int "+resname+"_width = "+str(width)+";\n")
 	outfile.write("int "+resname+"_height = "+str(height)+";\n")
 	outfile.write("unsigned int "+resname+"["+str(height)+"]"+"["+str(width)+"] = {")
@@ -83,6 +85,7 @@ with open(resname + ".h", "w+") as outfile:
 		outfile.seek(-2, 1)
 		outfile.truncate()
 		outfile.write("};\n")
+		outfile.write("#endif\n")
 	except IOError:
 		print "Couldn't open bmpfile"
 
