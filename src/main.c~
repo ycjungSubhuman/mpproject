@@ -24,7 +24,7 @@ int main()
 
   
   while(1){
-    //drawbackground();
+    drawbackground();
     drawing(mc.x, mc.y, test2_height, test2_width, test2);
 /*
     ch = getchar();

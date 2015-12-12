@@ -3,6 +3,7 @@
 #include "lcd.h"
 #include "s3c_uart.h"
 #include "s3c6410.h"
+#include "object.h"
 
 /* Registers for timer interrupt */
 #define VIC0IRQSTATUS_REG __REG(ELFIN_VIC0_BASE_ADDR + 0x0)
@@ -91,8 +92,10 @@ void touchInterruptServiceRoutine2(void){
 
   printf ("x: %d y: %d\n", x, y);
 
-  if(!(lcd_x<0 || lcd_y<0))
-    drawing(lcd_x, lcd_y, 60, 60/*, lcd_x*/);
+  if(!(lcd_x<0 || lcd_y<0)) {
+    mc.x = lcd_x;
+    mc.y = lcd_y;
+  }
 
   /* Change to the device coordinate */
  
