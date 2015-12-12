@@ -2,7 +2,6 @@
 
 #include "s3c_uart.h"
 #include "s3c6410.h"
-#include "test2.h"
 
 #define FIN 12000000
 #define LCD_PWR_CON GPNCON_REG
@@ -139,7 +138,7 @@ void set_lcd_pos(int ltx, int lty, int rbx, int rby){
     S3C_VIDOSDxB_OSD_RBY_F(rby- 1);
 }
 
-void drawing(int x, int y, int height, int width/*, int image[][width]*/)
+void drawing(int x, int y, int height, int width, int image[][width])
 {
   unsigned int *phy_addr = FB_ADDR;
   int i, j;
@@ -154,12 +153,20 @@ void drawing(int x, int y, int height, int width/*, int image[][width]*/)
   {
     for(j = 0; j<width; j++)
     {
-      phy_addr[800*(i+y)+j+x] = test2[i][j]/*image[i][j]*/;
+      phy_addr[800*(i+y)+j+x] = image[i][j];
     }
   }
 
   set_wincon0_enable();
   set_vidcon0_enable(); 
+}
+
+void drawbackground(void)
+{
+  unsigned int *phy_addr = FB_ADDR;
+  unsigned int i;
+  for(i=0; i<S3CFB_SIZE; i++)
+      phy_addr[i] = 0x0;
 }
 
 void mango_lcd_init(void){
@@ -171,6 +178,4 @@ void mango_lcd_init(void){
   init_lcd_reg();
 
   set_lcd_pos(0, 0, S3CFB_HRES, S3CFB_VRES);
-  for(i=0; i<S3CFB_SIZE; i++)
-      phy_addr[i] = 0x0;
 }

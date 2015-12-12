@@ -41,7 +41,8 @@
 
 #define FB_ADDR     0x5a000000
 
+void drawbackground(void);
 void mango_lcd_init(void);
-void drawing(int x, int y, int height, int width/*, int image[][width]*/);
+void drawing(int x, int y, int height, int width, int image[][width]);
 
 #endif
