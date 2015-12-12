@@ -15,6 +15,7 @@ OBJ=\
     $(OUTDIR)/support.o \
     $(OUTDIR)/interrupt.o \
     $(OUTDIR)/lcd.o \
+    $(OUTDIR)/timer.o \
 
 CFLAGS64=-DCONFIG_MANGO_64
 COMPILE64=$(CC) -c -Wall -g -o "$(OUTDIR)/$(*F).o" $(CFG_INC) $(CFLAGS64) $<

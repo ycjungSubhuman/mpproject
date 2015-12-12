@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <timer.h>
 #include "lcd.h"
 #include "s3c_uart.h"
 #include "s3c6410.h"
@@ -12,10 +12,10 @@
 
 #define VIC0VECTADDR24 __REG(ELFIN_VIC0_BASE_ADDR + 0x160)
 
-#define BIT_TIMER1 (1<<24)
+#define BIT_TIMER2 (1<<25)
 #define TINT_CSTAT_REG __REG(0x7f006044)
-#define BIT_TIMER1_STAT (1<<6)
-#define BIT_TIMER1_EN (1<<1)
+#define BIT_TIMER2_STAT (1<<6)
+#define BIT_TIMER2_EN (1<<1)
 
 /* Registers for touch interrupt  */
 #define VIC1RAWINTR_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x8)
@@ -104,15 +104,36 @@ void touchInterruptServiceRoutine2(void){
   /* Enable other interrupts */
   VIC1INTENABLE_REG = temp;
 }
+void timer2InterruptServiceRoutine(void){
+  unsigned int temp;
+
+  //Disable any other interrupt
+  temp = VIC0INTENABLE_REG;
+  VIC0INTENCLEAR_REG = 0xffffffff;
+
+  printf ("timer2InterruptSeviceRoutine is called\n");
+  //update game
+  game_update();
+
+  //Reset interrupt status
+  TINT_CSTAT_REG |= BIT_TIMER2_STAT;
+  VIC0IRQSTATUS_REG |= BIT_TIMER2;
+
+  //Enable other interrupts
+  VIC0INTENABLE_REG = temp;
+}
 
 void mango_interrupt_init(void){
   VIC1INTENABLE_REG |= BIT_ADCEOC;
   VIC1INTENABLE_REG |= BIT_ADC_PEN;
+  VIC0INTENABLE_REG |= BIT_TIMER2;
+  TINT_CSTAT_REG |= BIT_TIMER2_EN;
 
   writel(0xffff, ADCDLY);
   writel(0xd3, ADCTSC);
   writel(0x7fc1, ADCCON); 
 
+  VIC0VECTADDR24 = (unsigned)timer2InterruptServiceRoutine;
   VIC1VECTADDR30 = (unsigned)touchInterruptServiceRoutine;
   VIC1VECTADDR31 = (unsigned)touchInterruptServiceRoutine2;
 }
