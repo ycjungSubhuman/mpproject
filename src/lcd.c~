@@ -139,7 +139,7 @@ void set_lcd_pos(int ltx, int lty, int rbx, int rby){
     S3C_VIDOSDxB_OSD_RBY_F(rby- 1);
 }
 
-void drawing(int x, int y, int height, int width/*, int image[][width]*/)
+void drawing(int x, int y, int height, int width, int image[][width])
 {
   unsigned int *phy_addr = FB_ADDR;
   int i, j;
@@ -154,7 +154,7 @@ void drawing(int x, int y, int height, int width/*, int image[][width]*/)
   {
     for(j = y; j<width; j++)
     {
-      phy_addr[800*i+j] = test2[i][j]/*image[i][j]*/;
+      phy_addr[800*i+j] = image[i][j];
     }
   }
 
