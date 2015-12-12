@@ -150,11 +150,11 @@ void drawing(int x, int y, int height, int width/*, int image[][width]*/)
   S3C_VIDW00ADD2  = S3C_VIDWxxADD2_OFFSIZE_F(S3CFB_OFFSET) |
     S3C_VIDWxxADD2_PAGEWIDTH_F(PAGE_WIDTH);
 
-  for(i = x; i<height; i++)
+  for(i = 0; i<height; i++)
   {
-    for(j = y; j<width; j++)
+    for(j = 0; j<width; j++)
     {
-      phy_addr[800*i+j] = test2[i][j]/*image[i][j]*/;
+      phy_addr[800*(i+y)+j+x] = test2[i][j]/*image[i][j]*/;
     }
   }
 
