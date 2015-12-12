@@ -92,7 +92,7 @@ void touchInterruptServiceRoutine2(void){
   printf ("x: %d y: %d\n", x, y);
 
   if(!(lcd_x<0 || lcd_y<0))
-    drawing(lcd_x, lcd_y, 60, 60/*, lcd_x*/);
+    drawing(lcd_x, lcd_y, 60, 60, &(&lcd_x));
 
   /* Change to the device coordinate */
  
