@@ -14,8 +14,8 @@
 
 #define BIT_TIMER2 (1<<25)
 #define TINT_CSTAT_REG __REG(0x7f006044)
-#define BIT_TIMER2_STAT (1<<6)
-#define BIT_TIMER2_EN (1<<1)
+#define BIT_TIMER2_STAT (1<<7)
+#define BIT_TIMER2_EN (1<<2)
 
 /* Registers for touch interrupt  */
 #define VIC1RAWINTR_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x8)

@@ -17,6 +17,7 @@ int main()
   char ch;
   mango_hw_init();
 
+  printf("TSET");
   while(1){
     ch = getchar();
     if(ch == 'q') break;

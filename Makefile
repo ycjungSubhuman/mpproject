@@ -2,7 +2,7 @@
 MAKE=make
 RM=rm
 MKDIR=mkdir
-CC=arm-none-eabi-gcc
+CC=arm-none-eabi-gcc --specs=rdimon.specs
 CP=cp
 
 OUTDIR=Debug
