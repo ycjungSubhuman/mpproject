@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <timer.h>
 #include <s3c_uart.h>
 #include <lcd.h>
 #include "test2.h"
@@ -8,6 +9,7 @@
 static void mango_hw_init(void)
 {
   mango_uart_init(1, 115200);
+  mango_timer_init();
   mango_interrupt_init();
   mango_lcd_init();
 }
@@ -104,7 +106,7 @@ int main()
     else if(gamestate == 1) {
     drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 
-    printf ("time: %d, score = %d\n", time, score);
+    //printf ("time: %d, score = %d\n", time, score);
     if(time % 20 == 0) {
       bulletGenerate(mc.x, mc.y, 2, 10, 0);
     }
