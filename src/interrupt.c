@@ -115,6 +115,7 @@ void timer2InterruptServiceRoutine(void){
   VIC0INTENCLEAR_REG = 0xffffffff;
 
   printf ("timer2InterruptSeviceRoutine is called\n");
+  update_game();
 
   //Reset interrupt status
   TINT_CSTAT_REG |= BIT_TIMER2_STAT;
@@ -125,11 +126,10 @@ void timer2InterruptServiceRoutine(void){
 }
 
 void mango_interrupt_init(void){
-  enable_interrupts();
   VIC1INTENABLE_REG |= BIT_ADCEOC;
   VIC1INTENABLE_REG |= BIT_ADC_PEN;
   VIC0INTENABLE_REG |= BIT_TIMER2;
-  VIC0INTENABLE_REG |= BIT_TIMER2_EN;
+  TINT_CSTAT_REG |= BIT_TIMER2_EN;
 
   writel(0xffff, ADCDLY);
   writel(0xd3, ADCTSC);
