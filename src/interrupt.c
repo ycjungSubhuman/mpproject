@@ -114,8 +114,7 @@ void timer2InterruptServiceRoutine(void){
   temp = VIC0INTENABLE_REG;
   VIC0INTENCLEAR_REG = 0xffffffff;
 
-  //event
-  interrupt = 1;
+  update_game();
 
   //Reset interrupt status
   TINT_CSTAT_REG |= BIT_TIMER2_STAT;
