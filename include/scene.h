@@ -10,7 +10,7 @@ typedef struct object{
 	int img;
 
 	//don't use in currscene
-	int collide_count = 0;
+	int collide_count;
 
 	//collision list
 	struct object* collide_list[SCENE_MAX];
@@ -19,19 +19,25 @@ typedef struct object{
 }OBJECT;
 
 typedef struct scene{
-	OBJECT* list[SCENE_MAX] = {NULL};
-	int size = 0;
+	OBJECT* list[SCENE_MAX];
+	int size;
 }SCENE;
 
 int height(int idx);
 int width(int idx);
 int** img(int idx);
-RECT detect_scene_collision(OBJECT* newone, OBJECT* oldone);
-int is_point_in_rect(RECT rect, int x, int y);
+static RECT detect_scene_collision(OBJECT* newone, OBJECT* oldone);
+static int is_point_in_rect(RECT rect, int x, int y);
+static int is_rect_null(RECT rect);
+static int is_obj_pos_img_diff(OBJECT o1, OBJECT o2);
+static void delete_obj_from_array(OBJECT* list[], int ind, int size);
+static void delete_rect_from_array(RECT list[], int ind, int size);
+static void reload_coldata_from_scene(OBJECT* list[], int ind, int size);
 
 
-OBJECT* scene_add(OBJECT* obj);
-OBJECT* scene_remove(OBJECT* obj);
+
+OBJECT* scene_additem(OBJECT* obj);
+OBJECT* scene_removeitem(OBJECT* obj);
 void scene_refresh();
 
 
