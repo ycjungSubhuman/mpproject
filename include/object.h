@@ -1,34 +1,29 @@
-struct player
+typedef  struct
 {
-  int x, y;
-  int img;
-  int valid;
-} mc;
+	int x, y, z;
+	int img;
+	int type;
+	int valid;
+} Player;
 
-struct enemy
+
+typedef  struct
 {
-  int x, y;
-  int img;
-  int hp;
-  int xspeed, yspeed;
-  int valid;
-} enemys[100];
+	int x, y, z;
+	int img;
+	int type;
+	int xspeed, yspeed;
+	int valid;
+} Enemy;
 
-int enemysCount;
-
-struct bullet
+typedef  struct bullet
 {
-  int x, y;
-  int img;
-  int power;
-  int xspeed, yspeed;
-  int valid;
-} bullets[1000];
+	int x, y, z;
+	int img;
+	int type;
+	int xspeed, yspeed;
+	int valid;
+} Bullet;
 
-int bulletsCount;
-
-int score;
-int stage;
-int gamestate;
 
 void touched(int x, int y);

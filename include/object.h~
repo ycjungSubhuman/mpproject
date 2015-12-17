@@ -1,12 +1,13 @@
 struct player
 {
-  int x, y;
+  int x, y, z;
   int img;
+  int valid;
 } mc;
 
 struct enemy
 {
-  int x, y;
+  int x, y, z;
   int img;
   int hp;
   int xspeed, yspeed;
@@ -17,7 +18,7 @@ int enemysCount;
 
 struct bullet
 {
-  int x, y;
+  int x, y, z;
   int img;
   int power;
   int xspeed, yspeed;
@@ -29,5 +30,6 @@ int bulletsCount;
 int score;
 int stage;
 int gamestate;
+int time;
 
 void touched(int x, int y);

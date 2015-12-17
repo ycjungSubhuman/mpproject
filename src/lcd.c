@@ -165,7 +165,7 @@ void drawbackground(void)
 {
   unsigned int *phy_addr = FB_ADDR;
   unsigned int i;
-  for(i=0; i<S3CFB_SIZE; i++)
+  for(i=0; i< 800*500; i++)
       phy_addr[i] = 0x0;
 }
 

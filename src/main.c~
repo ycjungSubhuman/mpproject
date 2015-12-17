@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <string.h>
+#include <timer.h>
 #include <s3c_uart.h>
 #include <lcd.h>
-#include "test2.h"
 #include "object.h"
 
 static void mango_hw_init(void)
 {
   mango_uart_init(1, 115200);
+  mango_timer_init();
   mango_interrupt_init();
   mango_lcd_init();
 }
@@ -87,24 +88,28 @@ void touched(int x, int y)
   }
 }
 
+
 int main()
 {
-  int time = 0;
   int i, j;
   char ch;
   
+  time = 0;
+  interrupt = 0;
   gamestate = 0;
 
   mango_hw_init();
 
   
   while(1){
+    if(interrupt == 1) {
+      interrupt = 0;
     if(gamestate == 0) {
     }
     else if(gamestate == 1) {
     drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 
-    printf ("time: %d, score = %d\n", time, score);
+    //printf ("time: %d, score = %d\n", time, score);
     if(time % 20 == 0) {
       bulletGenerate(mc.x, mc.y, 2, 10, 0);
     }
@@ -142,7 +147,7 @@ int main()
     for(i = 0; i < bulletsCount; i++) {
       bullets[i].x += bullets[i].xspeed;
       bullets[i].y += bullets[i].yspeed;
-      if(bullets[i].x > 700) enemys[i].valid = 0;
+      if(bullets[i].x > 700) bullets[i].valid = 0;
       if(bullets[i].valid == 1) {
         drawing(bullets[i].x, bullets[i].y, height(bullets[i].img), width(bullets[i].img), img(bullets[i].img));
       }
@@ -160,10 +165,10 @@ int main()
       printf ("GAME OVER!, score = %d\n", score);
       drawbackground();
     }
-/*
+    }
     ch = getchar();
     if(ch == 'q') break;
-*/
+
   }
 
   return 0;
