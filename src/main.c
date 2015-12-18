@@ -139,6 +139,8 @@ int main()
 	interrupt = 0;
 	gamestate = 0;
 	mc.img = 2;
+	currscene.size = 0;
+	oldscene.size = 0;
 	drawbackground();
 
 	mango_hw_init();

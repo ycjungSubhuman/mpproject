@@ -5,6 +5,7 @@
 #include "bullet.h"
 #include "enemy.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #define VIC0INTENABLE_REG __REG(ELFIN_VIC0_BASE_ADDR + 0x10)
 #define VIC0INTENCLEAR_REG __REG(ELFIN_VIC0_BASE_ADDR + 0x14) 
@@ -15,6 +16,8 @@ extern SCENE oldscene;
 int height(int idx)
 {
 	switch(idx) {
+		case 0:
+			return 0;
 		case 1:
 			return enemy_height;
 		case 2:
@@ -29,6 +32,8 @@ int height(int idx)
 int width(int idx)
 {
 	switch(idx) {
+		case 0:
+			return 0;
 		case 1:
 			return enemy_width;
 		case 2:
@@ -43,6 +48,8 @@ int width(int idx)
 int **img(int idx)
 {
 	switch(idx) {
+		case 0:
+			return NULL;
 		case 1:
 			return enemy;
 		case 2:
@@ -220,11 +227,10 @@ OBJECT* scene_additem(OBJECT* obj)
 	oldscene.list[size]->y = obj->y;
 	oldscene.list[size]->z = obj->z;
 
-	oldscene.list[size]->img = 0;//default value of "OLD" is 0.
-	//it should collide with currscene. 0 means it has not been drawn
-	//to the scene yet
+	oldscene.list[size]->img = obj->img;
 
 	oldscene.list[size]->collide_count = 0;
+	oldscene.list[size]->staged = 0;
 
 	//detect collision
 	if(size>0){//detect collision only when an object exist before this one
@@ -320,8 +326,6 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 				h = width(list[i]->img);
 				image = img(list[i]->img);
 
-				draw_part(drawarea, x, y, w, h, image);
-
 				//after drawing, remove this item from colliding list
 				delete_obj_from_array(list[i]->collide_list, j, colcount);
 				delete_rect_from_array(list[i]->colrect_list, j, colcount);
@@ -378,6 +382,20 @@ void scene_refresh()
 	temp = VIC0INTENABLE_REG;
 	VIC0INTENCLEAR_REG = (1<<25);
 
+	//draw non-staged objects
+	for(i=0; i<size; i++)
+	{
+		if(!oldscene.list[i]->staged){
+			x = currscene.list[i]->x;
+			y = currscene.list[i]->y;
+			w = x + width(currscene.list[i]->img);
+			h = y + height(currscene.list[i]->img);
+			image = img(currscene.list[i]->img);
+			drawing(x, y, h, w, image);
+		}
+	}
+	printf("drawed unstaged objects. size : %d\n", size);
+
 	//first, check if there is any change in position/img
 	for(i=0; i<size; i++)
 	{
@@ -393,7 +411,6 @@ void scene_refresh()
 			h = height(currscene.list[i]->img);
 			w = width(currscene.list[i]->img);
 			image = img(currscene.list[i]->img);
-			drawing(x, y, h, w, image);
 
 			//redraw colliding part of new upper objects 
 			imagerect.left = x;

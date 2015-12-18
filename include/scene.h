@@ -12,13 +12,16 @@ typedef struct object{
 	int x, y, z;
 	int img;
 
-	//don't use in currscene
+/*these are only for oldscene. don't access from currscene*/
+/*--------------------------------------------------------*/
+	int staged;
 	int collide_count;
 
 	//collision list
 	struct object* collide_list[SCENE_MAX];
 	//collision rect. relative position
 	RECT colrect_list[SCENE_MAX];
+/*---------------------------------------------------------*/
 }OBJECT;
 
 typedef struct scene{
