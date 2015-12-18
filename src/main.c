@@ -144,7 +144,7 @@ int hitTest(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 	return (x2+w2 > x1 && x1+w1 > x2) && (y2+h2>y1 && y1+h1>y2);
 }
 
-void remove()
+void clear_game()
 {
 	int i;
 	for(i = 0; i < enemysCount; i++)
@@ -300,7 +300,7 @@ int main()
 						}
 						else {
 							gamestate = 2;
-							remove();
+							clear_game();
 							mc.valid = 0;
 							break;
 						}
@@ -320,7 +320,7 @@ int main()
 					if(bullets[j]->type >= 2) {
 						if(hitTest(mc.x, mc.y, 64, 64, bullets[j]->x, bullets[j]->y, 16, 16)) {
 							gamestate = 2;
-							remove();
+							clear_game();
 							mc.valid = 0;
 							break;
 						}
