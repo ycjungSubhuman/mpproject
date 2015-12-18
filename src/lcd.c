@@ -2,6 +2,7 @@
 
 #include "s3c_uart.h"
 #include "s3c6410.h"
+#include "scene.h"
 
 #define FIN 12000000
 #define LCD_PWR_CON GPNCON_REG
@@ -179,7 +180,7 @@ void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][w
   imagerect.left = x;
   imagerect.top = y;
   imagerect.right = x+width;
-  imgaerect.bottom = y+height;
+  imagerect.bottom = y+height;
   colrect = overlapped_rectof(rectmask, imagerect);
 
   //if the mask has been successfully generated
@@ -189,14 +190,14 @@ void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][w
     relativerect.left = colrect.left-x;
     relativerect.top = colrect.top-y;
     relativerect.right = colrect.left-x;
-    relativerect.bottom = colrect.bottom.y;
+    relativerect.bottom = colrect.bottom-y;
 
     //draw image
     for(i = relativerect.top; i<=relativerect.bottom; i++)
     {
       for(j = relativerect.left; j<=relativerect.right; j++)
       {
-        if(pix=image[i][j] != MASK_COLOR)//mask background color
+        if((pix=image[i][j]) != MASK_COLOR)//mask background color
           phy_addr[800*(i+y)+j+x] = pix;
       }
     }
@@ -218,9 +219,6 @@ void drawbackground(void)
 }
 
 void mango_lcd_init(void){
-  unsigned int i;
-  unsigned int *phy_addr = FB_ADDR;
-
   lcd_bl_on(MAX_BL_LEV-1);
   lcd_pwr_on();
   init_lcd_reg();

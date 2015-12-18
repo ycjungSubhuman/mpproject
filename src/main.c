@@ -3,8 +3,11 @@
 #include <timer.h>
 #include <s3c_uart.h>
 #include <lcd.h>
-#include "test2.h"
+#include "scene.h"
 #include "object.h"
+
+SCENE currscene;
+SCENE oldscene;
 
 static void mango_hw_init(void)
 {
@@ -12,36 +15,6 @@ static void mango_hw_init(void)
   mango_timer_init();
   mango_interrupt_init();
   mango_lcd_init();
-}
-
-int height(int idx)
-{
-  switch(idx) {
-    case 2:
-      return test2_height;
-    default:
-      return test2_height;
-  }
-}
-
-int width(int idx)
-{
-  switch(idx) {
-    case 2:
-      return test2_width;
-    default:
-      return test2_width;
-  }
-}
-
-int **img(int idx)
-{
-  switch(idx) {
-    case 2:
-      return test2;
-    default:
-      return test2;
-  }
 }
 
 void enemyGenerate(int x, int y, int img, int xspeed, int yspeed)

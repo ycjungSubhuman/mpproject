@@ -1,6 +1,7 @@
 #include "object.h"
 #include "scene.h"
 #include "lcd.h"
+#include "test2.h"
 #include <stdlib.h>
 
 #define VIC0INTENABLE_REG __REG(ELFIN_VIC0_BASE_ADDR + 0x10)
@@ -44,7 +45,7 @@ RECT overlapped_rectof(RECT r1, RECT r2)
 	RECT colrect;
 
 	//first check if it collides
-	if(is_point_in_rect(r1, r2.left, r2.top)
+	if(is_point_in_rect(r1, r2.left, r2.top))
 	{
 		colrect.left = r2.left;
 		colrect.top = r2.top;
@@ -104,7 +105,7 @@ static RECT detect_scene_collision(OBJECT* newone, OBJECT* oldone)
 	
 	return colrect;
 }
-static int is_point_in_rect(RECT rect, int x, int y)
+int is_point_in_rect(RECT rect, int x, int y)
 {
 	if(rect.left<=x && x<=rect.right
 		&& rect.top<=y && y<=rect.bottom)
@@ -114,7 +115,7 @@ static int is_point_in_rect(RECT rect, int x, int y)
 	}
 	else return 0;//the point is not in the rect
 }
-static int is_rect_null(RECT rect)
+int is_rect_null(RECT rect)
 {
 	if(rect.left==0 && rect.top==0
 		&& rect.right==0 && rect.bottom==0)
@@ -147,7 +148,10 @@ static void delete_rect_from_array(RECT list[], int ind, int size)
 {
 	int i;
 	//first NULLify deleted cell
-	list[ind] = NULL;
+	list[ind].left =0;
+    list[ind].top =0;
+    list[ind].right =0;
+    list[ind].bottom =0;
 	//shift to fill the deleted cell
 	for(i=ind; i<size-1; i++)
 	{
@@ -184,17 +188,19 @@ static void remove_coldata_from_list(OBJECT* list[], int targetind, int size)
 
 OBJECT* scene_additem(OBJECT* obj)
 {
-	//block TIMER2 SIGNAL
-	temp = VIC0INTENABLE_REG;
-	VIC0INTENCLEAR_REG = (1<<25);
 	int i;
 	int size = currscene.size;
 	RECT colrect;
 	int oldcolind;
+    unsigned int temp;
+
+	//block TIMER2 SIGNAL
+	temp = VIC0INTENABLE_REG;
+	VIC0INTENCLEAR_REG = (1<<25);
 
 	//add to the scene list
 	currscene.list[size] = obj;
-	oldscene.list[size] = (OBEJCT*)malloc(sizeof(OBJECT));
+	oldscene.list[size] = (OBJECT*)malloc(sizeof(OBJECT));
 	//copy to oldscene
 	oldscene.list[size]->x = obj->x;
 	oldscene.list[size]->y = obj->y;
@@ -238,12 +244,13 @@ OBJECT* scene_additem(OBJECT* obj)
 }
 OBJECT* scene_removeitem(OBJECT* obj)
 {
+    unsigned int temp;
+	int i;
+	int size = currscene.size;
+	OBJECT* result = NULL;
 	//block TIMER2 SIGNAL
 	temp = VIC0INTENABLE_REG;
 	VIC0INTENCLEAR_REG = (1<<25);
-	OBJECT* result = NULL;
-	int i, j;
-	int size = currscene.size;
 
 	//first check where the target is
 	for(i=0; i<size; i++)
@@ -277,7 +284,7 @@ OBJECT* scene_removeitem(OBJECT* obj)
 }
 static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind, int size)
 {
-	int i, j, k, l, colcount;
+	int i, j, k, colcount;
 	RECT drawarea;
 	RECT colrect;
 	int x, y, h, w;
@@ -287,7 +294,7 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 	//first, redraw backgrond objects(relative to the target)
 	for(i=0; i<targetind; i++)
 	{
-		colcount = list[i].collide_count;
+		colcount = list[i]->collide_count;
 		for(j=0; j<colcount; j++)
 		{
 			if(list[i]->collide_list[j] == target){//if matches the target
@@ -304,7 +311,7 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 				//after drawing, remove this item from colliding list
 				delete_obj_from_array(list[i]->collide_list, j, colcount);
 				delete_rect_from_array(list[i]->colrect_list, j, colcount);
-				colcount = --(list[i].collide_count);
+				colcount = --(list[i]->collide_count);
 				j--;
 
 				//next, draw upper objects(<lower than target) that collides this area
@@ -344,25 +351,27 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 
 void scene_refresh()
 {
-	//block TIMER2 SIGNAL
-	temp = VIC0INTENABLE_REG;
-	VIC0INTENCLEAR_REG = (1<<25);
 	int i, j;
 	int size = currscene.size;
 	int x, y, w, h;
 	unsigned int** image;
+    unsigned int temp;
 	RECT imagerect;
 	RECT imagerect2;
 	RECT colrect;
 
+	//block TIMER2 SIGNAL
+	temp = VIC0INTENABLE_REG;
+	VIC0INTENCLEAR_REG = (1<<25);
+
 	//first, check if there is any change in position/img
 	for(i=0; i<size; i++)
 	{
-		if(is_obj_pos_img_diff(*currscene.list[i], *oldscene.list[i])
+		if(is_obj_pos_img_diff(*currscene.list[i], *oldscene.list[i]))
 		{//if the position or img num of list[i] has been changed
 
 			//redraw colliding areas of back
-			redraw_colliding_area(currscene.list[i], oldscene.list, i, size);
+			redraw_colliding_rect(currscene.list[i], oldscene.list, i, size);
 
 			//draw newly positioned object
 			x = currscene.list[i]->x;
@@ -386,9 +395,9 @@ void scene_refresh()
 				image = img(currscene.list[i]->img);
 				imagerect2.left = x;
 				imagerect2.top = y;
-				imagerect2.right = x + width(image);
-				imagerect2.bottom = y + height(image);
-				colrect = overlapped_rectof(imgaerect, imagerect2);
+				imagerect2.right = x + w;
+				imagerect2.bottom = y + h;
+				colrect = overlapped_rectof(imagerect, imagerect2);
 
 				draw_part(colrect, x, y, h, w, image);
 			}
