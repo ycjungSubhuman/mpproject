@@ -1,0 +1,42 @@
+#ifndef __SCENE_H
+#define __SCENE_H
+
+#define SCENE_MAX 80
+#define MASK_COLOR 0xFF00AA
+
+typedef struct rect{
+	int left, top, right, bottom;
+}RECT;
+
+typedef struct object{
+	int x, y, z;
+	int img;
+
+	//don't use in currscene
+	int collide_count;
+
+	//collision list
+	struct object* collide_list[SCENE_MAX];
+	//collision rect. relative position
+	RECT colrect_list[SCENE_MAX];
+}OBJECT;
+
+typedef struct scene{
+	OBJECT* list[SCENE_MAX];
+	int size;
+}SCENE;
+
+int height(int idx);
+int width(int idx);
+int** img(int idx);
+int is_point_in_rect(RECT rect, int x, int y);
+int is_rect_null(RECT rect);
+RECT overlapped_rectof(RECT r1, RECT r2);
+
+
+OBJECT* scene_additem(OBJECT* obj);
+OBJECT* scene_removeitem(OBJECT* obj);
+void scene_refresh();
+
+
+#endif

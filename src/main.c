@@ -5,10 +5,11 @@
 #include <s3c_uart.h>
 #include <s3c6410.h>
 #include <lcd.h>
-#include "player.h"
-#include "enemy.h"
-#include "bullet.h"
+#include "scene.h"
 #include "object.h"
+
+SCENE currscene;
+SCENE oldscene;
 
 static void mango_hw_init(void)
 {
@@ -32,47 +33,7 @@ int interrupt;
 int pattern;
 int count;
 
-int height(int idx)
-{
-	switch(idx) {
-		case 1:
-			return enemy_height;
-		case 2:
-			return player_height;
-		case 3:
-			return bullet_height;
-		default:
-			return bullet_height;
-	}
-}
 
-int width(int idx)
-{
-	switch(idx) {
-		case 1:
-			return enemy_width;
-		case 2:
-			return player_width;
-		case 3:
-			return bullet_width;
-		default:
-			return bullet_width;
-	}
-}
-
-int **img(int idx)
-{
-	switch(idx) {
-		case 1:
-			return enemy;
-		case 2:
-			return player;
-		case 3:
-			return bullet;
-		default:
-			return bullet;
-	}
-}
 
 void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 {

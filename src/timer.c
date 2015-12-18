@@ -4,6 +4,8 @@
 #include <s3c6410.h>
 #include "object.h"
 
+extern int interrupt;
+
 void mango_timer_init(void){
   TCFG0_REG = (TCFG0_REG & ~(0xff)) | 0x21; //Prescaler 0: 0x21:33
   TCFG1_REG = (TCFG1_REG & ~(0xf<<4)) | (1<<4); //divider MUX1: 1/2

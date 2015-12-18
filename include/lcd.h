@@ -5,6 +5,7 @@
 
 #include "s3c_uart.h"
 #include "s3c6410.h"
+#include "scene.h"
 
 #define FIN 12000000
 #define LCD_PWR_CON GPNCON_REG
@@ -44,5 +45,6 @@
 void drawbackground(void);
 void mango_lcd_init(void);
 void drawing(int x, int y, int height, int width, int image[][width]);
+void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][width]);
 
 #endif
