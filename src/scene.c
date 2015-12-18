@@ -420,10 +420,10 @@ void scene_refresh()
             printf("drawed unstaged objects. size : %d\n", size);
 		}
 	}
-    for(i=0; i<oldscene.list[0]->collide_count; i++)
+    /*for(i=0; i<oldscene.list[0]->collide_count; i++)
     {
         printf("background colliding : %d\n", oldscene.list[0]->collide_list[i]);
-    }
+    }*/
 
 	//first, check if there is any change in position/img
 	for(i=0; i<size; i++)

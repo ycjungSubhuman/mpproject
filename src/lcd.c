@@ -214,6 +214,8 @@ void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][w
   else{//if the mask is invalid(out of image rect)
       //DO NOTHING
   }
+  if(image == NULL)
+      printf("colrect : %d %d %d %d\n\n\n\n\n\n\n", colrect.left, colrect.top, colrect.right, colrect.bottom);
 
   set_wincon0_enable();
   set_vidcon0_enable(); 
