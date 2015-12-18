@@ -325,6 +325,7 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 				w = width(list[i]->img);
 				h = width(list[i]->img);
 				image = img(list[i]->img);
+				printf("loaded colliding rect")
 
 				//after drawing, remove this item from colliding list
 				delete_obj_from_array(list[i]->collide_list, j, colcount);
@@ -403,7 +404,8 @@ void scene_refresh()
 		{//if the position or img num of list[i] has been changed
 
 			//redraw colliding areas of back
-			redraw_colliding_rect(currscene.list[i], oldscene.list, i, size);
+			//redraw_colliding_rect(currscene.list[i], oldscene.list, i, size);
+			//printf("successfully drawed changed object. size : %d\n");
 
 			//draw newly positioned object
 			x = currscene.list[i]->x;
