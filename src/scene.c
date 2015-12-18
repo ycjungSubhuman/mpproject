@@ -275,10 +275,11 @@ OBJECT* scene_removeitem(OBJECT* obj)
  	//Enable other interrupts
 	VIC0INTENABLE_REG = temp;
 }
-static void redraw_colliding_rect(OBJECT* list[], int targetind, int size)
+static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind, int size)
 {
 	int i, j, k, l, colcount;
 	RECT drawarea;
+	RECT colrect;
 	int x, y, h, w;
 	int** image;
 	OBJECT* target = list[targetind];
@@ -329,6 +330,16 @@ static void redraw_colliding_rect(OBJECT* list[], int targetind, int size)
 			}
 		}//serching through collide_list
 	}//serching through obj list
+
+	//after redrawing background, update background object's colliding info.
+	for(i=0; i<targetind; i++)
+	{
+		colrect = detect_scene_collision(newone, list[i]);
+		if(!is_rect_null(colrect)){
+			list[i]->collide_list[list[i]->collide_count] = newone;
+			list[i]->colrect_list[list[i]->collide_count++] = colrect;
+		}
+	}
 }
 
 void scene_refresh()
@@ -336,9 +347,13 @@ void scene_refresh()
 	//block TIMER2 SIGNAL
 	temp = VIC0INTENABLE_REG;
 	VIC0INTENCLEAR_REG = (1<<25);
-	int i;
+	int i, j;
 	int size = currscene.size;
-	int x, y, w, h, image;
+	int x, y, w, h;
+	unsigned int** image;
+	RECT imagerect;
+	RECT imagerect2;
+	RECT colrect;
 
 	//first, check if there is any change in position/img
 	for(i=0; i<size; i++)
@@ -347,16 +362,41 @@ void scene_refresh()
 		{//if the position or img num of list[i] has been changed
 
 			//redraw colliding areas of back
-			redraw_colliding_area(oldscene.list, i, size);
+			redraw_colliding_area(currscene.list[i], oldscene.list, i, size);
 
-			//update collision areas of all elements of the list
+			//draw newly positioned object
+			x = currscene.list[i]->x;
+			y = currscene.list[i]->y;
+			h = height(currscene.list[i]->img);
+			w = width(currscene.list[i]->img);
+			image = img(currscene.list[i]->img);
+			drawing(x, y, h, w, image);
 
+			//redraw colliding part of new upper objects 
+			imagerect.left = x;
+			imagerect.top = y;
+			imagerect.right = x+w;
+			imagerect.bottom = y+h;
+			for(j=i+1; i<size; i++)
+			{
+				x = currscene.list[j]->x;
+				y = currscene.list[j]->y;
+				h = height(currscene.list[j]->img);
+				w = width(currscene.list[j]->img);
+				image = img(currscene.list[i]->img);
+				imagerect2.left = x;
+				imagerect2.top = y;
+				imagerect2.right = x + width(image);
+				imagerect2.bottom = y + height(image);
+				colrect = overlapped_rectof(imgaerect, imagerect2);
+
+				draw_part(colrect, x, y, h, w, image);
+			}
 		}
 		else{//if everything is the same
 			//DO NOTHING
 		}
 	}
-
 
 	//enable timer signal
 	VIC0INTENABLE_REG = temp;
