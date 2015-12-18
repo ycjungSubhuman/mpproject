@@ -46,6 +46,7 @@ void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	enemys[enemysCount]->yspeed = yspeed;
 	enemys[enemysCount]->type = type;
 	enemys[enemysCount]->valid = 1;
+	scene_additem(enemys[enemysCount]);
 	enemysCount++;
 }
 
@@ -60,6 +61,7 @@ void bulletGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	bullets[bulletsCount]->yspeed = yspeed;
 	bullets[bulletsCount]->type = type;
 	bullets[bulletsCount]->valid = 1;
+	scene_additem(bullets[bulletsCount]);
 	bulletsCount++;
 }
 
@@ -89,6 +91,7 @@ void touched(int x, int y)
 			count = 0;
 			pattern = rand()%5;
 			drawbackground();
+			scene_additem(&mc);
 		}
 	return;
 	case 1:
@@ -139,10 +142,10 @@ int main()
 	drawbackground();
 
 	mango_hw_init();
-
 	
 	while(1){
 		if(interrupt == 1) {
+			scene_refresh();
 			interrupt = 0;
 			if(gamestate == 0) {
 				drawing(100, 100, height(mc.img), width(mc.img), img(mc.img));
@@ -150,7 +153,7 @@ int main()
 				enemysCount = 0;
 			}
 			else if(gamestate == 1) {
-				drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
+				//drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 
 				printf ("time: %d, score = %d\n", time, score);
 
@@ -306,10 +309,11 @@ int main()
 							break;
 					}
 					if(enemys[i]->valid == 1) {
-						drawing(enemys[i]->x, enemys[i]->y, height(enemys[i]->img), width(enemys[i]->img), img(enemys[i]->img));
+						//drawing(enemys[i]->x, enemys[i]->y, height(enemys[i]->img), width(enemys[i]->img), img(enemys[i]->img));
 					}
 					if(enemys[i]->valid == 0) {
 						enemysCount--;
+						scene_removeitem(enemys[i]);
 						free(enemys[i]);
 						for(j = i; j < enemysCount; j++) {
 							enemys[j] = enemys[j+1];
@@ -337,10 +341,11 @@ int main()
 					if(bullets[i]->y > 480) bullets[i]->valid = 0;
 					if(bullets[i]->y < 150) bullets[i]->valid = 0;
 					if(bullets[i]->valid == 1) { 
-						drawing(bullets[i]->x, bullets[i]->y, height(bullets[i]->img), width(bullets[i]->img), img(bullets[i]->img));
+						//drawing(bullets[i]->x, bullets[i]->y, height(bullets[i]->img), width(bullets[i]->img), img(bullets[i]->img));
 					}
 					if(bullets[i]->valid == 0) {
 						bulletsCount--;
+						scene_removeitem(bullets[i]);
 						free(bullets[i]);
 						for(j = i; j < bulletsCount; j++) {
 							bullets[j] = bullets[j+1];
@@ -352,12 +357,12 @@ int main()
 			 }
 			 else if(gamestate == 2) {
 				drawbackground();
-				drawing(200, 200, height(1), width(1), img(1));
+				//drawing(200, 200, height(1), width(1), img(1));
 				printf ("GAME OVER!, score = %d\n", score);
 			}
 			else if(gamestate == 3) {
 				drawbackground();
-				drawing(300, 300, height(2), width(2), img(2));
+				//drawing(300, 300, height(2), width(2), img(2));
 				printf ("GAME CLEARED!, score = %d\n", score);
 			}
 		}
