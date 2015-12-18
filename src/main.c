@@ -158,6 +158,7 @@ void clear_game()
 	}
 	enemysCount = 0;
 	bulletsCount = 0;
+    oldscene.list[0]->staged = 0;
 }
 
 int main()
@@ -223,7 +224,7 @@ int main()
 					case 4:
 					break;
 				}
-				printf("Generated Plyer Bullets\n");
+				//printf("Generated Plyer Bullets\n");
 
 				switch(pattern) {
 					//printf("Generating Enemies");
@@ -290,7 +291,7 @@ int main()
 					}
 					break;
 				}
-				printf("Generated Enemies");
+				//printf("Generated Enemies");
 				for(i = 0; i < enemysCount; i++) {
 					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+24, mc.y+24, 16, 16)) {
 						if(mc.type == 4) {

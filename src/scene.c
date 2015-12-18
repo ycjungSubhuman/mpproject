@@ -218,10 +218,10 @@ OBJECT* scene_additem(OBJECT* obj)
 	//block TIMER2 SIGNAL
 	//temp = VIC0INTENABLE_REG;
 	//VIC0INTENCLEAR_REG = 0xffffff;
-    printf("add_item entered, blocked timer 2\n");
+    //printf("add_item entered, blocked timer 2\n");
 
 	//add to the scene list
-    printf("Adding to the scene list\n");
+    //printf("Adding to the scene list\n");
 
     if(size == 0){//init background
         currscene.list[0] = (OBJECT*)malloc(sizeof(OBJECT));
@@ -241,7 +241,7 @@ OBJECT* scene_additem(OBJECT* obj)
 	currscene.list[size] = obj;
 	oldscene.list[size] = (OBJECT*)malloc(sizeof(OBJECT));
 	//copy to oldscene
-    printf("Copying to oldscene\n");
+    //printf("Copying to oldscene\n");
 	oldscene.list[size]->x = obj->x;
 	oldscene.list[size]->y = obj->y;
 	oldscene.list[size]->z = obj->z;
@@ -250,10 +250,10 @@ OBJECT* scene_additem(OBJECT* obj)
 
 	oldscene.list[size]->collide_count = 0;
 	oldscene.list[size]->staged = 0;
-    printf("successfully copied to oldscene\n");
-    printf("x: %d y: %d z: %d img: %d\n", obj->x, obj->y, obj->z, obj->img);
+    //printf("successfully copied to oldscene\n");
+    //printf("x: %d y: %d z: %d img: %d\n", obj->x, obj->y, obj->z, obj->img);
 
-    printf("detecting collision\n");
+    //printf("detecting collision\n");
 	//detect collision
 	if(size>0){//detect collision only when an object exist before this one
 		for(i=0; i<size; i++){
@@ -275,7 +275,7 @@ OBJECT* scene_additem(OBJECT* obj)
 	else{//if added obj is the first one, collision is not marked
 			//DO NOTHING
 	}
-    printf("Collsion data loaded\n");
+    //printf("Collsion data loaded\n");
 	//increase scene item number by 1
 	currscene.size++;
 	oldscene.size++;
@@ -348,7 +348,8 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 				w = width(list[i]->img);
 				h = width(list[i]->img);
 				image = img(list[i]->img);
-				printf("loaded colliding rect\n");
+                draw_part(drawarea, x, y, h, w, image);
+				//printf("loaded colliding rect\n");
 
 				//after drawing, remove this item from colliding list
 				delete_obj_from_array(list[i]->collide_list, j, colcount);
@@ -366,7 +367,7 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 					h = width(list[k]->img);
 					image = img(list[k]->img);
 
-					draw_part(drawarea, x, y, w, h, image);
+					draw_part(drawarea, x, y, h, w, image);
 				}
 
 				//if the target is found
@@ -434,7 +435,7 @@ void scene_refresh()
 
 			//redraw colliding areas of back
 			redraw_colliding_rect(currscene.list[i], oldscene.list, i, size);
-			printf("successfully drawed changed object. size : %d\n");
+			printf("successfully drawed changed object. size : %d\n", size);
 
 			//draw newly positioned object
 			x = currscene.list[i]->x;
@@ -443,6 +444,12 @@ void scene_refresh()
 			w = width(currscene.list[i]->img);
 			image = img(currscene.list[i]->img);
             drawing(x, y, h, w, image);
+
+            //reload oldscene
+            oldscene.list[i]->x = x;
+            oldscene.list[i]->y = y;
+            oldscene.list[i]->z = currscene.list[i]->z;
+            oldscene.list[i]->img = currscene.list[i]->img;
 
 			//redraw colliding part of new upper objects 
 			imagerect.left = x;
@@ -464,7 +471,7 @@ void scene_refresh()
 
 				draw_part(colrect, x, y, h, w, image);
 			}
-            printf("drawcomplete\n");
+            //printf("drawcomplete\n");
 		}
 		else{//if everything is the same
 			//DO NOTHING
