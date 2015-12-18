@@ -17,7 +17,7 @@ int height(int idx)
 {
 	switch(idx) {
 		case 0:
-			return 0;
+			return 480;
 		case 1:
 			return enemy_height;
 		case 2:
@@ -33,7 +33,7 @@ int width(int idx)
 {
 	switch(idx) {
 		case 0:
-			return 0;
+			return 800;
 		case 1:
 			return enemy_width;
 		case 2:
@@ -216,12 +216,28 @@ OBJECT* scene_additem(OBJECT* obj)
     unsigned int temp;
 
 	//block TIMER2 SIGNAL
-	temp = VIC0INTENABLE_REG;
-	VIC0INTENCLEAR_REG = (1<<25);
+	//temp = VIC0INTENABLE_REG;
+	//VIC0INTENCLEAR_REG = 0xffffff;
     printf("add_item entered, blocked timer 2\n");
 
 	//add to the scene list
     printf("Adding to the scene list\n");
+
+    if(size == 0){//init background
+        currscene.list[0] = (OBJECT*)malloc(sizeof(OBJECT));
+        oldscene.list[0] = (OBJECT*)malloc(sizeof(OBJECT));
+        currscene.list[0]->x = 0;
+        currscene.list[0]->y = 0;
+        currscene.list[0]->z = 0;
+        currscene.list[0]->img = 0;
+        oldscene.list[0]->x = 0;
+        oldscene.list[0]->y = 0;
+        oldscene.list[0]->z = 0;
+        oldscene.list[0]->img = 0;
+        oldscene.list[0]->collide_count=0;
+        oldscene.list[0]->staged = 0;
+        size++;
+    }
 	currscene.list[size] = obj;
 	oldscene.list[size] = (OBJECT*)malloc(sizeof(OBJECT));
 	//copy to oldscene
@@ -236,8 +252,6 @@ OBJECT* scene_additem(OBJECT* obj)
 	oldscene.list[size]->staged = 0;
     printf("successfully copied to oldscene\n");
     printf("x: %d y: %d z: %d img: %d\n", obj->x, obj->y, obj->z, obj->img);
-    printf("x: %d y: %d z: %d img: %d\n", currscene.list[size]->x, currscene.list[size]->y, currscene.list[size]->z, currscene.list[size]->img);
-    printf("x: %d y: %d z: %d img: %dcolcount : %d staged: %d\n", oldscene.list[size]->x, oldscene.list[size]->y, oldscene.list[size]->z, oldscene.list[size]->img, oldscene.list[size]->collide_count, oldscene.list[size]->staged);
 
     printf("detecting collision\n");
 	//detect collision
@@ -269,7 +283,7 @@ OBJECT* scene_additem(OBJECT* obj)
 	return obj;
 
  	//Enable other interrupts
-	VIC0INTENABLE_REG = temp;
+	//VIC0INTENABLE_REG = temp;
 }
 OBJECT* scene_removeitem(OBJECT* obj)
 {
@@ -278,8 +292,8 @@ OBJECT* scene_removeitem(OBJECT* obj)
 	int size = currscene.size;
 	OBJECT* result = NULL;
 	//block TIMER2 SIGNAL
-	temp = VIC0INTENABLE_REG;
-	VIC0INTENCLEAR_REG = (1<<25);
+	//temp = VIC0INTENABLE_REG;
+	//VIC0INTENCLEAR_REG = 0xffffff;
 
 	//first check where the target is
 	for(i=0; i<size; i++)
@@ -309,7 +323,7 @@ OBJECT* scene_removeitem(OBJECT* obj)
 	return result;
 
  	//Enable other interrupts
-	VIC0INTENABLE_REG = temp;
+	//VIC0INTENABLE_REG = temp;
 }
 static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind, int size)
 {
@@ -334,7 +348,7 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 				w = width(list[i]->img);
 				h = width(list[i]->img);
 				image = img(list[i]->img);
-				printf("loaded colliding rect");
+				printf("loaded colliding rect\n");
 
 				//after drawing, remove this item from colliding list
 				delete_obj_from_array(list[i]->collide_list, j, colcount);
@@ -389,8 +403,8 @@ void scene_refresh()
 	RECT colrect;
 
 	//block TIMER2 SIGNAL
-	temp = VIC0INTENABLE_REG;
-	VIC0INTENCLEAR_REG = (1<<25);
+	//temp = VIC0INTENABLE_REG;
+	//VIC0INTENCLEAR_REG = 0xffffff;
 
 	//draw non-staged objects
 	for(i=0; i<size; i++)
@@ -398,23 +412,29 @@ void scene_refresh()
 		if(!oldscene.list[i]->staged){
 			x = currscene.list[i]->x;
 			y = currscene.list[i]->y;
-			w = x + width(currscene.list[i]->img);
-			h = y + height(currscene.list[i]->img);
+			w = width(currscene.list[i]->img);
+			h = height(currscene.list[i]->img);
 			image = img(currscene.list[i]->img);
 			drawing(x, y, h, w, image);
+            oldscene.list[i]->staged = 1;
+            printf("drawed unstaged objects. size : %d\n", size);
 		}
 	}
-	printf("drawed unstaged objects. size : %d\n", size);
+    for(i=0; i<oldscene.list[0]->collide_count; i++)
+    {
+        printf("background colliding : %d\n", oldscene.list[0]->collide_list[i]);
+    }
 
 	//first, check if there is any change in position/img
-/*	for(i=0; i<size; i++)
+	for(i=0; i<size; i++)
 	{
 		if(is_obj_pos_img_diff(*currscene.list[i], *oldscene.list[i]))
 		{//if the position or img num of list[i] has been changed
+            printf("diffobj. %d\n", currscene.list[i]->img);
 
 			//redraw colliding areas of back
-			//redraw_colliding_rect(currscene.list[i], oldscene.list, i, size);
-			//printf("successfully drawed changed object. size : %d\n");
+			redraw_colliding_rect(currscene.list[i], oldscene.list, i, size);
+			printf("successfully drawed changed object. size : %d\n");
 
 			//draw newly positioned object
 			x = currscene.list[i]->x;
@@ -422,6 +442,7 @@ void scene_refresh()
 			h = height(currscene.list[i]->img);
 			w = width(currscene.list[i]->img);
 			image = img(currscene.list[i]->img);
+            drawing(x, y, h, w, image);
 
 			//redraw colliding part of new upper objects 
 			imagerect.left = x;
@@ -443,12 +464,13 @@ void scene_refresh()
 
 				draw_part(colrect, x, y, h, w, image);
 			}
+            printf("drawcomplete\n");
 		}
 		else{//if everything is the same
 			//DO NOTHING
 		}
-	}*/
+	}
 
 	//enable timer signal
-	VIC0INTENABLE_REG = temp;
+	//VIC0INTENABLE_REG = temp;
 }

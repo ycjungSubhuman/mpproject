@@ -110,7 +110,7 @@ void touched(int x, int y)
             }
             return;
         case 1:
-            mc.x = x; mc.y = y; printf("player position changed %d %d\n", x, y);
+            mc.x = x; mc.y = y;
             return;
         case 2:
             if(hitTest(200, 200, 64, 64, x, y, 0, 0)) {
@@ -162,22 +162,20 @@ int main()
 
     while(1){
         if(interrupt == 1) {
-            //scene_refresh();
+            scene_refresh();
             interrupt = 0;
             if(gamestate == 0) {
-                printf("title screen curr state : %d\n", gamestate);
                 drawing(100, 100, height(mc.img), width(mc.img), img(mc.img));
                 bulletsCount = 0;
                 enemysCount = 0;
             }
             else if(gamestate == 1) {
                 //drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
-                printf("started game\n");
 
-                printf ("time: %d, score = %d\n", time, score);
+                //printf ("time: %d, score = %d\n", time, score);
 
                 switch(mc.type) {
-                    printf("Generating Player Bullets\n");
+                   // printf("Generating Player Bullets\n");
                     case 0:
                     if(time % 20 == 0) {
                         bulletGenerate(mc.x, mc.y+24, 3, 30, 0, 0);
@@ -212,7 +210,7 @@ int main()
                 printf("Generated Plyer Bullets\n");
 
                 switch(pattern) {
-                    printf("Generating Enemies");
+                    //printf("Generating Enemies");
                     case 0:
                     if(time % 50 == 0) {
                         if(count <= 5) {
@@ -391,6 +389,7 @@ int main()
         }
         //ch = getchar();
         //if(ch == 'q') break;
+        //printf("loop ended : state %d\n", gamestate);
     }
 
     return 0;

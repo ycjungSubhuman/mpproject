@@ -142,6 +142,7 @@ void set_lcd_pos(int ltx, int lty, int rbx, int rby){
 void drawing(int x, int y, int height, int width, int image[][width])
 {
   unsigned int *phy_addr = FB_ADDR;
+  unsigned int pix;
   int i, j;
 
   S3C_VIDW00ADD0B0 = FB_ADDR; 
@@ -154,7 +155,11 @@ void drawing(int x, int y, int height, int width, int image[][width])
   {
     for(j = 0; j<width; j++)
     {
-      phy_addr[800*(i+y)+j+x] = image[i][j];
+        if(image == NULL)//if background
+            phy_addr[800*(i+y)+j+x] = 0xaaaaaa;
+
+        else if((pix=image[i][j]) != MASK_COLOR)//mask background color
+            phy_addr[800*(i+y)+j+x] = pix;
     }
   }
 
@@ -186,24 +191,28 @@ void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][w
   //if the mask has been successfully generated
   if(!is_rect_null(colrect))
   {
-    //get relative rect to the image
-    relativerect.left = colrect.left-x;
-    relativerect.top = colrect.top-y;
-    relativerect.right = colrect.left-x;
-    relativerect.bottom = colrect.bottom-y;
+      //get relative rect to the image
+      relativerect.left = colrect.left-x;
+      relativerect.top = colrect.top-y;
+      relativerect.right = colrect.left-x;
+      relativerect.bottom = colrect.bottom-y;
+      printf("(ltrb) = (%d %d %d %d)\n", relativerect.left, relativerect.top, relativerect.right, relativerect.bottom);
 
-    //draw image
-    for(i = relativerect.top; i<=relativerect.bottom; i++)
-    {
-      for(j = relativerect.left; j<=relativerect.right; j++)
+      //draw image
+      for(i = relativerect.top; i<=relativerect.bottom; i++)
       {
-        if((pix=image[i][j]) != MASK_COLOR)//mask background color
-          phy_addr[800*(i+y)+j+x] = pix;
+          for(j = relativerect.left; j<=relativerect.right; j++)
+          {
+              if(image == NULL)//if background
+                  phy_addr[800*(i+y)+j+x] = 0xaaaaaa;
+
+              else if((pix=image[i][j]) != MASK_COLOR)//mask background color
+                  phy_addr[800*(i+y)+j+x] = pix;
+          }
       }
-    }
   }
   else{//if the mask is invalid(out of image rect)
-    //DO NOTHING
+      //DO NOTHING
   }
 
   set_wincon0_enable();
@@ -212,16 +221,17 @@ void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][w
 
 void drawbackground(void)
 {
-  unsigned int *phy_addr = FB_ADDR;
-  unsigned int i;
-  for(i=0; i< 800*480; i++)
-      phy_addr[i] = 0x0;
+    unsigned int *phy_addr = FB_ADDR;
+    unsigned int i;
+    for(i=0; i< 800*480; i++)
+        phy_addr[i] = 0x0;
 }
 
 void mango_lcd_init(void){
-  lcd_bl_on(MAX_BL_LEV-1);
-  lcd_pwr_on();
-  init_lcd_reg();
+    lcd_bl_on(MAX_BL_LEV-1);
+    lcd_pwr_on();
+    init_lcd_reg();
 
   set_lcd_pos(0, 0, S3CFB_HRES, S3CFB_VRES);
 }
+
