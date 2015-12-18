@@ -160,6 +160,54 @@ void drawing(int x, int y, int height, int width, int image[][width])
   set_wincon0_enable();
   set_vidcon0_enable(); 
 }
+void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][width])
+{
+  unsigned int *phy_addr = FB_ADDR;
+  int i, j;
+  RECT colrect;
+  RECT imagerect;
+  RECT relativerect;
+  unsigned int pix;
+
+  S3C_VIDW00ADD0B0 = FB_ADDR; 
+  S3C_VIDW00ADD1B0 = S3C_VIDWxxADD1_VBASEL_F(FB_ADDR + 
+    (PAGE_WIDTH + S3CFB_OFFSET) * S3CFB_VRES);
+  S3C_VIDW00ADD2  = S3C_VIDWxxADD2_OFFSIZE_F(S3CFB_OFFSET) |
+    S3C_VIDWxxADD2_PAGEWIDTH_F(PAGE_WIDTH);
+
+  //first mask the image
+  imagerect.left = x;
+  imagerect.top = y;
+  imagerect.right = x+width;
+  imgaerect.bottom = y+height;
+  colrect = overlapped_rectof(rectmask, imagerect);
+
+  //if the mask has been successfully generated
+  if(!is_rect_null(colrect))
+  {
+    //get relative rect to the image
+    relativerect.left = colrect.left-x;
+    relativerect.top = colrect.top-y;
+    relativerect.right = colrect.left-x;
+    relativerect.bottom = colrect.bottom.y;
+
+    //draw image
+    for(i = relativerect.top; i<=relativerect.bottom; i++)
+    {
+      for(j = relativerect.left; j<=relativerect.right; j++)
+      {
+        if(pix=image[i][j] != MASK_COLOR)//mask background color
+          phy_addr[800*(i+y)+j+x] = pix;
+      }
+    }
+  }
+  else{//if the mask is invalid(out of image rect)
+    //DO NOTHING
+  }
+
+  set_wincon0_enable();
+  set_vidcon0_enable(); 
+}
 
 void drawbackground(void)
 {
