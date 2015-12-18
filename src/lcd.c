@@ -139,7 +139,7 @@ void set_lcd_pos(int ltx, int lty, int rbx, int rby){
     S3C_VIDOSDxB_OSD_RBY_F(rby- 1);
 }
 
-void drawing(int x, int y, int height, int width, int image[][width])
+void drawing(int x, int y, int height, int width, int image[][width], int isredraw)
 {
   unsigned int *phy_addr = FB_ADDR;
   unsigned int pix;
@@ -155,9 +155,11 @@ void drawing(int x, int y, int height, int width, int image[][width])
   {
     for(j = 0; j<width; j++)
     {
-        if(image == NULL)//if background
-            phy_addr[800*(i+y)+j+x] = 0xaaaaaa;
-
+        if(isredraw)//if background
+        {
+            if(image[i][j] != MASK_COLOR)
+                phy_addr[800*(i+y)+j+x] = 0xaaaaaa;
+        }
         else if((pix=image[i][j]) != MASK_COLOR)//mask background color
             phy_addr[800*(i+y)+j+x] = pix;
     }
@@ -226,7 +228,7 @@ void drawbackground(void)
     unsigned int *phy_addr = FB_ADDR;
     unsigned int i;
     for(i=0; i< 800*480; i++)
-        phy_addr[i] = 0x0;
+        phy_addr[i] = 0xaaaaaa;
 }
 
 void mango_lcd_init(void){

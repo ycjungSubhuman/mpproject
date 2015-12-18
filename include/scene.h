@@ -15,12 +15,6 @@ typedef struct object{
 /*these are only for oldscene. don't access from currscene*/
 /*--------------------------------------------------------*/
 	int staged;
-	int collide_count;
-
-	//collision list
-	struct object* collide_list[SCENE_MAX];
-	//collision rect. relative position
-	RECT colrect_list[SCENE_MAX];
 /*---------------------------------------------------------*/
 }OBJECT;
 

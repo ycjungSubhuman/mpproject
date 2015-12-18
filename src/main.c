@@ -178,11 +178,11 @@ int main()
 	//signal(SIGSEGV, sigsegv_handler);
 
 	while(1){
+		scene_refresh();
 		if(interrupt == 1) {
-			scene_refresh();
 			interrupt = 0;
 			if(gamestate == 0) {
-				drawing(100, 100, height(mc.img), width(mc.img), img(mc.img));
+				drawing(100, 100, height(mc.img), width(mc.img), img(mc.img), 0);
 				bulletsCount = 0;
 				enemysCount = 0;
 			}
