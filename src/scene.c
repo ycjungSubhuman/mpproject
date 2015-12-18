@@ -218,11 +218,14 @@ OBJECT* scene_additem(OBJECT* obj)
 	//block TIMER2 SIGNAL
 	temp = VIC0INTENABLE_REG;
 	VIC0INTENCLEAR_REG = (1<<25);
+    printf("add_item entered, blocked timer 2\n");
 
 	//add to the scene list
+    printf("Adding to the scene list\n");
 	currscene.list[size] = obj;
 	oldscene.list[size] = (OBJECT*)malloc(sizeof(OBJECT));
 	//copy to oldscene
+    printf("Copying to oldscene\n");
 	oldscene.list[size]->x = obj->x;
 	oldscene.list[size]->y = obj->y;
 	oldscene.list[size]->z = obj->z;
@@ -231,7 +234,12 @@ OBJECT* scene_additem(OBJECT* obj)
 
 	oldscene.list[size]->collide_count = 0;
 	oldscene.list[size]->staged = 0;
+    printf("successfully copied to oldscene\n");
+    printf("x: %d y: %d z: %d img: %d\n", obj->x, obj->y, obj->z, obj->img);
+    printf("x: %d y: %d z: %d img: %d\n", currscene.list[size]->x, currscene.list[size]->y, currscene.list[size]->z, currscene.list[size]->img);
+    printf("x: %d y: %d z: %d img: %dcolcount : %d staged: %d\n", oldscene.list[size]->x, oldscene.list[size]->y, oldscene.list[size]->z, oldscene.list[size]->img, oldscene.list[size]->collide_count, oldscene.list[size]->staged);
 
+    printf("detecting collision\n");
 	//detect collision
 	if(size>0){//detect collision only when an object exist before this one
 		for(i=0; i<size; i++){
@@ -253,6 +261,7 @@ OBJECT* scene_additem(OBJECT* obj)
 	else{//if added obj is the first one, collision is not marked
 			//DO NOTHING
 	}
+    printf("Collsion data loaded\n");
 	//increase scene item number by 1
 	currscene.size++;
 	oldscene.size++;
@@ -325,7 +334,7 @@ static void redraw_colliding_rect(OBJECT* newone, OBJECT* list[], int targetind,
 				w = width(list[i]->img);
 				h = width(list[i]->img);
 				image = img(list[i]->img);
-				printf("loaded colliding rect")
+				printf("loaded colliding rect");
 
 				//after drawing, remove this item from colliding list
 				delete_obj_from_array(list[i]->collide_list, j, colcount);
@@ -398,7 +407,7 @@ void scene_refresh()
 	printf("drawed unstaged objects. size : %d\n", size);
 
 	//first, check if there is any change in position/img
-	for(i=0; i<size; i++)
+/*	for(i=0; i<size; i++)
 	{
 		if(is_obj_pos_img_diff(*currscene.list[i], *oldscene.list[i]))
 		{//if the position or img num of list[i] has been changed
@@ -438,7 +447,7 @@ void scene_refresh()
 		else{//if everything is the same
 			//DO NOTHING
 		}
-	}
+	}*/
 
 	//enable timer signal
 	VIC0INTENABLE_REG = temp;

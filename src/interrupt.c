@@ -61,7 +61,7 @@ void touchInterruptServiceRoutine(void){
   writel(temp2, ADCCON);
   writel(0xd4, ADCTSC);
 
-  printf ("Touch Detected\t");
+  //printf ("Touch Detected\t");
 
   writel(0x1, ADCCLRINTPNDNUP);
 
@@ -90,7 +90,7 @@ void touchInterruptServiceRoutine2(void){
   lcd_x = (x-200)*800/650;
   lcd_y = (y-300)*480/400;
 
-  printf ("x: %d y: %d\n", x, y);
+  //printf ("x: %d y: %d\n", x, y);
 
   if(!(lcd_x<0 || lcd_y<0)) {
     touched(lcd_x, lcd_y);

@@ -214,7 +214,7 @@ void drawbackground(void)
 {
   unsigned int *phy_addr = FB_ADDR;
   unsigned int i;
-  for(i=0; i< 800*500; i++)
+  for(i=0; i< 800*480; i++)
       phy_addr[i] = 0x0;
 }
 
