@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+
+import sys
+import struct
+
+def getHeader(filename):
+	try:
+		with open(filename, "rb") as bmpfile:
+		#get 10 bytes from the head
+			magicnum = struct.unpack('h', bmpfile.read(2))[0]
+			size = struct.unpack('i', bmpfile.read(4))[0]
+			bmpfile.seek(10)
+			offset = struct.unpack('i', bmpfile.read(4))[0]
+			bmpfile.seek(18)
+			width = struct.unpack('i', bmpfile.read(4))[0]
+			height = struct.unpack('i', bmpfile.read(4))[0]
+			bmpfile.seek(28)
+			bitsperpix = struct.unpack('h', bmpfile.read(2))[0]
+			return magicnum, size, offset, width, height, bitsperpix
+	except IOError:
+		print >> sys.stderr, 'Cannot Open file'
+
+"""START"""
+
+# if filename is not given, error.
+if len(sys.argv) is 1:
+	print >> sys.stderr, 'Please specify the filename'
+	exit(1)
+if len(sys.argv) > 3:
+	print >> sys.stderr, 'Too Mary Args'
+	exit(1)
+
+# get filename from argc
+filename = sys.argv[1]
+
+(magicnum, size, offset, width, height, bitsperpix) = getHeader(filename)
+#Show file info
+print "sucessfully read " + filename
+print "-------------------------------------"
+print "magicnum is " + hex(magicnum)
+print "size is " + hex(size) + " bytes"
+print "offset is " + hex(offset)
+print "width is " + str(width) + " pixels"
+print "height is " + str(height) + " pixels"
+print str(bitsperpix) + " bits per pixel"
+print "-------------------------------------"
+
+if bitsperpix != 24: #if one pix is not a 8-bit. exit
+	print "this file is not a 24-bit BMP file. exiting program..."
+	exit(0)
+
+
+if len(sys.argv) is 3:
+	resname = sys.argv[2]
+else:
+	#set the resource name. this will be used as your array name
+	print "Set the data name"
+	resname = raw_input()
+
+with open(resname + ".h", "w+") as outfile:
+	outfile.write("int "+resname+"_width = "+str(width)+";\n")
+	outfile.write("int "+resname+"_height = "+str(height)+";\n")
+	outfile.write("unsigned int "+resname+"["+str(height)+"]"+"["+str(width)+"] = {")
+	try:
+		with open(filename, "rb") as bmpfile:
+			bmpfile.seek(offset)
+			#read each pixed
+			rowlist = []
+			for i in range(0,height):
+				buf = "{" # each row saved in buf
+				for j in range(0,width):
+					b = ord(struct.unpack('c', bmpfile.read(1))[0])
+					g = ord(struct.unpack('c', bmpfile.read(1))[0])
+					r = ord(struct.unpack('c', bmpfile.read(1))[0])
+                                        if (r<<16|g<<8|b) == 0xff00aa:
+                                            buf += (hex(r<<16|g<<8|b)+", ")
+                                        else:
+                                            buf += (hex(0xFF<<24|r<<16|g<<8|b)+", ")
+				buf = buf[:-2]
+				buf += ("}")
+				rowlist.append(buf)
+				if (3*width)%4 != 0:
+					bmpfile.seek(4-((3*width)%4), 1)
+		for x in reversed(rowlist): #because the rows are reversed, reverse it by ourselves
+			outfile.write(x + ", ")
+		outfile.seek(-2, 1)
+		outfile.truncate()
+		outfile.write("};\n")
+	except IOError:
+		print "Couldn't open bmpfile"
+
+print "Convert Successful!"
+			

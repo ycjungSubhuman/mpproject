@@ -181,8 +181,9 @@ int main()
 	//signal(SIGSEGV, sigsegv_handler);
 
 	while(1){
-		if(interrupt == 1) {
 		frame_service();
+		if(interrupt == 1) {
+
 			interrupt = 0;
 			if(gamestate == 0) {
 				drawing(100, 100, height(mc.img), width(mc.img), img(mc.img), 0);
