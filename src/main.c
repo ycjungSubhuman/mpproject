@@ -12,6 +12,7 @@
 
 SCENE currscene;
 SCENE oldscene;
+SCENE oldsceneodd;
 
 /*void sigsegv_handler(int signum)
   {
@@ -246,6 +247,7 @@ int main()
 	mc.img = 2;
 	currscene.size = 0;
 	oldscene.size = 0;
+	oldsceneodd.size=0;
 	//drawbackground();
 
 	mango_hw_init();

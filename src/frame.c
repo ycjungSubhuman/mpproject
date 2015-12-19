@@ -131,6 +131,7 @@ static void implement_your_drawing_here(unsigned *fb)
 			oldscene.list[i]->y = y;
 			oldscene.list[i]->z = z;
 			oldscene.list[i]->img = imagenum;
+			parity = !parity;
 		}
 		else{
 
@@ -147,6 +148,7 @@ static void implement_your_drawing_here(unsigned *fb)
 			oldsceneodd.list[i]->y = y;
 			oldsceneodd.list[i]->z = z;
 			oldsceneodd.list[i]->img = imagenum;
+			parity = !parity;
 		}
 
                     //draw new things
