@@ -239,6 +239,21 @@ int *img(int idx)
 			return bullet;
 	}
 }
+static void sort(OBJECT* list[], int size)
+{
+	int i, j, tmp;
+	for(i =0; i<size-1; i++)
+	{
+		for(j=i+1; j<size; j++)
+		{
+			if(list[i]->z>list[j]->z){
+				tmp = list[i]->z;
+				list[i]->z = list[j]->z;
+				list[j]->z = tmp;
+			}
+		}
+	}
+}
 
 RECT overlapped_rectof(RECT r1, RECT r2)
 {
@@ -383,6 +398,10 @@ OBJECT* scene_additem(OBJECT* obj)
     currscene.size++;
     oldscene.size++;
     oldsceneodd.size++;
+
+    sort(currscene.list, currscene.size);
+    sort(oldscene.list, oldscene.size);
+    sort(oldsceneodd.list, oldsceneodd.size);
 
     return obj;
 }

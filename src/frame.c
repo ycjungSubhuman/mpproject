@@ -20,6 +20,7 @@ static unsigned fb_even[S3CFB_SIZE];
 
 extern SCENE currscene;
 extern SCENE oldscene;
+extern SCENE oldsceneodd;
 
 
 int frame_is_asserted(void) {
@@ -45,7 +46,7 @@ void frame_init(void) {
 		y = i / S3CFB_HRES;
 
 		//background[i] = (((x >> 5) & 1) != ((y >> 5) & 1)) ? 0xFFFFFFFF : 0xFFD7D7D7;
-		background[i] = 0x005A804D;
+		background[i] = 0xFF5A804D;
 		fb_odd[i] = background[i];
 		fb_even[i] = background[i];
 	}
@@ -122,16 +123,14 @@ static void implement_your_drawing_here(unsigned *fb)
 				oldscene.list[i]->x, oldscene.list[i]->y,
 				oldscene.list[i]->x+4*width(oldscene.list[i]->img), oldscene.list[i]->y+4*height(oldscene.list[i]->img),
 				S3CFB_HRES, S3CFB_VRES,
-				oldscene.list[i]->x, oldscene.list[i]-y,
+				oldscene.list[i]->x, oldscene.list[i]->y,
 				oldscene.list[i]->x+width(oldscene.list[i]->img), oldscene.list[i]->y+height(oldscene.list[i]->img),
 				width(oldscene.list[i]->img), height(oldscene.list[i]->img));
-
 				//sync oldscene to the currscene
 			oldscene.list[i]->x = x;
 			oldscene.list[i]->y = y;
 			oldscene.list[i]->z = z;
 			oldscene.list[i]->img = imagenum;
-			parity = !parity;
 		}
 		else{
 
@@ -139,7 +138,7 @@ static void implement_your_drawing_here(unsigned *fb)
 				oldsceneodd.list[i]->x, oldsceneodd.list[i]->y,
 				oldsceneodd.list[i]->x+4*width(oldscene.list[i]->img), oldsceneodd.list[i]->y+4*height(oldsceneodd.list[i]->img),
 				S3CFB_HRES, S3CFB_VRES,
-				oldsceneodd.list[i]->x, oldsceneodd.list[i]-y,
+				oldsceneodd.list[i]->x, oldsceneodd.list[i]->y,
 				oldsceneodd.list[i]->x+width(oldsceneodd.list[i]->img), oldsceneodd.list[i]->y+height(oldsceneodd.list[i]->img),
 				width(oldsceneodd.list[i]->img), height(oldsceneodd.list[i]->img));
 
@@ -148,7 +147,6 @@ static void implement_your_drawing_here(unsigned *fb)
 			oldsceneodd.list[i]->y = y;
 			oldsceneodd.list[i]->z = z;
 			oldsceneodd.list[i]->img = imagenum;
-			parity = !parity;
 		}
 
                     //draw new things
@@ -157,5 +155,8 @@ static void implement_your_drawing_here(unsigned *fb)
 			S3CFB_HRES, S3CFB_VRES,
 			x, y, x+width(imagenum), y+height(imagenum),
 			width(imagenum), height(imagenum));
+		/*gfx_bitblck(fb, img(imagenum),
+			S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);*/
 	}
+	parity = !parity;
 }

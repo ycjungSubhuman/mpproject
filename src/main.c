@@ -247,7 +247,7 @@ int main()
 	mc.img = 2;
 	currscene.size = 0;
 	oldscene.size = 0;
-	oldsceneodd.size=0;
+	// oldsceneodd.size=0;
 	//drawbackground();
 
 	mango_hw_init();
@@ -284,7 +284,7 @@ int main()
 				debug = 0;
 				//drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 				//printf ("time: %d, score = %d\n", time, score);
-				printf("Debug State %d!\n", debug++);
+				//printf("Debug State %d!\n", debug++);
 				int temp;
 				for(i = 4; i >= 0; i--) {
 					temp = score%10;
@@ -294,7 +294,7 @@ int main()
 					score /= 10;
 				}
 
-				printf("Debug State %d!\n", debug++);
+				//printf("Debug State %d!\n", debug++);
 				switch(mc.type) {
 				   // printf("Generating Player Bullets\n");
 					case 0:
@@ -322,7 +322,7 @@ int main()
 				}
 				//printf("Generated Plyer Bullets\n");
 
-				printf("Debug State %d!\n", debug++);
+			//	printf("Debug State %d!\n", debug++);
 				switch(pattern) {
 					//printf("Generating Enemies");
 					case 0:
@@ -387,7 +387,7 @@ int main()
 					break;
 				}
 				//printf("Generated Enemies");
-				printf("Debug State %d!\n", debug++);
+				//printf("Debug State %d!\n", debug++);
 				for(i = 0; i < enemysCount; i++) {
 					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+24, mc.y+24, 16, 16)) {
 						if(mc.type == 3) {
@@ -413,7 +413,7 @@ int main()
 						}
 					}
 				}
-				printf("Debug State %d!\n", debug++);
+				//printf("Debug State %d!\n", debug++);
 				for(j = 0; j < bulletsCount; j++) {
 					if(bullets[j]->type >= 2) {
 						if(hitTest(mc.x, mc.y, 64, 64, bullets[j]->x, bullets[j]->y, 16, 16)) {
@@ -424,7 +424,7 @@ int main()
 						}
 					}
 				}
-				printf("Debug State %d!\n", debug++);
+				//printf("Debug State %d!\n", debug++);
 				for(i = 0; i < enemysCount; i++) {
 					enemys[i]->x += enemys[i]->xspeed;
 					enemys[i]->y += enemys[i]->yspeed;
@@ -461,7 +461,7 @@ int main()
 						i--;
 					}
 				}
-				printf("Debug State %d!\n", debug++);
+				//printf("Debug State %d!\n", debug++);
 				for(i = 0; i < bulletsCount; i++) {
 					switch(bullets[i]->type) {
 						case 1:
@@ -499,12 +499,12 @@ int main()
 			else if(gamestate == 2) {
 				//drawbackground();
 				//drawing(200, 200, height(1), width(1), img(1));
-				printf ("GAME OVER!, score = %d\n", score);
+				//printf ("GAME OVER!, score = %d\n", score);
 			}
 			else if(gamestate == 3) {
 				//drawbackground();
 				//drawing(300, 300, height(2), width(2), img(2));
-				printf ("GAME CLEARED!, score = %d\n", score);
+				//printf ("GAME CLEARED!, score = %d\n", score);
 			}
 		}
 		//ch = getchar();
