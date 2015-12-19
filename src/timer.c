@@ -10,8 +10,8 @@ void mango_timer_init(void){
   TCFG0_REG = (TCFG0_REG & ~(0xff)) | 0x21; //Prescaler 0: 0x21:33
   TCFG1_REG = (TCFG1_REG & ~(0xf<<4)) | (1<<4); //divider MUX1: 1/2
 
-  TCNTB2_REG = 300000;
-  TCMPB2_REG =  50000;
+  TCNTB2_REG = 10000;
+  TCMPB2_REG =  5000;
 
   TCON_REG |= (1<<13); //Timer2 Manual update
   TCON_REG = (TCON_REG & ~(0xf<<12)) | (1<<15) | (1<<12);

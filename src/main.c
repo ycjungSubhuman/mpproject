@@ -28,6 +28,7 @@ static void mango_hw_init(void)
 	mango_interrupt_init();
 	mango_lcd_init();
 	enable_interrupts();
+	enlarge_all();
 }
 
 Player mc;
@@ -250,7 +251,6 @@ int main()
 	mc.img = 2;
 	currscene.size = 0;
 	oldscene.size = 0;
-	enlarge_all();
 	// oldsceneodd.size=0;
 	//drawbackground();
 

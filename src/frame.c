@@ -183,7 +183,7 @@ static void implement_your_drawing_here(unsigned *fb)
 			gfx_bitblck(fb, img(imagenum),
 				S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);
 		}
-		parity = !parity;
+		//parity = !parity;
 	}
 //  VIC1INTENABLE_REG = temp;
 }
