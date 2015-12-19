@@ -156,7 +156,7 @@ void touched(int x, int y)
 					scoretext[i].img = 18;
 					scoretext[i].x = 280 + 50*i;
 					scoretext[i].y = 80;
-					scene_additem(&scoretext[i]);
+					scene_additem(&(scoretext[i]));
 				}
 				scene_removeitem(&startbutton);
 				scene_removeitem(&currentscene);
@@ -182,7 +182,7 @@ void touched(int x, int y)
 			if(hitTest(300, 300, 200, 120, x, y, 0, 0)) {
 				gamestate = 0;
 				for(i = 0; i < 5; i++) {
-					scene_removeitem(&scoretext[i]);
+					scene_removeitem(&(scoretext[i]));
 				}
 				currentscene.img = 5;
 				scene_removeitem(&currentscene);
@@ -214,7 +214,7 @@ void clear_game()
 	for(i = 0; i < enemysCount; i++)
 	{
 		scene_removeitem(enemys[i]);
-		free(enemys[i]);
+		// free(enemys[i]);
 	}
 	printf("Debug Level2: %d", debug++);
 	for(i = 0; i < bulletsCount; i++) {
@@ -290,14 +290,16 @@ int main()
 				debug = 0;
 				//drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 				//printf ("time: %d, score = %d\n", time, score);
-				//printf("Debug State %d!\n", debug++);
-				int temp;
+
+				printf("Debug State %d!\n", debug++);
+				int temp, scores = score;
+
 				for(i = 4; i >= 0; i--) {
-					temp = score%10;
+					temp = scores%10;
 					if(!(temp == 0 && scoretext[i].img == 18)) {
 						scoretext[i].img = temp+8;
 					}
-					score /= 10;
+					scores /= 10;
 				}
 
 				//printf("Debug State %d!\n", debug++);
