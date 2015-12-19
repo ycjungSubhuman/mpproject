@@ -93,6 +93,8 @@ void nextStage()
 	if(stage == 5) {
 		gamestate = 3;
 		currentscene.img = 7;
+		scene_additem(&currentscene);
+		scene_additem(&startbutton);
 	}
 	else {
 		stage++;
@@ -139,7 +141,7 @@ void touched(int x, int y)
 	int i, j;
 	switch(gamestate) {
 		case 0:
-			if(hitTest(100, 100, 64, 64, x, y, 0, 0)) {
+			if(hitTest(300, 300, 200, 120, x, y, 0, 0)) {
 				printf("Button Clicked\n");
 				srand(TCNTO2_REG);
 				gamestate = 1;
@@ -155,6 +157,8 @@ void touched(int x, int y)
 					scoretext[i].y = 80;
 					scene_additem(&scoretext[i]);
 				}
+				scene_removeitem(&startbutton);
+				scene_removeitem(&currentscene);
 				enemypattern.x = 550;
 				enemypattern.y = 80;
 				playertype.x = 30;
@@ -174,21 +178,25 @@ void touched(int x, int y)
 			mc.x = x; mc.y = y;
 			return;
 		case 2:
-			if(hitTest(200, 200, 64, 64, x, y, 0, 0)) {
+			if(hitTest(300, 300, 200, 120, x, y, 0, 0)) {
 				gamestate = 0;
 				for(i = 0; i < 5; i++) {
 					scene_removeitem(&scoretext[i]);
 				}
 				currentscene.img = 5;
+				scene_removeitem(&currentscene);
+				scene_additem(&startbutton);
 			}
 			return;
 		case 3:
-			if(hitTest(300, 300, 16, 16, x, y, 0, 0)) {
+			if(hitTest(300, 300, 200, 120, x, y, 0, 0)) {
 				gamestate = 0;
 				for(i = 0; i < 5; i++) {
 					scene_removeitem(&scoretext[i]);
 				}
 				currentscene.img = 5;
+				scene_removeitem(&currentscene);
+				scene_additem(&startbutton);
 			}
 	}
 }
@@ -215,7 +223,7 @@ void clear_game()
 	printf("Debug Level2: %d", debug++);
 	enemysCount = 0;
 	bulletsCount = 0;
-    oldscene.list[0]->staged = 0;
+    	oldscene.list[0]->staged = 0;
         scene_removeitem(&playertype);
         scene_removeitem(&enemypattern);
 	for(i = 0; i < 5; i++) {
@@ -223,6 +231,7 @@ void clear_game()
 		scoretext[i].y = 300;
 	}
 	currentscene.img = 6;
+	scene_additem(&currentscene);
 	printf("Debug Level2: %d", debug++);
 }
 
@@ -242,18 +251,23 @@ int main()
 	mango_hw_init();
 	//signal(SIGSEGV, sigsegv_handler);
 
-	currentscene.x = 0;
-	currentscene.y = 0;
+	currentscene.x = 300;
+	currentscene.y = 200;
 	currentscene.img = 5;
 	scene_additem(&currentscene);
 
+	banners.x = 0;
+	banners.y = 0;
+	banners.img = 4;
+	scene_additem(&banners);
+
 	startbutton.x = 300;
 	startbutton.y = 300;
-	startbutton.img = 
+	startbutton.img = 28;
 	scene_additem(&startbutton);
 
 	mc.x = 100;
-	mc.y = 100;
+	mc.y = 200;
 	scene_additem(&mc);
 
 	while(1){

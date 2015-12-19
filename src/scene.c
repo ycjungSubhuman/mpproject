@@ -28,7 +28,7 @@
 #include "pattern3.h"
 #include "pattern4.h"
 #include "pattern5.h"
-
+#include "start.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -100,6 +100,8 @@ int height(int idx)
 			return pattern4_height;
 		case 27:
 			return pattern5_height;
+		case 28:
+			return start_height;
 		default:
 			return bullet_height;
 	}
@@ -164,6 +166,8 @@ int width(int idx)
 			return pattern4_width;
 		case 27:
 			return pattern5_width;
+		case 28:
+			return start_width;
 		default:
 			return bullet_width;
 	}
@@ -228,6 +232,8 @@ int *img(int idx)
 			return pattern4;
 		case 27:
 			return pattern5;
+		case 28:
+			return start;
 		default:
 			return bullet;
 	}
