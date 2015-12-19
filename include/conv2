@@ -81,7 +81,6 @@ with open(resname + ".h", "w+") as outfile:
                 rowlist.append(buf)
                 if ((3*width)%4 != 0):
                     bmpfile.seek(4-((3*width)%4), 1)
-                    buf.clear()
 
         for x in reversed(rowlist): #because the rows are reversed, reverse it by ourselves
             outfile.write(x + ", ")
