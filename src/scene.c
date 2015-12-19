@@ -433,6 +433,12 @@ OBJECT* scene_removeitem(OBJECT* obj)
             oldsceneodd.size--;
             //go back by one
             i--;
+                printf("=============REMOVED===========\n");
+    for(i=0; i<currscene.size; i++)
+    {
+    	printf("%d %d %d %d\n", currscene.list[i]->x, currscene.list[i]->y, currscene.list[i]->z, currscene.list[i]->img);
+    }
+    printf("=============================\n");
 
             break;
         }

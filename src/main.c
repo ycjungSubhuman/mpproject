@@ -263,7 +263,7 @@ int main()
 	banners.x = 0;
 	banners.y = 0;
 	banners.img = 4;
-	scene_additem(&banners);
+	//scene_additem(&banners);
 
 	startbutton.x = 300;
 	startbutton.y = 300;
