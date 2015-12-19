@@ -16,13 +16,13 @@
 
 static int frame_asserted = 0;
 
-static unsigned background[S3CFB_SIZE];
+unsigned background[S3CFB_SIZE];
 
 //vsync handling routines
 //two frame buffers are serviced
 //into lcd screen in an alternating manner
 //to avoid tearing (strange vertical lines on the screen)
-static unsigned fb_odd[S3CFB_SIZE];
+unsigned fb_odd[S3CFB_SIZE];
 static unsigned fb_even[S3CFB_SIZE];
 
 extern SCENE currscene;
