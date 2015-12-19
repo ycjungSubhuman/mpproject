@@ -43,6 +43,7 @@ int interrupt;
 int pattern;
 int count;
 
+OBJECT currentscene, scoretext[5], playertype, enemypattern;
 
 
 void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
@@ -87,9 +88,54 @@ double SQRT(double input)
 
 	return x ;
 }
+void nextStage()
+{
+	if(stage == 5) {
+		gamestate = 3;
+	}
+	else {
+		stage++;
+		count = 0;
+		mc.type = rand()%4;
+		pattern = rand()%5;
+		switch(pattern) {
+			case 0:
+			enemypattern.img = 23;
+			break;
+			case 1:
+			enemypattern.img = 24;
+			break;
+			case 2:
+			enemypattern.img = 25;
+			break;
+			case 3:
+			enemypattern.img = 26;
+			break;
+			case 4
+			enemypattern.img = 27;
+			break;
+		}
+		switch(mc.type)
+			case 0:
+			playertype.img = 19;
+			break;
+			case 1:
+			playertype.img = 20;
+			break;
+			case 2:
+			playertype.img = 21;
+			break;
+			case 3:
+			playertype.img = 22;
+			break;
+		}
+	}
+}
+
 
 void touched(int x, int y)
 {
+	int i, j;
 	switch(gamestate) {
 		case 0:
 			if(hitTest(100, 100, 64, 64, x, y, 0, 0)) {
@@ -97,17 +143,27 @@ void touched(int x, int y)
 				srand(TCNTO2_REG);
 				gamestate = 1;
 				mc.x = 100;
-				mc.y = 100;
+				mc.y = 200;
 				mc.z = 3;
 				mc.valid = 1;
-				mc.type = rand()%5;
 				score = 0;
-				stage = 1;
-				count = 0;
-				pattern = rand()%5;
+				stage = 0;
+				for(i = 0; i < 5; i++) {
+					scoretext[i].img = 18;
+					scoretext[i].x = 280 + 50*i;
+					scoretext[i].y = 80;
+					scene_additem(&scoretext[i]);
+				}
+				enemypattern.x = 550;
+				enemypattern.y = 80;
+				playertype.x = 30;
+				playertype.y = 80;
+				nextStage();
+				scene_additem(&playertype)
+				scene_additem(&enemypattern);
+
 				//drawbackground();
 				printf("player gen ready\n");
-				scene_additem(&mc);
 				printf("player genned\n");
 				printf("state changed %d\n", gamestate);
 			}
@@ -118,27 +174,18 @@ void touched(int x, int y)
 		case 2:
 			if(hitTest(200, 200, 64, 64, x, y, 0, 0)) {
 				gamestate = 0;
-				//drawbackground();
+				for(i = 0; i < 5; i++) {
+					scene_removeitem(&scoretext[i]);
+				}
 			}
 			return;
 		case 3:
 			if(hitTest(300, 300, 16, 16, x, y, 0, 0)) {
 				gamestate = 0;
-				//drawbackground();
+				for(i = 0; i < 5; i++) {
+					scene_removeitem(&scoretext[i]);
+				}
 			}
-	}
-}
-
-void nextStage()
-{
-	if(stage == 5) {
-		gamestate = 3;
-	}
-	else {
-		stage++;
-		count = 0;
-		pattern = rand()%5;
-		mc.type = rand()%5;
 	}
 }
 
@@ -162,6 +209,12 @@ void clear_game()
 	enemysCount = 0;
 	bulletsCount = 0;
     oldscene.list[0]->staged = 0;
+        scene_removeitem(&playertype);
+        scene_removeitem(&enemypattern);
+	for(i = 0; i < 5; i++) {
+		scoretext[i].x = 280 + 50*i;
+		scoretext[i].y = 300;
+	}
 }
 
 int main()
@@ -180,20 +233,33 @@ int main()
 	mango_hw_init();
 	//signal(SIGSEGV, sigsegv_handler);
 
+	currentscene.x = 0;
+	currentscene.y = 0;
+	currentscene.img = main;
+
+	mc.x = 100;
+	mc.y = 100;
+	scene_additem(&mc);
+
 	while(1){
 		frame_service();
 		if(interrupt == 1) {
-
 			interrupt = 0;
 			if(gamestate == 0) {
-				drawing(100, 100, height(mc.img), width(mc.img), img(mc.img), 0);
 				bulletsCount = 0;
 				enemysCount = 0;
 			}
 			else if(gamestate == 1) {
 				//drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
-
 				//printf ("time: %d, score = %d\n", time, score);
+				int temp;
+				for(int i = 4; i >= 0; i--) {
+					temp = score%10;
+					if(!(temp == 0 && scoretext[i].img == zerou)) {
+						scoretext[i].img = temp+8;
+					}
+					score /= 10;
+				}
 
 				switch(mc.type) {
 				   // printf("Generating Player Bullets\n");
@@ -212,20 +278,12 @@ int main()
 					}
 					break;
 					case 2:
-					if(time % 25 == 0) {
+					if(time % 15 == 0) {
 						bulletGenerate(mc.x, mc.y-8, 3, 30, 0, 1);
-						bulletGenerate(mc.x, mc.y+24, 3, 30, 0, 1);
 						bulletGenerate(mc.x, mc.y+56, 3, 30, 0, 1);
 					}
 					break;
 					case 3:
-					if(time % 20 == 0) {
-						bulletGenerate(mc.x, mc.y+24, 3, 30, 0, 0);
-						bulletGenerate(mc.x, mc.y+24, 3, 30, 5, 0);
-						bulletGenerate(mc.x, mc.y+24, 3, 30, -5, 0);
-					}
-					break;
-					case 4:
 					break;
 				}
 				//printf("Generated Plyer Bullets\n");
@@ -247,10 +305,10 @@ int main()
 					break;
 					case 1:
 					if(time % 5 == 0) {
-						if(count <= 50) {
+						if(count <= 30) {
 							enemyGenerate(740, 200+rand()%250, 1, -5 - rand()%5, rand()%5-2, 0);
 						}
-						if(count > 100) {
+						if(count > 50) {
 							nextStage();
 						}
 						count++;
@@ -258,12 +316,10 @@ int main()
 					break;
 					case 2:
 					if(time % 40 == 0) {
-						if(count <= 10) {
-							if(count % 2 == 0) {
-								enemyGenerate(740, 150, 1, -10, 0, 2);
-								enemyGenerate(740, 400, 1, -10, 0, 2);
-							}
-							else enemyGenerate(740, 375, 1, -10, 0, 2);
+						if(count <= 5) {
+							enemyGenerate(740, 150, 1, -10, 0, 2);
+							enemyGenerate(740, 400, 1, -10, 0, 2);
+							enemyGenerate(740, 375, 1, -10, 0, 2);
 						}
 						if(count > 12) {
 							nextStage();
@@ -273,22 +329,22 @@ int main()
 					break;
 					case 3:
 					if(time % 20 == 0) {
-						if(count <= 20) {
+						if(count <= 10) {
 							enemyGenerate(700, 150, 1, 0, 5, 1);
 							enemyGenerate(600, 450, 1, 0, -5, 2);
 						}
-						if(count > 25) {
+						if(count > 15) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 4:
-					if(time % 50 == 0) {
-						if(count <= 10) {
+					if(time % 10 == 0) {
+						if(count <= 20) {
 							enemyGenerate(740, 150+rand()%350, 1, -5 - rand()%5, rand()%5 - 2, rand()%3);
 						}
-						if(count > 12) {
+						if(count > 30) {
 							nextStage();
 						}
 						count++;
@@ -298,7 +354,7 @@ int main()
 				//printf("Generated Enemies");
 				for(i = 0; i < enemysCount; i++) {
 					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+24, mc.y+24, 16, 16)) {
-						if(mc.type == 4) {
+						if(mc.type == 3) {
 							enemys[i]->valid = 0;
 							score++;
 							break;
