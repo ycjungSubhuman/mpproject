@@ -72,10 +72,10 @@ with open(resname + ".h", "w+") as outfile:
 					b = ord(struct.unpack('c', bmpfile.read(1))[0])
 					g = ord(struct.unpack('c', bmpfile.read(1))[0])
 					r = ord(struct.unpack('c', bmpfile.read(1))[0])
-                                        if (r<<16|g<<8|b) != 0xff00aa:
-                                            buf += (hex(r<<16|g<<8|b)+", ")
+                                        if (r<<16|g<<8|b) == 0xff00aa:
+                                            buf += (hex(0x005A804D)+", ")
                                         else:
-                                            buf += (hex(0xFFFFFFFF)+", ")
+                                            buf += (hex(0xFF<<24|r<<16|g<<8|b)+", ")
 				buf = buf[:-2]
 				buf += ("}")
 				rowlist.append(buf)
