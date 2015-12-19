@@ -366,7 +366,7 @@ int main()
 					}
 					break;
 					case 4:
-					if(time % 5 == 0) {
+					if(time % 8 == 0) {
 						if(count <= 20) {
 							enemyGenerate(740, 150+rand()%350, 1, -5 - rand()%5, rand()%5 - 2, rand()%3);
 						}
