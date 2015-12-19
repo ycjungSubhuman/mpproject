@@ -92,6 +92,7 @@ void nextStage()
 {
 	if(stage == 5) {
 		gamestate = 3;
+		currentscene.img = 7;
 	}
 	else {
 		stage++;
@@ -162,6 +163,7 @@ void touched(int x, int y)
 				scene_additem(&playertype)
 				scene_additem(&enemypattern);
 
+				currentscene.img = 4;
 				//drawbackground();
 				printf("player gen ready\n");
 				printf("player genned\n");
@@ -177,6 +179,7 @@ void touched(int x, int y)
 				for(i = 0; i < 5; i++) {
 					scene_removeitem(&scoretext[i]);
 				}
+				currentscene.img = 5;
 			}
 			return;
 		case 3:
@@ -185,6 +188,7 @@ void touched(int x, int y)
 				for(i = 0; i < 5; i++) {
 					scene_removeitem(&scoretext[i]);
 				}
+				currentscene.img = 5;
 			}
 	}
 }
@@ -215,6 +219,7 @@ void clear_game()
 		scoretext[i].x = 280 + 50*i;
 		scoretext[i].y = 300;
 	}
+	currentscene.img = 6;
 }
 
 int main()
@@ -235,7 +240,7 @@ int main()
 
 	currentscene.x = 0;
 	currentscene.y = 0;
-	currentscene.img = main;
+	currentscene.img = 5;
 
 	mc.x = 100;
 	mc.y = 100;
