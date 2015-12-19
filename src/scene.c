@@ -50,44 +50,44 @@ void enlarge_all()
 	int count;
 	//enemy
 	printf("enemy\n");
-	temp = (unsigned int*)malloc(16 * enemy_width * enemy_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(4 * enemy_width * enemy_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<enemy_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<enemy_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)enemy)[enemy_width*i+j];
 				}
 			}
 		}
 	}
-	enemy_width *= 4;
-	enemy_height *= 4;
+	enemy_width *= 2;
+	enemy_height *= 2;
 	enemy = temp;
 
 		//enemy
 	printf("player\n");
-	temp = (unsigned int*)malloc(16 * player_width * player_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(4 * player_width * player_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<player_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<player_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)player)[player_width*i+j];
 				}
 			}
 		}
 	}
-	player_width *= 4;
-	player_height *= 4;
+	player_width *= 2;
+	player_height *= 2;
 	player = temp;
 		//enemy
 	temp = (unsigned int*)malloc(16 * bullet_width * bullet_height * sizeof(unsigned int));
@@ -562,24 +562,6 @@ void enlarge_all()
 	start_width *= 4;
 	start_height *= 4;
 	start = temp;
-		temp = (unsigned int*)malloc(16 * bullet_width * bullet_height * sizeof(unsigned int));
-	count = 0;
-	for(i=0; i<bullet_height; i++)
-	{
-		for(l=0; l<4; l++)
-		{
-			for(j=0; j<bullet_width; j++)
-			{
-				for(k=0; k<4; k++)
-				{
-					temp[count++] = ((unsigned int*)bullet)[bullet_width*i+j];
-				}
-			}
-		}
-	}
-	bullet_width *= 4;
-	bullet_height *= 4;
-	bullet = temp;
 }
 int height(int idx)
 {

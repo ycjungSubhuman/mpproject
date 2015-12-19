@@ -22,7 +22,7 @@ static unsigned background[S3CFB_SIZE];
 //two frame buffers are serviced
 //into lcd screen in an alternating manner
 //to avoid tearing (strange vertical lines on the screen)
-static unsigned fb_odd[S3CFB_SIZE];
+unsigned fb_odd[S3CFB_SIZE];
 static unsigned fb_even[S3CFB_SIZE];
 
 extern SCENE currscene;
@@ -183,7 +183,7 @@ static void implement_your_drawing_here(unsigned *fb)
 			gfx_bitblck(fb, img(imagenum),
 				S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);
 		}
-		//parity = !parity;
+		parity = !parity;
 	}
 //  VIC1INTENABLE_REG = temp;
 }

@@ -34,6 +34,7 @@ RECT overlapped_rectof(RECT r1, RECT r2);
 OBJECT* scene_additem(OBJECT* obj);
 OBJECT* scene_removeitem(OBJECT* obj);
 void scene_refresh();
+void enlarge_all();
 
 
 #endif
