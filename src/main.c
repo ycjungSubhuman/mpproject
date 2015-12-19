@@ -96,6 +96,7 @@ void nextStage()
 		currentscene.img = 7;
 		scene_additem(&currentscene);
 		scene_additem(&startbutton);
+		clear_game();
 	}
 	else {
 		stage++;
@@ -275,12 +276,7 @@ int main()
 
 	while(1){
 		if(interrupt == 1) {
-			if(parity){
 				frame_service();
-				parity = !parity;
-			}
-			else
-				parity = !parity;
 			interrupt = 0;
 			if(gamestate == 0) {
 				bulletsCount = 0;
@@ -291,13 +287,13 @@ int main()
 				//drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 				//printf ("time: %d, score = %d\n", time, score);
 				//printf("Debug State %d!\n", debug++);
-				int temp;
+				int temp, scores = score;
 				for(i = 4; i >= 0; i--) {
-					temp = score%10;
+					temp = scores%10;
 					if(!(temp == 0 && scoretext[i].img == 18)) {
 						scoretext[i].img = temp+8;
 					}
-					score /= 10;
+					scores /= 10;
 				}
 
 				//printf("Debug State %d!\n", debug++);
