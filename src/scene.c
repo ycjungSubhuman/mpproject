@@ -241,15 +241,16 @@ int *img(int idx)
 }
 static void sort(OBJECT* list[], int size)
 {
-	int i, j, tmp;
+	int i, j;
+	OBJECT* tmp;
 	for(i =0; i<size-1; i++)
 	{
 		for(j=i+1; j<size; j++)
 		{
 			if(list[i]->z>list[j]->z){
-				tmp = list[i]->z;
-				list[i]->z = list[j]->z;
-				list[j]->z = tmp;
+				tmp = list[i];
+				list[i] = list[j];
+				list[j] = tmp;
 			}
 		}
 	}
@@ -402,6 +403,13 @@ OBJECT* scene_additem(OBJECT* obj)
     sort(currscene.list, currscene.size);
     sort(oldscene.list, oldscene.size);
     sort(oldsceneodd.list, oldsceneodd.size);
+
+    printf("=============ADDED===========\n");
+    for(i=0; i<currscene.size; i++)
+    {
+    	printf("%d %d %d %d\n", currscene.list[i]->x, currscene.list[i]->y, currscene.list[i]->z, currscene.list[i]->img);
+    }
+    printf("=============================\n");
 
     return obj;
 }

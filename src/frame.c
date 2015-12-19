@@ -4,7 +4,14 @@
 #include "lcd.h"
 #include "util.h"
 #include "scene.h"
+#define VIC1RAWINTR_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x8)
+#define VIC1IRQSTATUS_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x0)
+#define VIC1INTSELECT_REG __REG(ELFIN_VIC1_BASE_ADDR + 0xc)
+#define VIC1INTENABLE_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x10)
+#define VIC1INTENCLEAR_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x14)
 
+#define VIC1VECTADDR30 __REG(ELFIN_VIC1_BASE_ADDR + 0x178)
+#define VIC1VECTADDR31 __REG(ELFIN_VIC1_BASE_ADDR + 0x17c)
 
 
 static int frame_asserted = 0;
@@ -50,6 +57,7 @@ void frame_init(void) {
 		fb_odd[i] = background[i];
 		fb_even[i] = background[i];
 	}
+	frame_set_fb(fb_odd);
 
 	/*for (i = 0; i < player_width * player_height; i++) {
 		int x, y, ds, limit;
@@ -69,7 +77,6 @@ void frame_init(void) {
 			((unsigned *)player)[i] = 0xFF303030;
 	}*/
 
-	frame_set_fb(fb_even);
 }
 
 void frame_assert(void) {
@@ -81,7 +88,7 @@ static void implement_your_drawing_here(unsigned *fb);
 void frame_service(void) {
 	static int parity = 0;
 
-	if (frame_asserted) {
+	/*if (frame_asserted) {
 		//it is guaranteed that it is asserted 60 times per sec
 		//by lcd vsync timer interrupt
 		unsigned *fb_shown;
@@ -94,10 +101,10 @@ void frame_service(void) {
 		//shows a framebuffer on screen
 		frame_set_fb(fb_shown);
 		//and working on the other frame buffer
-		implement_your_drawing_here(fb_working);
 
 		frame_asserted = 0;
-	}
+	}*/
+	implement_your_drawing_here(fb_odd);
 }
 
 static void implement_your_drawing_here(unsigned *fb) 
@@ -106,26 +113,41 @@ static void implement_your_drawing_here(unsigned *fb)
 	int size = currscene.size;
 	int x, y, z, imagenum;
 	static int parity = 0;
+	unsigned int temp;
 
-	printf("scene size : %d\n", size);
+ // temp = VIC1INTENABLE_REG;
+ // VIC1INTENCLEAR_REG = 0xffffffff;
+	if(parity){
+		printf("scene size : %d\n", size);
+		gfx_bitblck(fb, background,
+			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES,
+			0, 0);
+		parity = !parity;
+		return;
+	}
 
     //draw
-	for(i=0; i<size; i++)
-	{
+    else{
+		for(i=0; i<size; i++)
+		{
         //draw background
-		x = currscene.list[i]->x;
-		y = currscene.list[i]->y;
-		z = currscene.list[i]->z;
-		imagenum = currscene.list[i]->img;
-
+			x = currscene.list[i]->x;
+			y = currscene.list[i]->y;
+			z = currscene.list[i]->z;
+			imagenum = currscene.list[i]->img;
+/*
 		if(parity){
-			gfx_bitblck_ext(fb, background, 
+			/*gfx_bitblck_ext(fb, img(oldscene.list[i]->img), 
 				oldscene.list[i]->x, oldscene.list[i]->y,
 				oldscene.list[i]->x+4*width(oldscene.list[i]->img), oldscene.list[i]->y+4*height(oldscene.list[i]->img),
 				S3CFB_HRES, S3CFB_VRES,
 				oldscene.list[i]->x, oldscene.list[i]->y,
 				oldscene.list[i]->x+width(oldscene.list[i]->img), oldscene.list[i]->y+height(oldscene.list[i]->img),
 				width(oldscene.list[i]->img), height(oldscene.list[i]->img));
+
+			gfx_bitblck(fb, background,
+				S3CFB_HRES, S3CFB_VRES, width(oldscene.list[i]->img), height(oldscene.list[i]->img), 
+				oldscene.list[i]->x, oldscene.list[i]->y);
 				//sync oldscene to the currscene
 			oldscene.list[i]->x = x;
 			oldscene.list[i]->y = y;
@@ -134,7 +156,7 @@ static void implement_your_drawing_here(unsigned *fb)
 		}
 		else{
 
-			gfx_bitblck_ext(fb, background, 
+			/*gfx_bitblck_ext(fb, img(oldscene.list[i]->img), 
 				oldsceneodd.list[i]->x, oldsceneodd.list[i]->y,
 				oldsceneodd.list[i]->x+4*width(oldscene.list[i]->img), oldsceneodd.list[i]->y+4*height(oldsceneodd.list[i]->img),
 				S3CFB_HRES, S3CFB_VRES,
@@ -142,21 +164,26 @@ static void implement_your_drawing_here(unsigned *fb)
 				oldsceneodd.list[i]->x+width(oldsceneodd.list[i]->img), oldsceneodd.list[i]->y+height(oldsceneodd.list[i]->img),
 				width(oldsceneodd.list[i]->img), height(oldsceneodd.list[i]->img));
 
+			gfx_bitblck(fb, background,
+				S3CFB_HRES, S3CFB_VRES, width(oldsceneodd.list[i]->img), height(oldsceneodd.list[i]->img), 
+				oldsceneodd.list[i]->x, oldsceneodd.list[i]->y);
 				//sync oldscene to the currscene
 			oldsceneodd.list[i]->x = x;
 			oldsceneodd.list[i]->y = y;
 			oldsceneodd.list[i]->z = z;
 			oldsceneodd.list[i]->img = imagenum;
-		}
+		}*/
 
                     //draw new things
-		gfx_bitblck_ext(fb, (unsigned *)img(imagenum), 
+		/*gfx_bitblck_ext(fb, (unsigned *)img(imagenum), 
 			x, y, x+4*width(imagenum), y+4*height(imagenum),
 			S3CFB_HRES, S3CFB_VRES,
 			x, y, x+width(imagenum), y+height(imagenum),
-			width(imagenum), height(imagenum));
-		/*gfx_bitblck(fb, img(imagenum),
-			S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);*/
+			width(imagenum), height(imagenum));*/
+			gfx_bitblck(fb, img(imagenum),
+				S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);
+		}
+		parity = !parity;
 	}
-	parity = !parity;
+//  VIC1INTENABLE_REG = temp;
 }
