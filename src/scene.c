@@ -4,6 +4,31 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "banner.h"
+#include "mains.h"
+#include "gameover.h"
+#include "gameclear.h"
+#include "one.h"
+#include "two.h"
+#include "three.h"
+#include "four.h"
+#include "five.h"
+#include "six.h"
+#include "seven.h"
+#include "eight.h"
+#include "nine.h"
+#include "zeroa.h"
+#include "zerou.h"
+#include "way3.h"
+#include "direct.h"
+#include "homing.h"
+#include "turtle.h"
+#include "pattern1.h"
+#include "pattern2.h"
+#include "pattern3.h"
+#include "pattern4.h"
+#include "pattern5.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -30,31 +55,31 @@ int height(int idx)
 		case 4:
 			return banner_height;
 		case 5:
-			return main_height;
+			return mains_height;
 		case 6:
 			return gameover_height;
 		case 7:
 			return gameclear_height;
 		case 8:
-			return one_height;
-		case 9:
-			return two_height;
-		case 10:
-			return three_height;
-		case 11:
-			return four_height;
-		case 12:
-			return five_height;
-		case 13:
-			return six_height;
-		case 14:
-			return seven_height;
-		case 15:
-			return eight_height;
-		case 16:
-			return nine_height;
-		case 17:
 			return zeroa_height;
+		case 9:
+			return one_height;
+		case 10:
+			return two_height;
+		case 11:
+			return three_height;
+		case 12:
+			return four_height;
+		case 13:
+			return five_height;
+		case 14:
+			return six_height;
+		case 15:
+			return seven_height;
+		case 16:
+			return eight_height;
+		case 17:
+			return nine_height;
 		case 18:
 			return zerou_height;
 		case 19:
@@ -94,31 +119,31 @@ int width(int idx)
 		case 4:
 			return banner_width;
 		case 5:
-			return main_width;
+			return mains_width;
 		case 6:
 			return gameover_width;
 		case 7:
 			return gameclear_width;
 		case 8:
-			return one_width;
-		case 9:
-			return two_width;
-		case 10:
-			return three_width;
-		case 11:
-			return four_width;
-		case 12:
-			return five_width;
-		case 13:
-			return six_width;
-		case 14:
-			return seven_width;
-		case 15:
-			return eight_width;
-		case 16:
-			return nine_width;
-		case 17:
 			return zeroa_width;
+		case 9:
+			return one_width;
+		case 10:
+			return two_width;
+		case 11:
+			return three_width;
+		case 12:
+			return four_width;
+		case 13:
+			return five_width;
+		case 14:
+			return six_width;
+		case 15:
+			return seven_width;
+		case 16:
+			return eight_width;
+		case 17:
+			return nine_width;
 		case 18:
 			return zerou_width;
 		case 19:
@@ -158,31 +183,31 @@ int *img(int idx)
 		case 4:
 			return banner;
 		case 5:
-			return main;
+			return mains;
 		case 6:
 			return gameover;
 		case 7:
 			return gameclear;
 		case 8:
-			return one;
-		case 9:
-			return two;
-		case 10:
-			return three;
-		case 11:
-			return four;
-		case 12:
-			return five;
-		case 13:
-			return six;
-		case 14:
-			return seven;
-		case 15:
-			return eight;
-		case 16:
-			return nine;
-		case 17:
 			return zeroa;
+		case 9:
+			return one;
+		case 10:
+			return two;
+		case 11:
+			return three;
+		case 12:
+			return four;
+		case 13:
+			return five;
+		case 14:
+			return six;
+		case 15:
+			return seven;
+		case 16:
+			return eight;
+		case 17:
+			return nine;
 		case 18:
 			return zerou;
 		case 19:

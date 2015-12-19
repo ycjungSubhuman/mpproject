@@ -101,34 +101,34 @@ void nextStage()
 		pattern = rand()%5;
 		switch(pattern) {
 			case 0:
-			enemypattern.img = 23;
-			break;
+				enemypattern.img = 23;
+				break;
 			case 1:
-			enemypattern.img = 24;
-			break;
+				enemypattern.img = 24;
+				break;
 			case 2:
-			enemypattern.img = 25;
-			break;
+				enemypattern.img = 25;
+				break;
 			case 3:
-			enemypattern.img = 26;
-			break;
-			case 4
-			enemypattern.img = 27;
-			break;
+				enemypattern.img = 26;
+				break;
+			case 4:
+				enemypattern.img = 27;
+				break;
 		}
-		switch(mc.type)
+		switch(mc.type) {
 			case 0:
-			playertype.img = 19;
-			break;
+				playertype.img = 19;
+				break;
 			case 1:
-			playertype.img = 20;
-			break;
+				playertype.img = 20;
+				break;
 			case 2:
-			playertype.img = 21;
-			break;
+				playertype.img = 21;
+				break;
 			case 3:
-			playertype.img = 22;
-			break;
+				playertype.img = 22;
+				break;
 		}
 	}
 }
@@ -160,7 +160,7 @@ void touched(int x, int y)
 				playertype.x = 30;
 				playertype.y = 80;
 				nextStage();
-				scene_additem(&playertype)
+				scene_additem(&playertype);
 				scene_additem(&enemypattern);
 
 				currentscene.img = 4;
@@ -200,16 +200,19 @@ int hitTest(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 
 void clear_game()
 {
-	int i;
+	int i, debug = 0;
+	printf("Debug Level2: %d", debug++);
 	for(i = 0; i < enemysCount; i++)
 	{
 		scene_removeitem(enemys[i]);
 		free(enemys[i]);
 	}
+	printf("Debug Level2: %d", debug++);
 	for(i = 0; i < bulletsCount; i++) {
 		scene_removeitem(bullets[i]);
 		free(bullets[i]);
 	}
+	printf("Debug Level2: %d", debug++);
 	enemysCount = 0;
 	bulletsCount = 0;
     oldscene.list[0]->staged = 0;
@@ -220,11 +223,12 @@ void clear_game()
 		scoretext[i].y = 300;
 	}
 	currentscene.img = 6;
+	printf("Debug Level2: %d", debug++);
 }
 
 int main()
 {
-	int i, j;
+	int i, j, debug;
 	char ch;
 
 	time = 0;
@@ -255,17 +259,20 @@ int main()
 				enemysCount = 0;
 			}
 			else if(gamestate == 1) {
+				debug = 0;
 				//drawing(mc.x, mc.y, height(mc.img), width(mc.img), img(mc.img));
 				//printf ("time: %d, score = %d\n", time, score);
+				printf("Debug State %d!\n", debug++);
 				int temp;
-				for(int i = 4; i >= 0; i--) {
+				for(i = 4; i >= 0; i--) {
 					temp = score%10;
-					if(!(temp == 0 && scoretext[i].img == zerou)) {
+					if(!(temp == 0 && scoretext[i].img == 18)) {
 						scoretext[i].img = temp+8;
 					}
 					score /= 10;
 				}
 
+				printf("Debug State %d!\n", debug++);
 				switch(mc.type) {
 				   // printf("Generating Player Bullets\n");
 					case 0:
@@ -293,6 +300,7 @@ int main()
 				}
 				//printf("Generated Plyer Bullets\n");
 
+				printf("Debug State %d!\n", debug++);
 				switch(pattern) {
 					//printf("Generating Enemies");
 					case 0:
@@ -357,6 +365,7 @@ int main()
 					break;
 				}
 				//printf("Generated Enemies");
+				printf("Debug State %d!\n", debug++);
 				for(i = 0; i < enemysCount; i++) {
 					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+24, mc.y+24, 16, 16)) {
 						if(mc.type == 3) {
@@ -382,6 +391,7 @@ int main()
 						}
 					}
 				}
+				printf("Debug State %d!\n", debug++);
 				for(j = 0; j < bulletsCount; j++) {
 					if(bullets[j]->type >= 2) {
 						if(hitTest(mc.x, mc.y, 64, 64, bullets[j]->x, bullets[j]->y, 16, 16)) {
@@ -392,6 +402,7 @@ int main()
 						}
 					}
 				}
+				printf("Debug State %d!\n", debug++);
 				for(i = 0; i < enemysCount; i++) {
 					enemys[i]->x += enemys[i]->xspeed;
 					enemys[i]->y += enemys[i]->yspeed;
@@ -428,6 +439,7 @@ int main()
 						i--;
 					}
 				}
+				printf("Debug State %d!\n", debug++);
 				for(i = 0; i < bulletsCount; i++) {
 					switch(bullets[i]->type) {
 						case 1:
