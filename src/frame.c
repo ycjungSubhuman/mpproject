@@ -89,7 +89,7 @@ static void implement_your_drawing_here(unsigned *fb);
 
 void frame_service(void) {
 
-	if (frame_asserted) {
+	/*if (frame_asserted) {
 		//it is guaranteed that it is asserted 60 times per sec
 		//by lcd vsync timer interrupt
 		unsigned *fb_shown;
@@ -104,8 +104,8 @@ void frame_service(void) {
 		//and working on the other frame buffer
 
 		frame_asserted = 0;
-	}
-	//implement_your_drawing_here(fb_odd);
+	}*/
+	implement_your_drawing_here(fb_odd);
 }
 
 static void implement_your_drawing_here(unsigned *fb) 
@@ -118,14 +118,15 @@ static void implement_your_drawing_here(unsigned *fb)
 
  // temp = VIC1INTENABLE_REG;
  // VIC1INTENCLEAR_REG = 0xffffffff;
-	if(parity){
+	if(parity % 2 == 0){
 		printf("scene size : %d\n", size);
 		gfx_bitblck(fb, background,
 			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES,
 			0, 0);
-		parity = !parity;
+		parity++;
 		return;
 	}
+
 
     //draw
     else{
@@ -184,7 +185,7 @@ static void implement_your_drawing_here(unsigned *fb)
 			gfx_bitblck(fb, img(imagenum),
 				S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);
 		}
-		parity = !parity;
+		parity++;
 	}
 //  VIC1INTENABLE_REG = temp;
 }

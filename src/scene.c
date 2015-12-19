@@ -49,7 +49,7 @@ void enlarge_all()
 	int i, j, k, l;
 	int count;
 	//enemy
-	printf("enemy\n");
+	/*printf("enemy\n");
 	temp = (unsigned int*)malloc(4 * enemy_width * enemy_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<enemy_height; i++)
@@ -90,45 +90,45 @@ void enlarge_all()
 	player_height *= 2;
 	player = temp;
 		//enemy
-	temp = (unsigned int*)malloc(16 * bullet_width * bullet_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(4* bullet_width * bullet_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<bullet_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<bullet_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)bullet)[bullet_width*i+j];
 				}
 			}
 		}
 	}
-	bullet_width *= 4;
-	bullet_height *= 4;
-	bullet = temp;
+	bullet_width *= 2;
+	bullet_height *= 2;
+	bullet = temp;*/
 		//enemy
-	temp = (unsigned int*)malloc(16 * banner_width * banner_height * sizeof(unsigned int));
+	/*temp = (unsigned int*)malloc(4* banner_width * banner_height * sizeof(unsigned int));
 	count = 0;
-	/*for(i=0; i<banner_height; i++)
+	for(i=0; i<banner_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<banner_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)banner)[banner_width*i+j];
 				}
 			}
 		}
 	}
-	banner_width *= 4;
-	banner_height *= 4;
+	banner_width *= 2;
+	banner_height *= 2;
 	banner = temp;*/
 		//enemy
-	temp = (unsigned int*)malloc(16 * mains_width * mains_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(16* mains_width * mains_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<mains_height; i++)
 	{
@@ -147,7 +147,7 @@ void enlarge_all()
 	mains_height *= 4;
 	mains = temp;
 		//enemy
-	temp = (unsigned int*)malloc(16 * gameover_width * gameover_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(16* gameover_width * gameover_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<gameover_height; i++)
 	{
@@ -166,7 +166,7 @@ void enlarge_all()
 	gameover_height *= 4;
 	gameover = temp;
 		//enemy
-	temp = (unsigned int*)malloc(16 * gameclear_width * gameclear_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(16* gameclear_width * gameclear_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<gameclear_height; i++)
 	{
@@ -184,367 +184,368 @@ void enlarge_all()
 	gameclear_width *= 4;
 	gameclear_height *= 4;
 	gameclear = temp;
-		temp = (unsigned int*)malloc(16 * zeroa_width * zeroa_height * sizeof(unsigned int));
+	/*
+		temp = (unsigned int*)malloc(4* zeroa_width * zeroa_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<zeroa_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<zeroa_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)zeroa)[zeroa_width*i+j];
 				}
 			}
 		}
 	}
-	zeroa_width *= 4;
-	zeroa_height *= 4;
+	zeroa_width *= 2;
+	zeroa_height *= 2;
 	zeroa = temp;
-		temp = (unsigned int*)malloc(16 * one_width * one_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* one_width * one_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<one_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<one_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)one)[one_width*i+j];
 				}
 			}
 		}
 	}
-	one_width *= 4;
-	one_height *= 4;
+	one_width *= 2;
+	one_height *= 2;
 	one = temp;
-		temp = (unsigned int*)malloc(16 * two_width * two_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* two_width * two_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<two_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<two_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)two)[two_width*i+j];
 				}
 			}
 		}
 	}
-	two_width *= 4;
-	two_height *= 4;
+	two_width *= 2;
+	two_height *= 2;
 	two = temp;
-		temp = (unsigned int*)malloc(16 * three_width * three_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* three_width * three_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<three_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<three_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)three)[three_width*i+j];
 				}
 			}
 		}
 	}
-	three_width *= 4;
-	three_height *= 4;
+	three_width *= 2;
+	three_height *= 2;
 	three = temp;
-		temp = (unsigned int*)malloc(16 * four_width * four_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* four_width * four_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<four_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<four_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)four)[four_width*i+j];
 				}
 			}
 		}
 	}
-	four_width *= 4;
-	four_height *= 4;
+	four_width *= 2;
+	four_height *= 2;
 	four = temp;
-		temp = (unsigned int*)malloc(16 * five_width * five_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* five_width * five_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<five_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<five_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)five)[five_width*i+j];
 				}
 			}
 		}
 	}
-	five_width *= 4;
-	five_height *= 4;
+	five_width *= 2;
+	five_height *= 2;
 	five = temp;
-		temp = (unsigned int*)malloc(16 * six_width * six_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* six_width * six_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<six_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<six_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)six)[six_width*i+j];
 				}
 			}
 		}
 	}
-	six_width *= 4;
-	six_height *= 4;
+	six_width *= 2;
+	six_height *= 2;
 	six = temp;
-		temp = (unsigned int*)malloc(16 * seven_width * seven_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* seven_width * seven_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<seven_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<seven_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)seven)[seven_width*i+j];
 				}
 			}
 		}
 	}
-	seven_width *= 4;
-	seven_height *= 4;
+	seven_width *= 2;
+	seven_height *= 2;
 	seven = temp;
-		temp = (unsigned int*)malloc(16 * eight_width * eight_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* eight_width * eight_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<eight_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<eight_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)eight)[eight_width*i+j];
 				}
 			}
 		}
 	}
-	eight_width *= 4;
-	eight_height *= 4;
+	eight_width *= 2;
+	eight_height *= 2;
 	eight = temp;
-		temp = (unsigned int*)malloc(16 * nine_width * nine_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* nine_width * nine_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<nine_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<nine_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)nine)[nine_width*i+j];
 				}
 			}
 		}
 	}
-	nine_width *= 4;
-	nine_height *= 4;
+	nine_width *= 2;
+	nine_height *= 2;
 	nine = temp;
-		temp = (unsigned int*)malloc(16 * zerou_width * zerou_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* zerou_width * zerou_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<zerou_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<zerou_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)zerou)[zerou_width*i+j];
 				}
 			}
 		}
 	}
-	zerou_width *= 4;
-	zerou_height *= 4;
+	zerou_width *= 2;
+	zerou_height *= 2;
 	zerou = temp;
-		temp = (unsigned int*)malloc(16 * way3_width * way3_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* way3_width * way3_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<way3_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<way3_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)way3)[way3_width*i+j];
 				}
 			}
 		}
-	}
-	way3_width *= 4;
-	way3_height *= 4;
+	}*
+	way3_width *= 2;
+	way3_height *= 2;
 	way3 = temp;
-		temp = (unsigned int*)malloc(16 * direct_width * direct_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* direct_width * direct_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<direct_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<direct_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)direct)[direct_width*i+j];
 				}
 			}
 		}
 	}
-	direct_width *= 4;
-	direct_height *= 4;
+	direct_width *= 2;
+	direct_height *= 2;
 	direct = temp;
-		temp = (unsigned int*)malloc(16 * homing_width * homing_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* homing_width * homing_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<homing_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<homing_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)homing)[homing_width*i+j];
 				}
 			}
 		}
 	}
-	homing_width *= 4;
-	homing_height *= 4;
+	homing_width *= 2;
+	homing_height *= 2;
 	homing = temp;
-		temp = (unsigned int*)malloc(16 * turtle_width * turtle_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* turtle_width * turtle_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<turtle_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<turtle_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)turtle)[turtle_width*i+j];
 				}
 			}
 		}
 	}
-	turtle_width *= 4;
-	turtle_height *= 4;
+	turtle_width *= 2;
+	turtle_height *= 2;
 	turtle = temp;
-		temp = (unsigned int*)malloc(16 * pattern1_width * pattern1_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* pattern1_width * pattern1_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<pattern1_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<pattern1_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)pattern1)[pattern1_width*i+j];
 				}
 			}
 		}
 	}
-	pattern1_width *= 4;
-	pattern1_height *= 4;
+	pattern1_width *= 2;
+	pattern1_height *= 2;
 	pattern1 = temp;
-		temp = (unsigned int*)malloc(16 * pattern2_width * pattern2_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* pattern2_width * pattern2_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<pattern2_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<pattern2_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)pattern2)[pattern2_width*i+j];
 				}
 			}
 		}
 	}
-	pattern2_width *= 4;
-	pattern2_height *= 4;
+	pattern2_width *= 2;
+	pattern2_height *= 2;
 	pattern2 = temp;
-		temp = (unsigned int*)malloc(16 * pattern3_width * pattern3_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* pattern3_width * pattern3_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<pattern3_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<pattern3_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)pattern3)[pattern3_width*i+j];
 				}
 			}
 		}
 	}
-	pattern3_width *= 4;
-	pattern3_height *= 4;
+	pattern3_width *= 2;
+	pattern3_height *= 2;
 	pattern3 = temp;
-		temp = (unsigned int*)malloc(16 * pattern4_width * pattern4_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* pattern4_width * pattern4_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<pattern4_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<pattern4_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)pattern4)[pattern4_width*i+j];
 				}
 			}
 		}
 	}
-	pattern4_width *= 4;
-	pattern4_height *= 4;
+	pattern4_width *= 2;
+	pattern4_height *= 2;
 	pattern4 = temp;
-		temp = (unsigned int*)malloc(16 * pattern5_width * pattern5_height * sizeof(unsigned int));
+		temp = (unsigned int*)malloc(4* pattern5_width * pattern5_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<pattern5_height; i++)
 	{
-		for(l=0; l<4; l++)
+		for(l=0; l<2; l++)
 		{
 			for(j=0; j<pattern5_width; j++)
 			{
-				for(k=0; k<4; k++)
+				for(k=0; k<2; k++)
 				{
 					temp[count++] = ((unsigned int*)pattern5)[pattern5_width*i+j];
 				}
 			}
 		}
 	}
-	pattern5_width *= 4;
-	pattern5_height *= 4;
-	pattern5 = temp;
-		temp = (unsigned int*)malloc(16 * start_width * start_height * sizeof(unsigned int));
+	pattern5_width *= 2;
+	pattern5_height *= 2;
+	pattern5 = temp;*/
+		temp = (unsigned int*)malloc(16* start_width * start_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<start_height; i++)
 	{

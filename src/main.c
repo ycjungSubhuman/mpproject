@@ -238,7 +238,7 @@ int main()
 	mango_hw_init();
 //signal(SIGSEGV, sigsegv_handler);
 	currentscene.x = 300;
-	currentscene.y = 200;
+	currentscene.y = 100;
 	currentscene.img = 5;
 //scene_additem(&currentscene);
 	banners.x = 0;
@@ -252,13 +252,16 @@ int main()
 	mc.x = 100;
 	mc.y = 200;
 //scene_additem(&mc);
+
+	fb_now = fb_odd;
+
 	while(1){
 		if(interrupt == 1) {
 			frame_service();
-			if(parity%2 == 0) fb_now = fb_odd;
-			else fb_now = fb_even;
-			printf("parity = %d", parity);
-			gfx_bitblck(fb_now, background, S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES, 0, 0);
+			//if(parity%2 == 0) fb_now = fb_odd;
+			//else fb_now = fb_even;
+			//printf("parity = %d", parity);
+			//gfx_bitblck(fb_now, background, S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES, 0, 0);
 			interrupt = 0;
 //gfx_bitblck(fb_odd, img(banners.img), S3CFB_HRES, S3CFB_VRES, width(banners.img), height(banners.img), banners.x, banners.y);
 			if(gamestate == 0) {
@@ -314,37 +317,37 @@ int main()
 				switch(pattern) {
 //printf("Generating Enemies");
 					case 0:
-					if(time % 50 == 0) {
+					if(time % 40 == 0) {
 						if(count <= 5) {
 							enemyGenerate(740, 150+rand()%100, 1, -5 - rand()%5, 0, 1);
 							enemyGenerate(740, 250+rand()%100, 1, -5 - rand()%5, 0, 1);
 							enemyGenerate(740, 350+rand()%100, 1, -5 - rand()%5, 0, 1);
 						}
-						if(count > 7) {
+						if(count > 6) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 1:
-					if(time % 5 == 0) {
+					if(time % 3 == 0) {
 						if(count <= 30) {
 							enemyGenerate(740, 200+rand()%250, 1, -5 - rand()%5, rand()%5-2, 0);
 						}
-						if(count > 50) {
+						if(count > 40) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 2:
-					if(time % 40 == 0) {
+					if(time % 30 == 0) {
 						if(count <= 5) {
-							enemyGenerate(740, 150, 1, -10, 0, 2);
-							enemyGenerate(740, 400, 1, -10, 0, 2);
-							enemyGenerate(740, 375, 1, -10, 0, 2);
+							enemyGenerate(740, 150+rand()%100, 1, -5 - rand()%5, 0, 2);
+							enemyGenerate(740, 250+rand()%100, 1, -5 - rand()%5, 0, 2);
+							enemyGenerate(740, 350+rand()%100, 1, -5 - rand()%5, 0, 2);
 						}
-						if(count > 12) {
+						if(count > 7) {
 							nextStage();
 						}
 						count++;
@@ -356,18 +359,18 @@ int main()
 							enemyGenerate(700, 150, 1, 0, 5, 1);
 							enemyGenerate(600, 450, 1, 0, -5, 2);
 						}
-						if(count > 15) {
+						if(count > 13) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 4:
-					if(time % 10 == 0) {
+					if(time % 5 == 0) {
 						if(count <= 20) {
 							enemyGenerate(740, 150+rand()%350, 1, -5 - rand()%5, rand()%5 - 2, rand()%3);
 						}
-						if(count > 30) {
+						if(count > 35) {
 							nextStage();
 						}
 						count++;
@@ -377,7 +380,7 @@ int main()
 //printf("Generated Enemies");
 //printf("Debug State %d!\n", debug++);
 				for(i = 0; i < enemysCount; i++) {
-					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+24, mc.y+24, 16, 16)) {
+					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+4, mc.y+4, 8, 8)) {
 						if(mc.type == 3) {
 							enemys[i]->valid = 0;
 							score++;
@@ -392,7 +395,7 @@ int main()
 					}
 					for(j = 0; j < bulletsCount; j++) {
 						if(bullets[j]->type <= 1) {
-							if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, bullets[j]->x, bullets[j]->y, 16, 16)) {
+							if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, bullets[j]->x, bullets[j]->y, 4, 4)) {
 								enemys[i]->valid = 0;
 								bullets[j]->valid = 0;
 								score++;
@@ -404,7 +407,7 @@ int main()
 //printf("Debug State %d!\n", debug++);
 				for(j = 0; j < bulletsCount; j++) {
 					if(bullets[j]->type >= 2) {
-						if(hitTest(mc.x, mc.y, 64, 64, bullets[j]->x, bullets[j]->y, 16, 16)) {
+						if(hitTest(mc.x+4, mc.y+4, 8, 8, bullets[j]->x, bullets[j]->y, 4, 4)) {
 							gamestate = 2;
 							clear_game();
 							mc.valid = 0;
@@ -423,14 +426,14 @@ int main()
 						case 0:
 						break;
 						case 1:
-						if(time % 49 == 2) {
+						if(time % 39 == 2) {
 							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, 0, 2);
 							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, 3, 2);
 							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, -3, 2);
 						}
 						break;
 						case 2:
-						if(time % 47 == 2) {
+						if(time % 37 == 2) {
 							int size = (int)SQRT((mc.x-enemys[i]->x)*(mc.x-enemys[i]->x)+(mc.y-enemys[i]->y)*(mc.y-enemys[i]->y));
 							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, (mc.x-enemys[i]->x)*10/size, (mc.y-enemys[i]->y)*10/size, 2);
 						}
