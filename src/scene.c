@@ -42,6 +42,486 @@ extern SCENE oldsceneodd;
 int prevsize=0;
 int skipnum = 50;
 
+
+void enlarge_all()
+{
+	unsigned int* temp;
+	int i, j, k, l;
+	int coutn;
+	//enemy
+	temp = (unsigned int*)malloc(16 * enemy_width * enemy_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<enemy_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<enemy_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)enemy)[enemy_width*i+j];
+				}
+			}
+		}
+	}
+	enemy = temp;
+
+		//enemy
+	temp = (unsigned int*)malloc(16 * player_width * player_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<player_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<player_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)player)[player_width*i+j];
+				}
+			}
+		}
+	}
+	player = temp;
+		//enemy
+	temp = (unsigned int*)malloc(16 * bullet_width * bullet_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<bullet_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<bullet_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)bullet)[bullet_width*i+j];
+				}
+			}
+		}
+	}
+	bullet = temp;
+		//enemy
+	temp = (unsigned int*)malloc(16 * banner_width * banner_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<banner_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<banner_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)banner)[banner_width*i+j];
+				}
+			}
+		}
+	}
+	banner = temp;
+		//enemy
+	temp = (unsigned int*)malloc(16 * mains_width * mains_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<mains_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<mains_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)mains)[mains_width*i+j];
+				}
+			}
+		}
+	}
+	mains = temp;
+		//enemy
+	temp = (unsigned int*)malloc(16 * gameover_width * gameover_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<gameover_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<gameover_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)gameover)[gameover_width*i+j];
+				}
+			}
+		}
+	}
+	gameover = temp;
+		//enemy
+	temp = (unsigned int*)malloc(16 * gameclear_width * gameclear_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<gameclear_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<gameclear_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)gameclear)[gameclear_width*i+j];
+				}
+			}
+		}
+	}
+	gameclear = temp;
+		temp = (unsigned int*)malloc(16 * zeroa_width * zeroa_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<zeroa_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<zeroa_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)zeroa)[zeroa_width*i+j];
+				}
+			}
+		}
+	}
+	zeroa = temp;
+		temp = (unsigned int*)malloc(16 * one_width * one_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<one_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<one_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)one)[one_width*i+j];
+				}
+			}
+		}
+	}
+	one = temp;
+		temp = (unsigned int*)malloc(16 * two_width * two_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<two_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<two_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)two)[two_width*i+j];
+				}
+			}
+		}
+	}
+	two = temp;
+		temp = (unsigned int*)malloc(16 * three_width * three_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<three_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<three_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)three)[three_width*i+j];
+				}
+			}
+		}
+	}
+	three = temp;
+		temp = (unsigned int*)malloc(16 * four_width * four_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<four_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<four_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)four)[four_width*i+j];
+				}
+			}
+		}
+	}
+	four = temp;
+		temp = (unsigned int*)malloc(16 * five_width * five_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<five_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<five_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)five)[five_width*i+j];
+				}
+			}
+		}
+	}
+	five = temp;
+		temp = (unsigned int*)malloc(16 * six_width * six_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<six_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<six_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)six)[six_width*i+j];
+				}
+			}
+		}
+	}
+	six = temp;
+		temp = (unsigned int*)malloc(16 * seven_width * seven_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<seven_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<seven_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)seven)[seven_width*i+j];
+				}
+			}
+		}
+	}
+	seven = temp;
+		temp = (unsigned int*)malloc(16 * eight_width * eight_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<eight_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<eight_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)eight)[eight_width*i+j];
+				}
+			}
+		}
+	}
+	eight = temp;
+		temp = (unsigned int*)malloc(16 * nine_width * nine_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<nine_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<nine_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)nine)[nine_width*i+j];
+				}
+			}
+		}
+	}
+	nine = temp;
+		temp = (unsigned int*)malloc(16 * zerou_width * zerou_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<zerou_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<zerou_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)zerou)[zerou_width*i+j];
+				}
+			}
+		}
+	}
+	zerou = temp;
+		temp = (unsigned int*)malloc(16 * way3_width * way3_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<way3_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<way3_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)way3)[way3_width*i+j];
+				}
+			}
+		}
+	}
+	way3 = temp;
+		temp = (unsigned int*)malloc(16 * direct_width * direct_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<direct_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<direct_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)direct)[direct_width*i+j];
+				}
+			}
+		}
+	}
+	direct = temp;
+		temp = (unsigned int*)malloc(16 * homing_width * homing_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<homing_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<homing_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)homing)[homing_width*i+j];
+				}
+			}
+		}
+	}
+	homing = temp;
+		temp = (unsigned int*)malloc(16 * turtle_width * turtle_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<turtle_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<turtle_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)turtle)[turtle_width*i+j];
+				}
+			}
+		}
+	}
+	turtle = temp;
+		temp = (unsigned int*)malloc(16 * pattern1_width * pattern1_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<pattern1_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<pattern1_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)pattern1)[pattern1_width*i+j];
+				}
+			}
+		}
+	}
+	pattern1 = temp;
+		temp = (unsigned int*)malloc(16 * pattern2_width * pattern2_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<pattern2_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<pattern2_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)pattern2)[pattern2_width*i+j];
+				}
+			}
+		}
+	}
+	pattern2 = temp;
+		temp = (unsigned int*)malloc(16 * pattern3_width * pattern3_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<pattern3_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<pattern3_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)pattern3)[pattern3_width*i+j];
+				}
+			}
+		}
+	}
+	pattern3 = temp;
+		temp = (unsigned int*)malloc(16 * pattern4_width * pattern4_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<pattern4_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<pattern4_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)pattern4)[pattern4_width*i+j];
+				}
+			}
+		}
+	}
+	pattern4 = temp;
+		temp = (unsigned int*)malloc(16 * pattern5_width * pattern5_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<pattern5_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<pattern5_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)pattern5)[pattern5_width*i+j];
+				}
+			}
+		}
+	}
+	pattern5 = temp;
+		temp = (unsigned int*)malloc(16 * start_width * start_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<start_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<start_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)start)[start_width*i+j];
+				}
+			}
+		}
+	}
+	start = temp;
+		temp = (unsigned int*)malloc(16 * bullet_width * bullet_height * sizeof(unsigned int));
+	coutn = 0;
+	for(i=0; i<bullet_height; i++)
+	{
+		for(l=0; l<4; l++)
+		{
+			for(j=0; j<bullet_width; j++)
+			{
+				for(k=0; k<4; j++)
+				{
+					temp[count++] = ((unsigned int*)bullet)[bullet_width*i+j];
+				}
+			}
+		}
+	}
+	bullet = temp;
+
+}
 int height(int idx)
 {
 	switch(idx) {

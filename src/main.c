@@ -208,6 +208,7 @@ int hitTest(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 	return (x2+w2 > x1 && x1+w1 > x2) && (y2+h2>y1 && y1+h1>y2);
 }
 
+
 void clear_game()
 {
 	int i, debug = 0;
@@ -249,6 +250,7 @@ int main()
 	mc.img = 2;
 	currscene.size = 0;
 	oldscene.size = 0;
+	enlarge_all();
 	// oldsceneodd.size=0;
 	//drawbackground();
 
