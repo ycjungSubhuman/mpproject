@@ -27,6 +27,54 @@ int height(int idx)
 			return player_height;
 		case 3:
 			return bullet_height;
+		case 4:
+			return banner_height;
+		case 5:
+			return main_height;
+		case 6:
+			return gameover_height;
+		case 7:
+			return gameclear_height;
+		case 8:
+			return one_height;
+		case 9:
+			return two_height;
+		case 10:
+			return three_height;
+		case 11:
+			return four_height;
+		case 12:
+			return five_height;
+		case 13:
+			return six_height;
+		case 14:
+			return seven_height;
+		case 15:
+			return eight_height;
+		case 16:
+			return nine_height;
+		case 17:
+			return zeroa_height;
+		case 18:
+			return zerou_height;
+		case 19:
+			return way3_height;
+		case 20:
+			return direct_height;
+		case 21:
+			return homing_height;
+		case 22:
+			return turtle_height;
+		case 23:
+			return pattern1_height;
+		case 24:
+			return pattern2_height;
+		case 25:
+			return pattern3_height;
+		case 26:
+			return pattern4_height;
+		case 27:
+			return pattern5_height;
 		default:
 			return bullet_height;
 	}
@@ -43,6 +91,54 @@ int width(int idx)
 			return player_width;
 		case 3:
 			return bullet_width;
+		case 4:
+			return banner_width;
+		case 5:
+			return main_width;
+		case 6:
+			return gameover_width;
+		case 7:
+			return gameclear_width;
+		case 8:
+			return one_width;
+		case 9:
+			return two_width;
+		case 10:
+			return three_width;
+		case 11:
+			return four_width;
+		case 12:
+			return five_width;
+		case 13:
+			return six_width;
+		case 14:
+			return seven_width;
+		case 15:
+			return eight_width;
+		case 16:
+			return nine_width;
+		case 17:
+			return zeroa_width;
+		case 18:
+			return zerou_width;
+		case 19:
+			return way3_width;
+		case 20:
+			return direct_width;
+		case 21:
+			return homing_width;
+		case 22:
+			return turtle_width;
+		case 23:
+			return pattern1_width;
+		case 24:
+			return pattern2_width;
+		case 25:
+			return pattern3_width;
+		case 26:
+			return pattern4_width;
+		case 27:
+			return pattern5_width;
 		default:
 			return bullet_width;
 	}
@@ -59,6 +155,54 @@ int *img(int idx)
 			return player;
 		case 3:
 			return bullet;
+		case 4:
+			return banner;
+		case 5:
+			return main;
+		case 6:
+			return gameover;
+		case 7:
+			return gameclear;
+		case 8:
+			return one;
+		case 9:
+			return two;
+		case 10:
+			return three;
+		case 11:
+			return four;
+		case 12:
+			return five;
+		case 13:
+			return six;
+		case 14:
+			return seven;
+		case 15:
+			return eight;
+		case 16:
+			return nine;
+		case 17:
+			return zeroa;
+		case 18:
+			return zerou;
+		case 19:
+			return way3;
+		case 20:
+			return direct;
+		case 21:
+			return homing;
+		case 22:
+			return turtle;
+		case 23:
+			return pattern1;
+		case 24:
+			return pattern2;
+		case 25:
+			return pattern3;
+		case 26:
+			return pattern4;
+		case 27:
+			return pattern5;
 		default:
 			return bullet;
 	}
