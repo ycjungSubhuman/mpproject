@@ -94,8 +94,6 @@ void nextStage()
 	if(stage == 5) {
 		gamestate = 3;
 		currentscene.img = 7;
-		scene_additem(&currentscene);
-		scene_additem(&startbutton);
 		clear_game();
 	}
 	else {
@@ -186,8 +184,6 @@ void touched(int x, int y)
 					scene_removeitem(&scoretext[i]);
 				}
 				currentscene.img = 5;
-				scene_removeitem(&currentscene);
-				scene_additem(&startbutton);
 			}
 			return;
 		case 3:
@@ -197,8 +193,6 @@ void touched(int x, int y)
 					scene_removeitem(&scoretext[i]);
 				}
 				currentscene.img = 5;
-				scene_removeitem(&currentscene);
-				scene_additem(&startbutton);
 			}
 	}
 }
@@ -211,30 +205,28 @@ int hitTest(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 void clear_game()
 {
 	int i, debug = 0;
-	printf("Debug Level2: %d", debug++);
 	for(i = 0; i < enemysCount; i++)
 	{
 		scene_removeitem(enemys[i]);
 		free(enemys[i]);
 	}
-	printf("Debug Level2: %d", debug++);
 	for(i = 0; i < bulletsCount; i++) {
 		scene_removeitem(bullets[i]);
 		free(bullets[i]);
 	}
-	printf("Debug Level2: %d", debug++);
 	enemysCount = 0;
 	bulletsCount = 0;
     	oldscene.list[0]->staged = 0;
         scene_removeitem(&playertype);
         scene_removeitem(&enemypattern);
+        /*
 	for(i = 0; i < 5; i++) {
 		scoretext[i].x = 280 + 50*i;
 		scoretext[i].y = 300;
-	}
+	}*/
 	currentscene.img = 6;
 	scene_additem(&currentscene);
-	printf("Debug Level2: %d", debug++);
+	scene_additem(&startbutton);
 }
 
 int main()
@@ -328,37 +320,37 @@ int main()
 				switch(pattern) {
 					//printf("Generating Enemies");
 					case 0:
-					if(time % 50 == 0) {
+					if(time % 40 == 0) {
 						if(count <= 5) {
 							enemyGenerate(740, 150+rand()%100, 1, -5 - rand()%5, 0, 1);
 							enemyGenerate(740, 250+rand()%100, 1, -5 - rand()%5, 0, 1);
 							enemyGenerate(740, 350+rand()%100, 1, -5 - rand()%5, 0, 1);
 						}
-						if(count > 7) {
+						if(count > 6) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 1:
-					if(time % 5 == 0) {
+					if(time % 3 == 0) {
 						if(count <= 30) {
 							enemyGenerate(740, 200+rand()%250, 1, -5 - rand()%5, rand()%5-2, 0);
 						}
-						if(count > 50) {
+						if(count > 40) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 2:
-					if(time % 40 == 0) {
+					if(time % 30 == 0) {
 						if(count <= 5) {
-							enemyGenerate(740, 150, 1, -10, 0, 2);
-							enemyGenerate(740, 400, 1, -10, 0, 2);
-							enemyGenerate(740, 375, 1, -10, 0, 2);
+							enemyGenerate(740, 150+rand()%100, 1, -5 - rand()%5, 0, 2);
+							enemyGenerate(740, 250+rand()%100, 1, -5 - rand()%5, 0, 2);
+							enemyGenerate(740, 350+rand()%100, 1, -5 - rand()%5, 0, 2);
 						}
-						if(count > 12) {
+						if(count > 7) {
 							nextStage();
 						}
 						count++;
@@ -370,18 +362,18 @@ int main()
 							enemyGenerate(700, 150, 1, 0, 5, 1);
 							enemyGenerate(600, 450, 1, 0, -5, 2);
 						}
-						if(count > 15) {
+						if(count > 13) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 4:
-					if(time % 10 == 0) {
+					if(time % 5 == 0) {
 						if(count <= 20) {
 							enemyGenerate(740, 150+rand()%350, 1, -5 - rand()%5, rand()%5 - 2, rand()%3);
 						}
-						if(count > 30) {
+						if(count > 35) {
 							nextStage();
 						}
 						count++;
@@ -418,7 +410,7 @@ int main()
 				//printf("Debug State %d!\n", debug++);
 				for(j = 0; j < bulletsCount; j++) {
 					if(bullets[j]->type >= 2) {
-						if(hitTest(mc.x, mc.y, 64, 64, bullets[j]->x, bullets[j]->y, 16, 16)) {
+						if(hitTest(mc.x+24, mc.y+24, 16, 16, bullets[j]->x, bullets[j]->y, 16, 16)) {
 							gamestate = 2;
 							clear_game();
 							mc.valid = 0;
@@ -437,14 +429,14 @@ int main()
 						case 0:
 							break;
 						case 1:
-							if(time % 49 == 2) {
+							if(time % 39 == 2) {
 								bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, 0, 2);
 								bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, 3, 2);
 								bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, -3, 2);
 							}
 							break;
 						case 2:
-							if(time % 47 == 2) {
+							if(time % 37 == 2) {
 								int size = (int)SQRT((mc.x-enemys[i]->x)*(mc.x-enemys[i]->x)+(mc.y-enemys[i]->y)*(mc.y-enemys[i]->y));
 								bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, (mc.x-enemys[i]->x)*10/size, (mc.y-enemys[i]->y)*10/size, 2);
 							}
