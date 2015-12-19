@@ -25,7 +25,7 @@ typedef struct scene{
 
 int height(int idx);
 int width(int idx);
-int** img(int idx);
+int* img(int idx);
 int is_point_in_rect(RECT rect, int x, int y);
 int is_rect_null(RECT rect);
 RECT overlapped_rectof(RECT r1, RECT r2);

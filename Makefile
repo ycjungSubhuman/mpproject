@@ -2,7 +2,7 @@
 MAKE=make
 RM=rm
 MKDIR=mkdir
-CC=arm-none-eabi-gcc
+CC=arm-none-eabi-gcc -lc -lrdimon
 CP=cp
 
 OUTDIR=Debug
@@ -17,6 +17,9 @@ OBJ=\
     $(OUTDIR)/lcd.o \
     $(OUTDIR)/timer.o \
     $(OUTDIR)/scene.o \
+    $(OUTDIR)/frame.o \
+    $(OUTDIR)/graphics.o \
+    $(OUTDIR)/util.o \
 
 CFLAGS64=-DCONFIG_MANGO_64
 COMPILE64=$(CC) -c -Wall -g -o "$(OUTDIR)/$(*F).o" $(CFG_INC) $(CFLAGS64) $<

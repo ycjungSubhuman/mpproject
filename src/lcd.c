@@ -3,6 +3,10 @@
 #include "s3c_uart.h"
 #include "s3c6410.h"
 #include "scene.h"
+#include "util.h"
+#include "vic.h"
+#include "frame.h"
+#include "lcd.h"
 
 #define FIN 12000000
 #define LCD_PWR_CON GPNCON_REG
@@ -138,10 +142,30 @@ void set_lcd_pos(int ltx, int lty, int rbx, int rby){
   S3C_VIDOSD0B = S3C_VIDOSDxB_OSD_RBX_F(rbx- 1) |
     S3C_VIDOSDxB_OSD_RBY_F(rby- 1);
 }
+//this interrupt is called 60 times per sec
+//just before fetching video data onto lcd screen
+void vsync_interrupt_service_routine(void) {
+	static int serviced = 1;
+	unsigned temp;
+
+	temp = VIC0INTENABLE_REG;
+	VIC0INTENCLEAR_REG = 0xffffffff;
+
+	if (S3C_VIDINTCON1 | (1 << 1)) {
+		//just assert frame
+		//do not service per frame routine in interrupt context
+		//since it blocks other interrupts such as touch
+		frame_assert();
+		S3C_VIDINTCON1 = 0x2;
+	}
+	serviced++;
+
+	VIC0INTENABLE_REG = temp;
+}
 
 void drawing(int x, int y, int height, int width, int image[][width], int isredraw)
 {
-  unsigned int *phy_addr = FB_ADDR;
+  /*unsigned int *phy_addr = FB_ADDR;
   unsigned int pix;
   int i, j;
 
@@ -166,11 +190,11 @@ void drawing(int x, int y, int height, int width, int image[][width], int isredr
   }
 
   set_wincon0_enable();
-  set_vidcon0_enable(); 
+  set_vidcon0_enable(); */
 }
 void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][width])
 {
-  unsigned int *phy_addr = FB_ADDR;
+  /*unsigned int *phy_addr = FB_ADDR;
   int i, j;
   RECT colrect;
   RECT imagerect;
@@ -220,15 +244,15 @@ void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][w
       printf("colrect : %d %d %d %d\n\n\n\n\n\n\n", colrect.left, colrect.top, colrect.right, colrect.bottom);
 
   set_wincon0_enable();
-  set_vidcon0_enable(); 
+  set_vidcon0_enable();*/ 
 }
 
 void drawbackground(void)
 {
-    unsigned int *phy_addr = FB_ADDR;
+    /*unsigned int *phy_addr = FB_ADDR;
     unsigned int i;
     for(i=0; i< 800*480; i++)
-        phy_addr[i] = 0xaaaaaa;
+        phy_addr[i] = 0xaaaaaa;*/
 }
 
 void mango_lcd_init(void){
@@ -236,6 +260,15 @@ void mango_lcd_init(void){
     lcd_pwr_on();
     init_lcd_reg();
 
-  set_lcd_pos(0, 0, S3CFB_HRES, S3CFB_VRES);
+    set_lcd_pos(0, 0, S3CFB_HRES, S3CFB_VRES);
+    
+    frame_init();
+
+    set_wincon0_enable();
+    set_vidcon0_enable(); 
+
+    S3C_VIDINTCON0 |= (3 << 15) | (1 << 12) | 1;
+    VIC0INTENABLE_REG |= (1 << 30);
+    VIC0VECTADDR30 = (unsigned)vsync_interrupt_service_routine;
 }
 

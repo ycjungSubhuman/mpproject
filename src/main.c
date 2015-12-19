@@ -8,6 +8,7 @@
 #include <signal.h>
 #include "scene.h"
 #include "object.h"
+#include "frame.h"
 
 SCENE currscene;
 SCENE oldscene;
@@ -20,10 +21,12 @@ SCENE oldscene;
 
 static void mango_hw_init(void)
 {
+	disable_interrupts();
 	mango_uart_init(1, 115200);
 	mango_timer_init();
 	mango_interrupt_init();
 	mango_lcd_init();
+	enable_interrupts();
 }
 
 Player mc;
@@ -102,7 +105,7 @@ void touched(int x, int y)
 				stage = 1;
 				count = 0;
 				pattern = rand()%5;
-				drawbackground();
+				//drawbackground();
 				printf("player gen ready\n");
 				scene_additem(&mc);
 				printf("player genned\n");
@@ -115,13 +118,13 @@ void touched(int x, int y)
 		case 2:
 			if(hitTest(200, 200, 64, 64, x, y, 0, 0)) {
 				gamestate = 0;
-				drawbackground();
+				//drawbackground();
 			}
 			return;
 		case 3:
 			if(hitTest(300, 300, 16, 16, x, y, 0, 0)) {
 				gamestate = 0;
-				drawbackground();
+				//drawbackground();
 			}
 	}
 }
@@ -172,14 +175,14 @@ int main()
 	mc.img = 2;
 	currscene.size = 0;
 	oldscene.size = 0;
-	drawbackground();
+	//drawbackground();
 
 	mango_hw_init();
 	//signal(SIGSEGV, sigsegv_handler);
 
 	while(1){
-		scene_refresh();
 		if(interrupt == 1) {
+		frame_service();
 			interrupt = 0;
 			if(gamestate == 0) {
 				drawing(100, 100, height(mc.img), width(mc.img), img(mc.img), 0);
@@ -398,12 +401,12 @@ int main()
 				time++;
 			}
 			else if(gamestate == 2) {
-				drawbackground();
+				//drawbackground();
 				//drawing(200, 200, height(1), width(1), img(1));
 				printf ("GAME OVER!, score = %d\n", score);
 			}
 			else if(gamestate == 3) {
-				drawbackground();
+				//drawbackground();
 				//drawing(300, 300, height(2), width(2), img(2));
 				printf ("GAME CLEARED!, score = %d\n", score);
 			}

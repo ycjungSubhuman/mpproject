@@ -48,7 +48,7 @@ int width(int idx)
 	}
 }
 
-int **img(int idx)
+int *img(int idx)
 {
 	switch(idx) {
 		case 0:

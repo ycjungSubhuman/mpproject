@@ -118,7 +118,7 @@
 extern "C" {
 #endif
 
-int mango_uart_init(int chn, int baud);
+int uart_init(int chn, int baud);
 
 void mango_uart_putc(const char c);
 
