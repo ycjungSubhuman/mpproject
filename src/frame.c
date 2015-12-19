@@ -16,14 +16,14 @@
 
 static int frame_asserted = 0;
 
-static unsigned background[S3CFB_SIZE];
+unsigned background[S3CFB_SIZE];
 
 //vsync handling routines
 //two frame buffers are serviced
 //into lcd screen in an alternating manner
 //to avoid tearing (strange vertical lines on the screen)
 unsigned fb_odd[S3CFB_SIZE];
-static unsigned fb_even[S3CFB_SIZE];
+unsigned fb_even[S3CFB_SIZE];
 
 extern SCENE currscene;
 extern SCENE oldscene;
@@ -83,12 +83,13 @@ void frame_assert(void) {
 	frame_asserted = 1;
 }
 
+int parity = 0;
+
 static void implement_your_drawing_here(unsigned *fb);
 
 void frame_service(void) {
-	static int parity = 0;
 
-	/*if (frame_asserted) {
+	if (frame_asserted) {
 		//it is guaranteed that it is asserted 60 times per sec
 		//by lcd vsync timer interrupt
 		unsigned *fb_shown;
@@ -103,8 +104,8 @@ void frame_service(void) {
 		//and working on the other frame buffer
 
 		frame_asserted = 0;
-	}*/
-	implement_your_drawing_here(fb_odd);
+	}
+	//implement_your_drawing_here(fb_odd);
 }
 
 static void implement_your_drawing_here(unsigned *fb) 

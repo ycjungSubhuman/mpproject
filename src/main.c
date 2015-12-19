@@ -126,7 +126,11 @@ void nextStage()
 	}
 }
 extern unsigned fb_odd[S3CFB_SIZE];
+extern unsigned fb_even[S3CFB_SIZE];
 extern unsigned background[S3CFB_SIZE];
+
+unsigned *fb_now;
+extern int parity;
 /*
 gfx_bitblck(fb_odd, img(imagenum),
 S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);
@@ -223,7 +227,6 @@ int main()
 {
 	int i, j, debug;
 	char ch;
-	static int parity = 0;
 	time = 0;
 	interrupt = 0;
 	gamestate = 0;
@@ -252,20 +255,23 @@ int main()
 	while(1){
 		if(interrupt == 1) {
 			frame_service();
+			if(parity%2 == 0) fb_now = fb_odd;
+			else fb_now = fb_even;
+			printf("parity = %d", parity);
+			gfx_bitblck(fb_now, background, S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES, 0, 0);
 			interrupt = 0;
 //gfx_bitblck(fb_odd, img(banners.img), S3CFB_HRES, S3CFB_VRES, width(banners.img), height(banners.img), banners.x, banners.y);
-//gfx_bitblck(fb_odd, background, S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES, 0, 0);
 			if(gamestate == 0) {
-				gfx_bitblck(fb_odd, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
-				gfx_bitblck(fb_odd, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
+				gfx_bitblck(fb_now, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
+				gfx_bitblck(fb_now, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
 				bulletsCount = 0;
 				enemysCount = 0;
 			}
 			else if(gamestate == 1) {
 				debug = 0;
-				gfx_bitblck(fb_odd, img(mc.img), S3CFB_HRES, S3CFB_VRES, width(mc.img), height(mc.img), mc.x, mc.y);
-				gfx_bitblck(fb_odd, img(playertype.img), S3CFB_HRES, S3CFB_VRES, width(playertype.img), height(playertype.img), playertype.x, playertype.y);
-				gfx_bitblck(fb_odd, img(enemypattern.img), S3CFB_HRES, S3CFB_VRES, width(enemypattern.img), height(enemypattern.img), enemypattern.x, enemypattern.y);
+				gfx_bitblck(fb_now, img(mc.img), S3CFB_HRES, S3CFB_VRES, width(mc.img), height(mc.img), mc.x, mc.y);
+				gfx_bitblck(fb_now, img(playertype.img), S3CFB_HRES, S3CFB_VRES, width(playertype.img), height(playertype.img), playertype.x, playertype.y);
+				gfx_bitblck(fb_now, img(enemypattern.img), S3CFB_HRES, S3CFB_VRES, width(enemypattern.img), height(enemypattern.img), enemypattern.x, enemypattern.y);
 //printf ("time: %d, score = %d\n", time, score);
 //printf("Debug State %d!\n", debug++);
 				int temp, scores = score;
@@ -274,7 +280,7 @@ int main()
 					if(!(temp == 0 && scoretext[i].img == 18)) {
 						scoretext[i].img = temp+8;
 					}
-					gfx_bitblck(fb_odd, img(scoretext[i].img), S3CFB_HRES, S3CFB_VRES, width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y);
+					gfx_bitblck(fb_now, img(scoretext[i].img), S3CFB_HRES, S3CFB_VRES, width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y);
 					scores /= 10;
 				}
 //printf("Debug State %d!\n", debug++);
@@ -431,7 +437,7 @@ int main()
 						break;
 					}
 					if(enemys[i]->valid == 1) {
-						gfx_bitblck(fb_odd, img(enemys[i]->img), S3CFB_HRES, S3CFB_VRES, width(enemys[i]->img), height(enemys[i]->img), enemys[i]->x, enemys[i]->y);
+						gfx_bitblck(fb_now, img(enemys[i]->img), S3CFB_HRES, S3CFB_VRES, width(enemys[i]->img), height(enemys[i]->img), enemys[i]->x, enemys[i]->y);
 //drawing(enemys[i]->x, enemys[i]->y, height(enemys[i]->img), width(enemys[i]->img), img(enemys[i]->img));
 					}
 					if(enemys[i]->valid == 0) {
@@ -465,7 +471,7 @@ int main()
 					if(bullets[i]->y > 480) bullets[i]->valid = 0;
 					if(bullets[i]->y < 150) bullets[i]->valid = 0;
 					if(bullets[i]->valid == 1) {
-						gfx_bitblck(fb_odd, img(bullets[i]->img), S3CFB_HRES, S3CFB_VRES, width(bullets[i]->img), height(bullets[i]->img), bullets[i]->x, bullets[i]->y);
+						gfx_bitblck(fb_now, img(bullets[i]->img), S3CFB_HRES, S3CFB_VRES, width(bullets[i]->img), height(bullets[i]->img), bullets[i]->x, bullets[i]->y);
 //drawing(bullets[i]->x, bullets[i]->y, height(bullets[i]->img), width(bullets[i]->img), img(bullets[i]->img));
 					}
 					if(bullets[i]->valid == 0) {
@@ -482,15 +488,15 @@ int main()
 			}
 			else if(gamestate == 2) {
 				currentscene.img = 6;
-				gfx_bitblck(fb_odd, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
-				gfx_bitblck(fb_odd, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
+				gfx_bitblck(fb_now, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
+				gfx_bitblck(fb_now, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
 //drawbackground();
 //drawing(200, 200, height(1), width(1), img(1));
 //printf ("GAME OVER!, score = %d\n", score);
 			}
 			else if(gamestate == 3) {
-				gfx_bitblck(fb_odd, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
-				gfx_bitblck(fb_odd, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
+				gfx_bitblck(fb_now, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
+				gfx_bitblck(fb_now, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
 //drawbackground();
 //drawing(300, 300, height(2), width(2), img(2));
 //printf ("GAME CLEARED!, score = %d\n", score);
