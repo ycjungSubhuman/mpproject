@@ -43,7 +43,7 @@ int interrupt;
 int pattern;
 int count;
 
-OBJECT currentscene, scoretext[5], playertype, enemypattern;
+OBJECT currentscene, banners, startbutton, scoretext[5], playertype, enemypattern;
 
 
 void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
@@ -245,6 +245,12 @@ int main()
 	currentscene.x = 0;
 	currentscene.y = 0;
 	currentscene.img = 5;
+	scene_additem(&currentscene);
+
+	startbutton.x = 300;
+	startbutton.y = 300;
+	startbutton.img = 
+	scene_additem(&startbutton);
 
 	mc.x = 100;
 	mc.y = 100;
