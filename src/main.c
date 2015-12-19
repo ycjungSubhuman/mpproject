@@ -240,7 +240,6 @@ int main()
 {
 	int i, j, debug;
 	char ch;
-	static int parity = 0;
 
 	time = 0;
 	interrupt = 0;
@@ -274,13 +273,8 @@ int main()
 	scene_additem(&mc);
 
 	while(1){
+		frame_service();
 		if(interrupt == 1) {
-			if(parity){
-				frame_service();
-				parity = !parity;
-			}
-			else
-				parity = !parity;
 			interrupt = 0;
 			if(gamestate == 0) {
 				bulletsCount = 0;
