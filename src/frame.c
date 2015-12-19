@@ -45,7 +45,7 @@ void frame_init(void) {
 		y = i / S3CFB_HRES;
 
 		//background[i] = (((x >> 5) & 1) != ((y >> 5) & 1)) ? 0xFFFFFFFF : 0xFFD7D7D7;
-		background[i] = 0xffffff;
+		background[i] = 0x005A804D;
 		fb_odd[i] = background[i];
 		fb_even[i] = background[i];
 	}
@@ -99,19 +99,12 @@ void frame_service(void) {
 	}
 }
 
-static void implement_your_drawing_here(unsigned *fb) {
-
-
-	/*
-	simple drawing without stretching
-
-	gfx_bitblck(fb, (unsigned *)image, 
-			S3CFB_HRES, S3CFB_VRES, imagew, imageh, 
-			(int)(x), (int)y);
-	*/
+static void implement_your_drawing_here(unsigned *fb) 
+{
 	int i;
 	int size = currscene.size;
 	int x, y, z, imagenum;
+	static int parity = 0;
 
 	printf("scene size : %d\n", size);
 
@@ -119,31 +112,48 @@ static void implement_your_drawing_here(unsigned *fb) {
 	for(i=0; i<size; i++)
 	{
         //draw background
-        /*drawing(oldscene.list[i]->x, oldscene.list[i]->y,
-                height(oldscene.list[i]->img), width(oldscene.list[i]->img),
-                img(oldscene.list[i]->img), 1);*/
-                /*gfx_bitblck(fb, background, 
-                	S3CFB_HRES, S3CFB_VRES,
-                	width(oldscene.list[i]->img), height(oldscene.list[i]->img),
-                	oldscene.list[i]->x, oldscene.list[i]->y);*/
+		x = currscene.list[i]->x;
+		y = currscene.list[i]->y;
+		z = currscene.list[i]->z;
+		imagenum = currscene.list[i]->img;
 
-                x = currscene.list[i]->x;
-                y = currscene.list[i]->y;
-                z = currscene.list[i]->z;
-                imagenum = currscene.list[i]->img;
+		if(parity){
+			gfx_bitblck_ext(fb, background, 
+				oldscene.list[i]->x, oldscene.list[i]->y,
+				oldscene.list[i]->x+4*width(oldscene.list[i]->img), oldscene.list[i]->y+4*height(oldscene.list[i]->img),
+				S3CFB_HRES, S3CFB_VRES,
+				oldscene.list[i]->x, oldscene.list[i]-y,
+				oldscene.list[i]->x+width(oldscene.list[i]->img), oldscene.list[i]->y+height(oldscene.list[i]->img),
+				width(oldscene.list[i]->img), height(oldscene.list[i]->img));
 
-    //draw new things
-    //drawing(x, y, height(imagenum), width(imagenum), img(imagenum), 0)
-                gfx_bitblck(fb, (unsigned *)img(imagenum), 
-                	S3CFB_HRES, S3CFB_VRES,
-                	width(imagenum), height(imagenum),
-                	x, y);
+				//sync oldscene to the currscene
+			oldscene.list[i]->x = x;
+			oldscene.list[i]->y = y;
+			oldscene.list[i]->z = z;
+			oldscene.list[i]->img = imagenum;
+		}
+		else{
 
+			gfx_bitblck_ext(fb, background, 
+				oldsceneodd.list[i]->x, oldsceneodd.list[i]->y,
+				oldsceneodd.list[i]->x+4*width(oldscene.list[i]->img), oldsceneodd.list[i]->y+4*height(oldsceneodd.list[i]->img),
+				S3CFB_HRES, S3CFB_VRES,
+				oldsceneodd.list[i]->x, oldsceneodd.list[i]-y,
+				oldsceneodd.list[i]->x+width(oldsceneodd.list[i]->img), oldsceneodd.list[i]->y+height(oldsceneodd.list[i]->img),
+				width(oldsceneodd.list[i]->img), height(oldsceneodd.list[i]->img));
 
-    //sync oldscene to the currscene
-                oldscene.list[i]->x = x;
-                oldscene.list[i]->y = y;
-                oldscene.list[i]->z = z;
-                oldscene.list[i]->img = imagenum;
-    }
+				//sync oldscene to the currscene
+			oldsceneodd.list[i]->x = x;
+			oldsceneodd.list[i]->y = y;
+			oldsceneodd.list[i]->z = z;
+			oldsceneodd.list[i]->img = imagenum;
+		}
+
+                    //draw new things
+		gfx_bitblck_ext(fb, (unsigned *)img(imagenum), 
+			x, y, x+4*width(imagenum), y+4*height(imagenum),
+			S3CFB_HRES, S3CFB_VRES,
+			x, y, x+width(imagenum), y+height(imagenum),
+			width(imagenum), height(imagenum));
+	}
 }

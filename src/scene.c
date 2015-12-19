@@ -38,6 +38,7 @@
 //global scene
 extern SCENE currscene;
 extern SCENE oldscene;
+extern SCENE oldsceneodd;
 int prevsize=0;
 int skipnum = 50;
 
@@ -365,15 +366,23 @@ OBJECT* scene_additem(OBJECT* obj)
 
     //Register to curr and old
     currscene.list[size] = obj;
+    oldscene.list[size] = (OBJECT*)malloc(sizeof(OBJECT));
     oldscene.list[size]->x = obj->x;
     oldscene.list[size]->y = obj->y;
     oldscene.list[size]->z = obj->z;
     oldscene.list[size]->img = obj->img;
 
+    oldsceneodd.list[size] = (OBJECT*)malloc(sizeof(OBJECT));
+    oldsceneodd.list[size]->x = obj->x;
+    oldsceneodd.list[size]->y = obj->y;
+    oldsceneodd.list[size]->z = obj->z;
+    oldsceneodd.list[size]->img = obj->img;
+
     //increase size by one
     prevsize++;
     currscene.size++;
     oldscene.size++;
+    oldsceneodd.size++;
 
     return obj;
 }
@@ -384,19 +393,17 @@ OBJECT* scene_removeitem(OBJECT* obj)
     for(i=0; i<size; i++)
     {
         if(currscene.list[i] == obj){//matched
-            //redraw
-            drawing(oldscene.list[i]->x, oldscene.list[i]->y,
-                height(oldscene.list[i]->img), width(oldscene.list[i]->img),
-                img(oldscene.list[i]->img), 1);
-
             //delete
             delete_obj_from_array(currscene.list, i, size);
             free(oldscene.list[i]);
             delete_obj_from_array(oldscene.list, i, size);
+            free(oldsceneodd.list[i]);
+            delete_obj_from_array(oldsceneodd.list, i, size);
 
             //reduce size
             currscene.size--;
             oldscene.size--;
+            oldsceneodd.size--;
             //go back by one
             i--;
 
@@ -406,7 +413,7 @@ OBJECT* scene_removeitem(OBJECT* obj)
 
     return obj;
 }
-void scene_refresh()
+/*void scene_refresh()
 {
     int i;
     int size = currscene.size;
@@ -421,7 +428,7 @@ void scene_refresh()
         if(prevsize>currscene.size){
             /*drawing(oldscene.list[i]->x, oldscene.list[i]->y,
                     height(oldscene.list[i]->img), width(oldscene.list[i]->img),
-                    img(oldscene.list[i]->img), 1);*/
+                    img(oldscene.list[i]->img), 1);
             skipnum--;
             if(skipnum==0){
                 prevsize = currscene.size;
@@ -445,4 +452,4 @@ void scene_refresh()
         oldscene.list[i]->z = z;
         oldscene.list[i]->img = imagenum;
     }
-}
+}*/
