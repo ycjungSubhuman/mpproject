@@ -218,7 +218,7 @@ void clear_game()
 		scoretext[i].x = 280 + 50*i;
 		scoretext[i].y = 300;
 	}
-	currentscene.img = 6;
+	//currentscene.img = 6;
 //scene_additem(&currentscene);
 //scene_additem(&startbutton);
 }
