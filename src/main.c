@@ -314,8 +314,8 @@ scene_additem(&mc);
 					}
 					break;
 					case 3:
-					if(time % 5 == 0) {
-						bulletGenerate(mc.x, mc.y, 3, 100, 0, 2);
+					if(time % 3 == 0) {
+						bulletGenerate(mc.x, mc.y, 3, 20, 0, 2);
 					}
 					break;
 				}

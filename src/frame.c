@@ -53,11 +53,11 @@ void frame_init(void) {
 		y = i / S3CFB_HRES;
 
 		//background[i] = (((x >> 5) & 1) != ((y >> 5) & 1)) ? 0xFFFFFFFF : 0xFFD7D7D7;
-		background[i] = 0xFF5A804D;
+		background[i] = 0xffffffff;
 		fb_odd[i] = background[i];
 		fb_even[i] = background[i];
 	}
-	frame_set_fb(fb_odd);
+	frame_set_fb(fb_even);
 
 	/*for (i = 0; i < player_width * player_height; i++) {
 		int x, y, ds, limit;
@@ -88,7 +88,7 @@ int parity = 0;
 static void implement_your_drawing_here(unsigned *fb);
 
 void frame_service(void) {
-
+	int i;
 	if (frame_asserted) {
 		//it is guaranteed that it is asserted 60 times per sec
 		//by lcd vsync timer interrupt
@@ -104,7 +104,7 @@ void frame_service(void) {
 		//and working on the other frame buffer
 
 		frame_asserted = 0;
-	implement_your_drawing_here(fb_working);
+		implement_your_drawing_here(fb_working);
 	}
 }
 
@@ -119,8 +119,8 @@ static void implement_your_drawing_here(unsigned *fb)
  // VIC1INTENCLEAR_REG = 0xffffffff;
 		printf("scene size : %d\n", size);
 		gfx_bitblck(fb, background,
-			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES-80,
-			0, 80);
+			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES,
+			0, 0);
 
 
     //draw
