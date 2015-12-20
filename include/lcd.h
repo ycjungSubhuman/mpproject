@@ -44,7 +44,7 @@
 
 void drawbackground(void);
 void mango_lcd_init(void);
-void drawing(int x, int y, int height, int width, int image[][width], int isredraw);
+void drawing(int width, int height, int x, int y, unsigned int image[][width]);
 void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][width]);
 
 #endif

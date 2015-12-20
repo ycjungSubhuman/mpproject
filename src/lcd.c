@@ -33,7 +33,7 @@
 #define S3CFB_HRES_OSD      800 /* horizon pixel  x resolition */
 #define S3CFB_VRES_OSD      480 /* line cnt       y resolution */
 
-#define S3CFB_VFRAME_FREQ       40  /* frame rate freq */
+#define S3CFB_VFRAME_FREQ       60  /* frame rate freq */
 
 #define S3CFB_PIXEL_CLOCK   (S3CFB_VFRAME_FREQ * (S3CFB_HFP + S3CFB_HSW + S3CFB_HBP + S3CFB_HRES) * (S3CFB_VFP + S3CFB_VSW + S3CFB_VBP + S3CFB_VRES))
 
@@ -42,6 +42,8 @@
 #define PAGE_WIDTH  (S3CFB_HRES * BYTE_PER_PIXEL)
 
 #define FB_ADDR     0x5a000000
+
+extern unsigned int* fb_now;
 
 void lcd_pwr_on(void){
   LCD_PWR_CON  = (LCD_PWR_CON & ~(3<<18)) | (1<<18);
@@ -163,7 +165,7 @@ void vsync_interrupt_service_routine(void) {
 	VIC0INTENABLE_REG = temp;
 }
 
-void drawing(int x, int y, int height, int width, int image[][width], int isredraw)
+void drawing(int width, int height, int x, int y, unsigned int image[][width])
 {
   /*unsigned int *phy_addr = FB_ADDR;
   unsigned int pix;
@@ -173,24 +175,20 @@ void drawing(int x, int y, int height, int width, int image[][width], int isredr
   S3C_VIDW00ADD1B0 = S3C_VIDWxxADD1_VBASEL_F(FB_ADDR + 
     (PAGE_WIDTH + S3CFB_OFFSET) * S3CFB_VRES);
   S3C_VIDW00ADD2  = S3C_VIDWxxADD2_OFFSIZE_F(S3CFB_OFFSET) |
-    S3C_VIDWxxADD2_PAGEWIDTH_F(PAGE_WIDTH);
+    S3C_VIDWxxADD2_PAGEWIDTH_F(PAGE_WIDTH);*/
+  int i, j;
 
   for(i = 0; i<height; i++)
   {
     for(j = 0; j<width; j++)
     {
-        if(isredraw)//if background
-        {
-            if(image[i][j] != MASK_COLOR)
-                phy_addr[800*(i+y)+j+x] = 0xaaaaaa;
-        }
-        else if((pix=image[i][j]) != MASK_COLOR)//mask background color
-            phy_addr[800*(i+y)+j+x] = pix;
+        if((image[i][j] & 0xFF000000) != 0)//mask background color
+          fb_now[800*(i+y)+j+x] = image[i][j];
     }
   }
 
-  set_wincon0_enable();
-  set_vidcon0_enable(); */
+  /*set_wincon0_enable();
+  set_vidcon0_enable();*/
 }
 void draw_part(RECT rectmask, int x, int y, int height, int width, int image[][width])
 {

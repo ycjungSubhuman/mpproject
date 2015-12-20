@@ -28,6 +28,7 @@ unsigned fb_even[S3CFB_SIZE];
 extern SCENE currscene;
 extern SCENE oldscene;
 extern SCENE oldsceneodd;
+extern unsigned int * fb_now;
 
 
 int frame_is_asserted(void) {
@@ -89,7 +90,7 @@ static void implement_your_drawing_here(unsigned *fb);
 
 void frame_service(void) {
 
-	/*if (frame_asserted) {
+	if (frame_asserted) {
 		//it is guaranteed that it is asserted 60 times per sec
 		//by lcd vsync timer interrupt
 		unsigned *fb_shown;
@@ -104,8 +105,8 @@ void frame_service(void) {
 		//and working on the other frame buffer
 
 		frame_asserted = 0;
-	}*/
-	implement_your_drawing_here(fb_odd);
+	}
+	implement_your_drawing_here(fb_now);
 }
 
 static void implement_your_drawing_here(unsigned *fb) 
@@ -113,17 +114,17 @@ static void implement_your_drawing_here(unsigned *fb)
 	int i;
 	int size = currscene.size;
 	int x, y, z, imagenum;
-	static int parity = 0;
+	static int parity11 = 0;
 	unsigned int temp;
 
  // temp = VIC1INTENABLE_REG;
  // VIC1INTENCLEAR_REG = 0xffffffff;
-	if(parity % 2 == 0){
+	if(parity11 % 1 == 0){
 		printf("scene size : %d\n", size);
 		gfx_bitblck(fb, background,
 			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES,
 			0, 0);
-		parity++;
+		parity11++;
 		return;
 	}
 
@@ -185,7 +186,7 @@ static void implement_your_drawing_here(unsigned *fb)
 			gfx_bitblck(fb, img(imagenum),
 				S3CFB_HRES, S3CFB_VRES, width(imagenum), height(imagenum), x, y);
 		}
-		parity++;
+		parity11++;
 	}
 //  VIC1INTENABLE_REG = temp;
 }

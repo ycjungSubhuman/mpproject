@@ -49,7 +49,7 @@ void enlarge_all()
 	int i, j, k, l;
 	int count;
 	//enemy
-	/*printf("enemy\n");
+	printf("enemy\n");
 	temp = (unsigned int*)malloc(4 * enemy_width * enemy_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<enemy_height; i++)
@@ -107,9 +107,9 @@ void enlarge_all()
 	}
 	bullet_width *= 2;
 	bullet_height *= 2;
-	bullet = temp;*/
+	bullet = temp;
 		//enemy
-	/*temp = (unsigned int*)malloc(4* banner_width * banner_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(4* banner_width * banner_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<banner_height; i++)
 	{
@@ -126,7 +126,7 @@ void enlarge_all()
 	}
 	banner_width *= 2;
 	banner_height *= 2;
-	banner = temp;*/
+	banner = temp;
 		//enemy
 	temp = (unsigned int*)malloc(16* mains_width * mains_height * sizeof(unsigned int));
 	count = 0;
@@ -184,7 +184,7 @@ void enlarge_all()
 	gameclear_width *= 4;
 	gameclear_height *= 4;
 	gameclear = temp;
-	/*
+	
 		temp = (unsigned int*)malloc(4* zeroa_width * zeroa_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<zeroa_height; i++)
@@ -397,7 +397,7 @@ void enlarge_all()
 				}
 			}
 		}
-	}*
+	}
 	way3_width *= 2;
 	way3_height *= 2;
 	way3 = temp;
@@ -544,7 +544,7 @@ void enlarge_all()
 	}
 	pattern5_width *= 2;
 	pattern5_height *= 2;
-	pattern5 = temp;*/
+	pattern5 = temp;
 		temp = (unsigned int*)malloc(16* start_width * start_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<start_height; i++)
