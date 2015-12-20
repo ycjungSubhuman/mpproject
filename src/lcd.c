@@ -33,7 +33,7 @@
 #define S3CFB_HRES_OSD      800 /* horizon pixel  x resolition */
 #define S3CFB_VRES_OSD      480 /* line cnt       y resolution */
 
-#define S3CFB_VFRAME_FREQ       60  /* frame rate freq */
+#define S3CFB_VFRAME_FREQ       50  /* frame rate freq */
 
 #define S3CFB_PIXEL_CLOCK   (S3CFB_VFRAME_FREQ * (S3CFB_HFP + S3CFB_HSW + S3CFB_HBP + S3CFB_HRES) * (S3CFB_VFP + S3CFB_VSW + S3CFB_VBP + S3CFB_VRES))
 
@@ -55,19 +55,19 @@ void lcd_Pwr_off(void){
 }
      
 void lcd_bl_on(int level){
-  LCD_BL_CON = (LCD_BL_CON & ~(3<<30)) | (2<<30); 
+  LCD_BL_CON = (LCD_BL_CON & ~(3<<28)) | (2<<28); 
 
-  TCFG0_REG = (TCFG0_REG & ~(0xFF)) | 0xFF;
-  TCFG1_REG = (TCFG1_REG & ~(0xF<<4)) | (4<<4);
+  //TCFG0_REG = (TCFG0_REG & ~(0xFF)) | 0xFF;
+  TCFG1_REG = (TCFG1_REG & ~(0xF)) | (4);
            
-  TCNTB1_REG = MAX_BL_LEV;
+  TCNTB0_REG = MAX_BL_LEV;
   if(level >= MAX_BL_LEV)
-    TCMPB1_REG = MAX_BL_LEV-1;
+    TCMPB0_REG = MAX_BL_LEV-1;
   else
-    TCMPB1_REG = level;
+    TCMPB0_REG = level;
   
-  TCON_REG |= (1<<9);
-  TCON_REG = (TCON_REG & ~(0xF<<8)) | (1<<11) | (1<<8) ;
+  TCON_REG |= (1<<1);
+  TCON_REG = (TCON_REG & ~(0xF)) | (1<<3) | (1) ;
 }
 
 unsigned int get_hclk(void){

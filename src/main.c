@@ -202,21 +202,21 @@ void clear_game()
 	int i, debug = 0;
 	for(i = 0; i < enemysCount; i++)
 	{
-//scene_removeitem(enemys[i]);
+scene_removeitem(enemys[i]);
 		free(enemys[i]);
 	}
 	for(i = 0; i < bulletsCount; i++) {
-//scene_removeitem(bullets[i]);
+scene_removeitem(bullets[i]);
 		free(bullets[i]);
 	}
 	enemysCount = 0;
 	bulletsCount = 0;
 	oldscene.list[0]->staged = 0;
-//scene_removeitem(&playertype);
-//scene_removeitem(&enemypattern);
+scene_removeitem(&playertype);
+scene_removeitem(&enemypattern);
 	for(i = 0; i < 5; i++) {
 		scoretext[i].x = 280 + 50*i;
-		scoretext[i].y = 300;
+		scoretext[i].y = 225;
 	}
 	//currentscene.img = 6;
 scene_additem(&currentscene);
@@ -252,14 +252,10 @@ scene_additem(&startbutton);
 	mc.y = 200;
 scene_additem(&mc);
 
-	fb_now = fb_odd;
 
 	while(1){
-		if(interrupt == 1) {
 			frame_service();
-			if(parity%2 == 0) fb_now = fb_odd;
-			else fb_now = fb_even;
-			printf("parity = %d", parity);
+		if(interrupt == 1) {
 			//gfx_bitblck(fb_now, background, S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES, 0, 0);
 			interrupt = 0;
 //gfx_bitblck(fb_odd, img(banners.img), S3CFB_HRES, S3CFB_VRES, width(banners.img), height(banners.img), banners.x, banners.y);

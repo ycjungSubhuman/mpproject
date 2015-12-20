@@ -9,6 +9,8 @@ void gfx_bitblck_ext(unsigned *dest, unsigned *src,
 		int sx1, int sy1, int sx2, int sy2,
 		int srcw, int srch) {
 	int stretch = 0;
+    
+    while (GFXFIFOSTAT & 0x7E);
 
 	GFXCOORD0 = sx1 | (sy1 << 16);
 	GFXCOORD1 = (sx2-1) | ((sy2-1) << 16);
