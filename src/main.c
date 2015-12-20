@@ -308,7 +308,7 @@ scene_additem(&mc);
 					}
 					break;
 					case 2:
-					if(time % 7 == 0) {
+					if(time % 10 == 0) {
 						bulletGenerate(mc.x, mc.y-8, 3, 25, 0, 1);
 						bulletGenerate(mc.x, mc.y+56, 3, 25, 0, 1);
 					}
@@ -324,13 +324,13 @@ scene_additem(&mc);
 				switch(pattern) {
 //printf("Generating Enemies");
 					case 0:
-					if(time % (45-stage) == 0) {
+					if(time % (35-stage) == 0) {
 						if(count <= 5) {
 							enemyGenerate(740, 150+rand()%100, 1, -2 - rand()%5 - stage, 0, 3);
 							enemyGenerate(740, 250+rand()%100, 1, -2- stage - rand()%5, 0, 3);
 							enemyGenerate(740, 350+rand()%100, 1, -2- stage - rand()%5, 0, 3);
 						}
-						if(count > 7) {
+						if(count > 8) {
 							nextStage();
 						}
 						count++;
@@ -455,7 +455,7 @@ scene_additem(&mc);
 						case 2:
 						if(enemys[i]->timer % (39-stage) == 2) {
 							int size = (int)SQRT((mc.x-enemys[i]->x)*(mc.x-enemys[i]->x)+(mc.y-enemys[i]->y)*(mc.y-enemys[i]->y));
-							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, (mc.x-enemys[i]->x)*(4+stage*2)/size, (mc.y-enemys[i]->y)*(4+stage*2)/size, 4);
+							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, (mc.x-enemys[i]->x)*(4+stage*2)/size, (mc.y-(enemys[i]->y+24))*(4+stage*2)/size, 4);
 						}
 						case 3:
 						if(enemys[i]->timer % (39-stage) == 2) {
@@ -503,7 +503,7 @@ scene_removeitem(enemys[i]);
 						break;
 						case 5:
 						bullets[i]->x += bullets[i]->xspeed;
-						bullets[i]->y = bullets[i]->oy + sin((float)bullets[i]->yspeed/10) * (0+stage*5);
+						bullets[i]->y = bullets[i]->oy + sin((float)bullets[i]->yspeed/10) * (10+stage*5);
 						bullets[i]->yspeed++;
 						break;
 					}
