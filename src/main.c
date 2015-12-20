@@ -53,7 +53,7 @@ void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	enemys[enemysCount]->type = type;
 	enemys[enemysCount]->valid = 1;
 	printf("Enemy gen ready\n");
-//scene_additem(enemys[enemysCount]);
+scene_additem(enemys[enemysCount]);
 	printf("Enemy gened\n");
 	enemysCount++;
 }
@@ -69,7 +69,7 @@ void bulletGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	bullets[bulletsCount]->type = type;
 	bullets[bulletsCount]->valid = 1;
 	printf("bullet gen ready \n");
-//scene_additem(bullets[bulletsCount]);
+scene_additem(bullets[bulletsCount]);
 	printf("bullet gened\n");
 	bulletsCount++;
 }
@@ -132,7 +132,7 @@ extern unsigned background[S3CFB_SIZE];
 unsigned *fb_now;
 extern int parity;
 /*
-drawing(S, width(imagenum), height(imagenum), x, y);
+//drawing(S, width(imagenum), height(imagenum), x, y);
 */
 void touched(int x, int y)
 {
@@ -153,17 +153,17 @@ void touched(int x, int y)
 				scoretext[i].img = 18;
 				scoretext[i].x = 280 + 50*i;
 				scoretext[i].y = 80;
-//scene_additem(&scoretext[i]);
+scene_additem(&scoretext[i]);
 			}
-//scene_removeitem(&startbutton);
-//scene_removeitem(&currentscene);
+scene_removeitem(&startbutton);
+scene_removeitem(&currentscene);
 			enemypattern.x = 550;
 			enemypattern.y = 80;
 			playertype.x = 30;
 			playertype.y = 80;
 			nextStage();
-//scene_additem(&playertype);
-//scene_additem(&enemypattern);
+scene_additem(&playertype);
+scene_additem(&enemypattern);
 			currentscene.img = 4;
 //drawbackground();
 			printf("player gen ready\n");
@@ -178,7 +178,7 @@ void touched(int x, int y)
 		if(hitTest(300, 300, 200, 120, x, y, 0, 0)) {
 			gamestate = 0;
 			for(i = 0; i < 5; i++) {
-//scene_removeitem(&scoretext[i]);
+scene_removeitem(&scoretext[i]);
 			}
 			currentscene.img = 5;
 		}
@@ -187,7 +187,7 @@ void touched(int x, int y)
 		if(hitTest(300, 300, 200, 120, x, y, 0, 0)) {
 			gamestate = 0;
 			for(i = 0; i < 5; i++) {
-//scene_removeitem(&scoretext[i]);
+scene_removeitem(&scoretext[i]);
 			}
 			currentscene.img = 5;
 		}
@@ -219,8 +219,8 @@ void clear_game()
 		scoretext[i].y = 300;
 	}
 	//currentscene.img = 6;
-//scene_additem(&currentscene);
-//scene_additem(&startbutton);
+scene_additem(&currentscene);
+scene_additem(&startbutton);
 }
 int main()
 {
@@ -239,18 +239,18 @@ int main()
 	currentscene.x = 300;
 	currentscene.y = 100;
 	currentscene.img = 5;
-//scene_additem(&currentscene);
 	banners.x = 0;
 	banners.y = 0;
 	banners.img = 4;
-//scene_additem(&banners);
+scene_additem(&banners);
+scene_additem(&currentscene);
 	startbutton.x = 300;
 	startbutton.y = 300;
 	startbutton.img = 28;
-//scene_additem(&startbutton);
+scene_additem(&startbutton);
 	mc.x = 100;
 	mc.y = 200;
-//scene_additem(&mc);
+scene_additem(&mc);
 
 	fb_now = fb_odd;
 
@@ -265,20 +265,20 @@ int main()
 //gfx_bitblck(fb_odd, img(banners.img), S3CFB_HRES, S3CFB_VRES, width(banners.img), height(banners.img), banners.x, banners.y);
 			if(gamestate == 0) {
 			
-			drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
+			//drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
 			
-			drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
+			//drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
 				bulletsCount = 0;
 				enemysCount = 0;
 			}
 			else if(gamestate == 1) {
 				debug = 0;
 			
-			drawing(width(mc.img), height(mc.img), mc.x, mc.y, img(mc.img));
+			//drawing(width(mc.img), height(mc.img), mc.x, mc.y, img(mc.img));
 			
-			drawing(width(playertype.img), height(playertype.img), playertype.x, playertype.y, img(playertype.img));
+			//drawing(width(playertype.img), height(playertype.img), playertype.x, playertype.y, img(playertype.img));
 			
-			drawing(width(enemypattern.img), height(enemypattern.img), enemypattern.x, enemypattern.y, img(enemypattern.img));
+			//drawing(width(enemypattern.img), height(enemypattern.img), enemypattern.x, enemypattern.y, img(enemypattern.img));
 //printf ("time: %d, score = %d\n", time, score);
 //printf("Debug State %d!\n", debug++);
 				int temp, scores = score;
@@ -288,7 +288,7 @@ int main()
 						scoretext[i].img = temp+8;
 					}
 				
-				drawing(width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y, img(scoretext[i].img));
+				//drawing(width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y, img(scoretext[i].img));
 					scores /= 10;
 				}
 //printf("Debug State %d!\n", debug++);
@@ -446,12 +446,12 @@ int main()
 					}
 					if(enemys[i]->valid == 1) {
 					
-					drawing(width(enemys[i]->img), height(enemys[i]->img), enemys[i]->x, enemys[i]->y, img(enemys[i]->img));
-//drawing(->img), width(enemys[i]->img), img(enemys[i]->img));
+					//drawing(width(enemys[i]->img), height(enemys[i]->img), enemys[i]->x, enemys[i]->y, img(enemys[i]->img));
+////drawing(->img), width(enemys[i]->img), img(enemys[i]->img));
 					}
 					if(enemys[i]->valid == 0) {
 						enemysCount--;
-//scene_removeitem(enemys[i]);
+scene_removeitem(enemys[i]);
 						free(enemys[i]);
 						for(j = i; j < enemysCount; j++) {
 							enemys[j] = enemys[j+1];
@@ -481,12 +481,12 @@ int main()
 					if(bullets[i]->y < 150) bullets[i]->valid = 0;
 					if(bullets[i]->valid == 1) {
 					
-					drawing(width(bullets[i]->img), height(bullets[i]->img), bullets[i]->x, bullets[i]->y, img(bullets[i]->img));
-//drawing([i]->img), width(bullets[i]->img), img(bullets[i]->img));
+					//drawing(width(bullets[i]->img), height(bullets[i]->img), bullets[i]->x, bullets[i]->y, img(bullets[i]->img));
+////drawing([i]->img), width(bullets[i]->img), img(bullets[i]->img));
 					}
 					if(bullets[i]->valid == 0) {
 						bulletsCount--;
-//scene_removeitem(bullets[i]);
+scene_removeitem(bullets[i]);
 						free(bullets[i]);
 						for(j = i; j < bulletsCount; j++) {
 							bullets[j] = bullets[j+1];
@@ -499,19 +499,19 @@ int main()
 			else if(gamestate == 2) {
 				currentscene.img = 6;
 			
-			drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
+			//drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
 			
-			drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
+			//drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
 //drawbackground();
-//drawing(intf ("GAME OVER!, score = %d\n", score);
+////drawing(intf ("GAME OVER!, score = %d\n", score);
 			}
 			else if(gamestate == 3) {
 			
-			drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
+			//drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
 			
-			drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
+			//drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
 //drawbackground();
-//drawing(intf ("GAME CLEARED!, score = %d\n", score);
+////drawing(intf ("GAME CLEARED!, score = %d\n", score);
 			}
 		}
 //ch = getchar();

@@ -109,23 +109,23 @@ void enlarge_all()
 	bullet_height *= 2;
 	bullet = temp;
 		//enemy
-	temp = (unsigned int*)malloc(4* banner_width * banner_height * sizeof(unsigned int));
+	temp = (unsigned int*)malloc(16* banner_width * banner_height * sizeof(unsigned int));
 	count = 0;
 	for(i=0; i<banner_height; i++)
 	{
-		for(l=0; l<2; l++)
+		for(l=0; l<4; l++)
 		{
 			for(j=0; j<banner_width; j++)
 			{
-				for(k=0; k<2; k++)
+				for(k=0; k<4; k++)
 				{
 					temp[count++] = ((unsigned int*)banner)[banner_width*i+j];
 				}
 			}
 		}
 	}
-	banner_width *= 2;
-	banner_height *= 2;
+	banner_width *= 4;
+	banner_height *= 4;
 	banner = temp;
 		//enemy
 	temp = (unsigned int*)malloc(16* mains_width * mains_height * sizeof(unsigned int));
