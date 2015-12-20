@@ -265,20 +265,20 @@ int main()
 //gfx_bitblck(fb_odd, img(banners.img), S3CFB_HRES, S3CFB_VRES, width(banners.img), height(banners.img), banners.x, banners.y);
 			if(gamestate == 0) {
 			
-			drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
+			gfx_bitblck(fb_now, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
 			
-			drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
+			gfx_bitblck(fb_now, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
 				bulletsCount = 0;
 				enemysCount = 0;
 			}
 			else if(gamestate == 1) {
 				debug = 0;
 			
-			drawing(width(mc.img), height(mc.img), mc.x, mc.y, img(mc.img));
+			gfx_bitblck(fb_now, img(mc.img), S3CFB_HRES, S3CFB_VRES, width(mc.img), height(mc.img), mc.x, mc.y);
 			
-			drawing(width(playertype.img), height(playertype.img), playertype.x, playertype.y, img(playertype.img));
+			gfx_bitblck(fb_now, img(playertype.img), S3CFB_HRES, S3CFB_VRES, width(playertype.img), height(playertype.img), playertype.x, playertype.y);
 			
-			drawing(width(enemypattern.img), height(enemypattern.img), enemypattern.x, enemypattern.y, img(enemypattern.img));
+			gfx_bitblck(fb_now, img(enemypattern.img), S3CFB_HRES, S3CFB_VRES,  width(enemypattern.img), height(enemypattern.img), enemypattern.x, enemypattern.y);
 //printf ("time: %d, score = %d\n", time, score);
 //printf("Debug State %d!\n", debug++);
 				int temp, scores = score;
@@ -288,7 +288,7 @@ int main()
 						scoretext[i].img = temp+8;
 					}
 				
-				drawing(width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y, img(scoretext[i].img));
+				gfx_bitblck(fb_now, img(scoretext[i].img), S3CFB_HRES, S3CFB_VRES,  width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y);
 					scores /= 10;
 				}
 //printf("Debug State %d!\n", debug++);
@@ -446,7 +446,7 @@ int main()
 					}
 					if(enemys[i]->valid == 1) {
 					
-					drawing(width(enemys[i]->img), height(enemys[i]->img), enemys[i]->x, enemys[i]->y, img(enemys[i]->img));
+					gfx_bitblck(fb_now, img(enemys[i]->img), width(enemys[i]->img), S3CFB_HRES, S3CFB_VRES,  height(enemys[i]->img), enemys[i]->x, enemys[i]->y);
 //drawing(->img), width(enemys[i]->img), img(enemys[i]->img));
 					}
 					if(enemys[i]->valid == 0) {
@@ -481,7 +481,7 @@ int main()
 					if(bullets[i]->y < 150) bullets[i]->valid = 0;
 					if(bullets[i]->valid == 1) {
 					
-					drawing(width(bullets[i]->img), height(bullets[i]->img), bullets[i]->x, bullets[i]->y, img(bullets[i]->img));
+					gfx_bitblck(fb_now, img(bullets[i]->img), S3CFB_HRES, S3CFB_VRES, width(bullets[i]->img), height(bullets[i]->img), bullets[i]->x, bullets[i]->y);
 //drawing([i]->img), width(bullets[i]->img), img(bullets[i]->img));
 					}
 					if(bullets[i]->valid == 0) {
@@ -499,17 +499,17 @@ int main()
 			else if(gamestate == 2) {
 				currentscene.img = 6;
 			
-			drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
+			gfx_bitblck(fb_now, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
 			
-			drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
+			gfx_bitblck(fb_now, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
 //drawbackground();
 //drawing(intf ("GAME OVER!, score = %d\n", score);
 			}
 			else if(gamestate == 3) {
 			
-			drawing(width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y, img(currentscene.img));
+			gfx_bitblck(fb_now, img(currentscene.img), S3CFB_HRES, S3CFB_VRES, width(currentscene.img), height(currentscene.img), currentscene.x, currentscene.y);
 			
-			drawing(width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y, img(startbutton.img));
+			gfx_bitblck(fb_now, img(startbutton.img), S3CFB_HRES, S3CFB_VRES, width(startbutton.img), height(startbutton.img), startbutton.x, startbutton.y);
 //drawbackground();
 //drawing(intf ("GAME CLEARED!, score = %d\n", score);
 			}
