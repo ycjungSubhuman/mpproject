@@ -119,8 +119,8 @@ static void implement_your_drawing_here(unsigned *fb)
  // VIC1INTENCLEAR_REG = 0xffffffff;
 		printf("scene size : %d\n", size);
 		gfx_bitblck(fb, background,
-			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES-85,
-			0, 85);
+			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES-80,
+			0, 80);
 
 
     //draw
