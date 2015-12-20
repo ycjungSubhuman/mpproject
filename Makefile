@@ -2,7 +2,7 @@
 MAKE=make
 RM=rm
 MKDIR=mkdir
-CC=arm-none-eabi-gcc
+CC=arm-none-eabi-gcc -O2
 CP=cp
 
 OUTDIR=Debug

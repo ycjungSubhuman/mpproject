@@ -10,6 +10,7 @@
 #include "object.h"
 #include "frame.h"
 #include "s3c6410.h"
+#include "util.h"
 SCENE currscene;
 SCENE oldscene;
 SCENE oldsceneodd;
@@ -52,6 +53,7 @@ void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	enemys[enemysCount]->yspeed = yspeed;
 	enemys[enemysCount]->type = type;
 	enemys[enemysCount]->valid = 1;
+	enemys[enemysCount]->timer = rand()%50;
 	printf("Enemy gen ready\n");
 scene_additem(enemys[enemysCount]);
 	printf("Enemy gened\n");
@@ -67,6 +69,7 @@ void bulletGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	bullets[bulletsCount]->xspeed = xspeed;
 	bullets[bulletsCount]->yspeed = yspeed;
 	bullets[bulletsCount]->type = type;
+	bullets[bulletsCount]->oy = y;
 	bullets[bulletsCount]->valid = 1;
 	printf("bullet gen ready \n");
 scene_additem(bullets[bulletsCount]);
@@ -82,7 +85,7 @@ for(i=0; i<10; i++) { x = (x + (input / x)) / 2 ; } // 이 한줄 땜에 주말�
 }
 void nextStage()
 {
-	if(stage == 5) {
+	if(stage == 10) {
 		gamestate = 3;
 		currentscene.img = 7;
 		clear_game();
@@ -269,7 +272,6 @@ scene_additem(&mc);
 			}
 			else if(gamestate == 1) {
 				debug = 0;
-			
 			//drawing(width(mc.img), height(mc.img), mc.x, mc.y, img(mc.img));
 			
 			//drawing(width(playertype.img), height(playertype.img), playertype.x, playertype.y, img(playertype.img));
@@ -287,30 +289,34 @@ scene_additem(&mc);
 				//drawing(width(scoretext[i].img), height(scoretext[i].img), scoretext[i].x, scoretext[i].y, img(scoretext[i].img));
 					scores /= 10;
 				}
+				score += stage;
 //printf("Debug State %d!\n", debug++);
 				switch(mc.type) {
 // printf("Generating Player Bullets\n");
 					case 0:
 					if(time % 20 == 0) {
-						bulletGenerate(mc.x, mc.y+24, 3, 30, 0, 0);
-						bulletGenerate(mc.x, mc.y+24, 3, 30, 5, 0);
-						bulletGenerate(mc.x, mc.y+24, 3, 30, -5, 0);
+						bulletGenerate(mc.x, mc.y+24, 3, 25, 0, 0);
+						bulletGenerate(mc.x, mc.y+24, 3, 25, 5, 0);
+						bulletGenerate(mc.x, mc.y+24, 3, 25, -5, 0);
 					}
 					break;
 					case 1:
 					if(time % 15 == 0) {
-						bulletGenerate(mc.x, mc.y-8, 3, 30, 0, 0);
-						bulletGenerate(mc.x, mc.y+24, 3, 30, 0, 0);
-						bulletGenerate(mc.x, mc.y+56, 3, 30, 0, 0);
+						bulletGenerate(mc.x, mc.y-8, 3, 20, 0, 3);
+						bulletGenerate(mc.x, mc.y+24, 3, 20, 0, 3);
+						bulletGenerate(mc.x, mc.y+56, 3, 20, 0, 3);
 					}
 					break;
 					case 2:
 					if(time % 15 == 0) {
-						bulletGenerate(mc.x, mc.y-8, 3, 30, 0, 1);
-						bulletGenerate(mc.x, mc.y+56, 3, 30, 0, 1);
+						bulletGenerate(mc.x, mc.y-8, 3, 25, 0, 1);
+						bulletGenerate(mc.x, mc.y+56, 3, 25, 0, 1);
 					}
 					break;
 					case 3:
+					if(time % 5 == 0) {
+						bulletGenerate(mc.x, mc.y, 3, 400, 0, 2);
+					}
 					break;
 				}
 //printf("Generated Plyer Bullets\n");
@@ -318,35 +324,11 @@ scene_additem(&mc);
 				switch(pattern) {
 //printf("Generating Enemies");
 					case 0:
-					if(time % 40 == 0) {
+					if(time % (45-stage) == 0) {
 						if(count <= 5) {
-							enemyGenerate(740, 150+rand()%100, 1, -5 - rand()%5, 0, 1);
-							enemyGenerate(740, 250+rand()%100, 1, -5 - rand()%5, 0, 1);
-							enemyGenerate(740, 350+rand()%100, 1, -5 - rand()%5, 0, 1);
-						}
-						if(count > 6) {
-							nextStage();
-						}
-						count++;
-					}
-					break;
-					case 1:
-					if(time % 3 == 0) {
-						if(count <= 30) {
-							enemyGenerate(740, 200+rand()%250, 1, -5 - rand()%5, rand()%5-2, 0);
-						}
-						if(count > 40) {
-							nextStage();
-						}
-						count++;
-					}
-					break;
-					case 2:
-					if(time % 30 == 0) {
-						if(count <= 5) {
-							enemyGenerate(740, 150+rand()%100, 1, -5 - rand()%5, 0, 2);
-							enemyGenerate(740, 250+rand()%100, 1, -5 - rand()%5, 0, 2);
-							enemyGenerate(740, 350+rand()%100, 1, -5 - rand()%5, 0, 2);
+							enemyGenerate(740, 150+rand()%100, 1, -2 - rand()%5 - stage, 0, 3);
+							enemyGenerate(740, 250+rand()%100, 1, -2- stage - rand()%5, 0, 3);
+							enemyGenerate(740, 350+rand()%100, 1, -2- stage - rand()%5, 0, 3);
 						}
 						if(count > 7) {
 							nextStage();
@@ -354,24 +336,48 @@ scene_additem(&mc);
 						count++;
 					}
 					break;
+					case 1:
+					if(time % (4-stage/5) == 0) {
+						if(count <= 30) {
+							enemyGenerate(740, 200+rand()%250, 1, -2 - rand()%5 - stage, rand()%5-2, 0);
+						}
+						if(count > 60) {
+							nextStage();
+						}
+						count++;
+					}
+					break;
+					case 2:
+					if(time % (35-stage) == 0) {
+						if(count <= 5) {
+							enemyGenerate(740, 150+rand()%100, 1, -2 - rand()%5 - stage, 0, 2);
+							enemyGenerate(740, 250+rand()%100, 1, -2 - rand()%5 - stage, 0, 2);
+							enemyGenerate(740, 350+rand()%100, 1, -2 - rand()%5 - stage, 0, 2);
+						}
+						if(count > 8) {
+							nextStage();
+						}
+						count++;
+					}
+					break;
 					case 3:
-					if(time % 20 == 0) {
+					if(time % (25-stage) == 0) {
 						if(count <= 10) {
 							enemyGenerate(700, 150, 1, 0, 5, 1);
 							enemyGenerate(600, 450, 1, 0, -5, 2);
 						}
-						if(count > 13) {
+						if(count > 14) {
 							nextStage();
 						}
 						count++;
 					}
 					break;
 					case 4:
-					if(time % 8 == 0) {
+					if(time % (10-stage/2) == 0) {
 						if(count <= 20) {
-							enemyGenerate(740, 150+rand()%350, 1, -5 - rand()%5, rand()%5 - 2, rand()%3);
+							enemyGenerate(740, 150+rand()%350, 1, -2- stage - rand()%5, rand()%5 - 2, rand()%4);
 						}
-						if(count > 35) {
+						if(count > 30) {
 							nextStage();
 						}
 						count++;
@@ -384,7 +390,7 @@ scene_additem(&mc);
 					if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, mc.x+4, mc.y+4, 8, 8)) {
 						if(mc.type == 3) {
 							enemys[i]->valid = 0;
-							score++;
+							score += 311;
 							break;
 						}
 						else {
@@ -395,11 +401,11 @@ scene_additem(&mc);
 						}
 					}
 					for(j = 0; j < bulletsCount; j++) {
-						if(bullets[j]->type <= 1) {
+						if(bullets[j]->type <= 3) {
 							if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, bullets[j]->x, bullets[j]->y, 4, 4)) {
 								enemys[i]->valid = 0;
 								bullets[j]->valid = 0;
-								score++;
+								score += 117;
 								break;
 							}
 						}
@@ -407,7 +413,18 @@ scene_additem(&mc);
 				}
 //printf("Debug State %d!\n", debug++);
 				for(j = 0; j < bulletsCount; j++) {
-					if(bullets[j]->type >= 2) {
+					if(bullets[j]->type == 2) {
+						for(i = 0; i < bulletsCount; i++) {
+							if(bullets[i]->type >= 4) {
+								if(hitTest(bullets[j]->x-16, bullets[j]->y-16, 32, 32, bullets[i]->x, bullets[i]->y, 4, 4)) {
+									bullets[i]->valid = 0;
+									bullets[j]->valid = 0;
+									break;
+								}
+							}
+						}
+					}
+					if(bullets[j]->type >= 4) {
 						if(hitTest(mc.x+4, mc.y+4, 8, 8, bullets[j]->x, bullets[j]->y, 4, 4)) {
 							gamestate = 2;
 							clear_game();
@@ -427,19 +444,24 @@ scene_additem(&mc);
 						case 0:
 						break;
 						case 1:
-						if(time % 39 == 2) {
-							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, 0, 2);
-							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, 3, 2);
-							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -5, -3, 2);
+						if(enemys[i]->timer % (39-stage) == 2) {
+							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -2 - stage, 0, 4);
+							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -2- stage, 3, 4);
+							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -2- stage, -3, 4);
 						}
 						break;
 						case 2:
-						if(time % 37 == 2) {
+						if(enemys[i]->timer % (39-stage) == 2) {
 							int size = (int)SQRT((mc.x-enemys[i]->x)*(mc.x-enemys[i]->x)+(mc.y-enemys[i]->y)*(mc.y-enemys[i]->y));
-							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, (mc.x-enemys[i]->x)*10/size, (mc.y-enemys[i]->y)*10/size, 2);
+							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, (mc.x-enemys[i]->x)*(4+stage*2)/size, (mc.y-enemys[i]->y)*(4+stage*2)/size, 4);
+						}
+						case 3:
+						if(enemys[i]->timer % (39-stage) == 2) {
+							bulletGenerate(enemys[i]->x, enemys[i]->y+24, 3, -2 - stage, 0, 5);
 						}
 						break;
 					}
+					enemys[i]->timer++;
 					if(enemys[i]->valid == 1) {
 					
 					//drawing(width(enemys[i]->img), height(enemys[i]->img), enemys[i]->x, enemys[i]->y, img(enemys[i]->img));
@@ -466,9 +488,21 @@ scene_removeitem(enemys[i]);
 							break;
 						}
 						case 0:
-						case 2:
+						case 4:
+						case 3:
 						bullets[i]->x += bullets[i]->xspeed;
 						bullets[i]->y += bullets[i]->yspeed;
+						break;
+						case 2:
+						bullets[i]->x = mc.x + cos((float)bullets[i]->yspeed/10) * SQRT(bullets[i]->xspeed);
+						bullets[i]->y = mc.y + sin((float)bullets[i]->yspeed/10) * SQRT(bullets[i]->xspeed);
+						bullets[i]->yspeed++;
+						bullets[i]->xspeed++;
+						break;
+						case 5:
+						bullets[i]->x += bullets[i]->xspeed;
+						bullets[i]->y = bullets[i]->oy + sin((float)bullets[i]->yspeed/10) * (0+stage*5);
+						bullets[i]->yspeed++;
 						break;
 					}
 					if(bullets[i]->x < 0) bullets[i]->valid = 0;

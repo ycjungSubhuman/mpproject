@@ -942,6 +942,7 @@ OBJECT* scene_removeitem(OBJECT* obj)
 
             //reduce size
             currscene.size--;
+            size = currscene.size;
             //go back by one
             i--;
                 printf("=============REMOVED===========\n");
@@ -950,7 +951,7 @@ OBJECT* scene_removeitem(OBJECT* obj)
     	printf("%d %d %d %d\n", currscene.list[i]->x, currscene.list[i]->y, currscene.list[i]->z, currscene.list[i]->img);
     }*/
     printf("=============================\n");
-
+            break;
         }
     }
 

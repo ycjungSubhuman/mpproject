@@ -13,6 +13,7 @@ typedef  struct
 	int img;
 	int type;
 	int xspeed, yspeed;
+	int timer;
 	int valid;
 } Enemy;
 
@@ -21,7 +22,7 @@ typedef  struct bullet
 	int x, y, z;
 	int img;
 	int type;
-	int xspeed, yspeed;
+	int xspeed, yspeed, oy;
 	int valid;
 } Bullet;
 
