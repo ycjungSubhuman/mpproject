@@ -52,7 +52,7 @@ void enemyGenerate(int x, int y, int img, int xspeed, int yspeed, int type)
 	enemys[enemysCount]->xspeed = xspeed;
 	enemys[enemysCount]->yspeed = yspeed;
 	enemys[enemysCount]->type = type;
-	enemys[enemysCount]->valid = 1;
+	enemys[enemysCount]->valid = 2;
 	enemys[enemysCount]->timer = rand()%50;
 	printf("Enemy gen ready\n");
 scene_additem(enemys[enemysCount]);
@@ -294,28 +294,28 @@ scene_additem(&mc);
 				switch(mc.type) {
 // printf("Generating Player Bullets\n");
 					case 0:
-					if(time % 20 == 0) {
+					if(time % 10 == 0) {
 						bulletGenerate(mc.x, mc.y+24, 3, 25, 0, 0);
 						bulletGenerate(mc.x, mc.y+24, 3, 25, 5, 0);
 						bulletGenerate(mc.x, mc.y+24, 3, 25, -5, 0);
 					}
 					break;
 					case 1:
-					if(time % 15 == 0) {
+					if(time % 7 == 0) {
 						bulletGenerate(mc.x, mc.y-8, 3, 20, 0, 3);
 						bulletGenerate(mc.x, mc.y+24, 3, 20, 0, 3);
 						bulletGenerate(mc.x, mc.y+56, 3, 20, 0, 3);
 					}
 					break;
 					case 2:
-					if(time % 15 == 0) {
+					if(time % 7 == 0) {
 						bulletGenerate(mc.x, mc.y-8, 3, 25, 0, 1);
 						bulletGenerate(mc.x, mc.y+56, 3, 25, 0, 1);
 					}
 					break;
 					case 3:
 					if(time % 5 == 0) {
-						bulletGenerate(mc.x, mc.y, 3, 400, 0, 2);
+						bulletGenerate(mc.x, mc.y, 3, 100, 0, 2);
 					}
 					break;
 				}
@@ -403,9 +403,11 @@ scene_additem(&mc);
 					for(j = 0; j < bulletsCount; j++) {
 						if(bullets[j]->type <= 3) {
 							if(hitTest(enemys[i]->x, enemys[i]->y, 64, 64, bullets[j]->x, bullets[j]->y, 4, 4)) {
-								enemys[i]->valid = 0;
+								if(enemys[i] != 0) {
+									enemys[i]->valid--;
+									score += 117;
+								}
 								bullets[j]->valid = 0;
-								score += 117;
 								break;
 							}
 						}
@@ -494,8 +496,8 @@ scene_removeitem(enemys[i]);
 						bullets[i]->y += bullets[i]->yspeed;
 						break;
 						case 2:
-						bullets[i]->x = mc.x + cos((float)bullets[i]->yspeed/10) * SQRT(bullets[i]->xspeed);
-						bullets[i]->y = mc.y + sin((float)bullets[i]->yspeed/10) * SQRT(bullets[i]->xspeed);
+						bullets[i]->x = mc.x+16 + cos((float)bullets[i]->yspeed/10) * bullets[i]->xspeed;
+						bullets[i]->y = mc.y+16 + sin((float)bullets[i]->yspeed/10) * bullets[i]->xspeed;
 						bullets[i]->yspeed++;
 						bullets[i]->xspeed++;
 						break;
