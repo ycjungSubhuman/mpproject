@@ -3,32 +3,21 @@
 #include "s3c6410.h"
 #include "lcd.h"
 #include "util.h"
-#include "scene.h"
-#define VIC1RAWINTR_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x8)
-#define VIC1IRQSTATUS_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x0)
-#define VIC1INTSELECT_REG __REG(ELFIN_VIC1_BASE_ADDR + 0xc)
-#define VIC1INTENABLE_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x10)
-#define VIC1INTENCLEAR_REG __REG(ELFIN_VIC1_BASE_ADDR + 0x14)
-
-#define VIC1VECTADDR30 __REG(ELFIN_VIC1_BASE_ADDR + 0x178)
-#define VIC1VECTADDR31 __REG(ELFIN_VIC1_BASE_ADDR + 0x17c)
+#include "graphics.h"
 
 
 static int frame_asserted = 0;
 
-unsigned background[S3CFB_SIZE];
+static unsigned background[S3CFB_SIZE];
 
 //vsync handling routines
 //two frame buffers are serviced
 //into lcd screen in an alternating manner
 //to avoid tearing (strange vertical lines on the screen)
-unsigned fb_odd[S3CFB_SIZE];
-unsigned fb_even[S3CFB_SIZE];
+static unsigned fb_odd[S3CFB_SIZE];
+static unsigned fb_even[S3CFB_SIZE];
 
 extern SCENE currscene;
-extern SCENE oldscene;
-extern SCENE oldsceneodd;
-
 
 int frame_is_asserted(void) {
 	return frame_asserted;
@@ -47,47 +36,42 @@ void frame_init(void) {
 	int i;
 
 	for (i = 0; i < S3CFB_SIZE; i ++) {
-		int x, y;
-
-		x = i % S3CFB_HRES;
-		y = i / S3CFB_HRES;
 
 		//background[i] = (((x >> 5) & 1) != ((y >> 5) & 1)) ? 0xFFFFFFFF : 0xFFD7D7D7;
-		background[i] = 0xFF5A804D;
+		background[i] = 0xff5a804d;
 		fb_odd[i] = background[i];
 		fb_even[i] = background[i];
 	}
-	frame_set_fb(fb_odd);
 
-	/*for (i = 0; i < player_width * player_height; i++) {
+	/*for (i = 0; i < imagew * imageh; i++) {
 		int x, y, ds, limit;
 
-		x = (i % player_width) - (player_width >> 1);
-		y = (i / plwyer_width) - (player_height >> 1);
+		x = (i % imagew) - (imagew >> 1);
+		y = (i / imagew) - (imageh >> 1);
 		ds = x * x + y * y;
-		limit = (player_width >> 1) * (player_height >> 1);
+		limit = (imagew >> 1) * (imagew >> 1);
 
 		//graphics2D also supports alpha value
 		//but image data is previously has alpha value 0
 		//which reside on MSB
 		//outside of circle area remains with alpha value 0.
 		if (ds < limit * 9 / 10)
-			((unsigned *)player)[i] |= 0xFF000000;
+			((unsigned *)image)[i] |= 0xFF000000;
 		else if (ds < limit)
-			((unsigned *)player)[i] = 0xFF303030;
+			((unsigned *)image)[i] = 0xFF303030;
 	}*/
 
+	frame_set_fb(fb_even);
 }
 
 void frame_assert(void) {
 	frame_asserted = 1;
 }
 
-int parity = 0;
-
 static void implement_your_drawing_here(unsigned *fb);
 
 void frame_service(void) {
+	static int parity = 0;
 
 	if (frame_asserted) {
 		//it is guaranteed that it is asserted 60 times per sec
@@ -102,12 +86,11 @@ void frame_service(void) {
 		//shows a framebuffer on screen
 		frame_set_fb(fb_shown);
 		//and working on the other frame buffer
+		implement_your_drawing_here(fb_working);
 
 		frame_asserted = 0;
-	implement_your_drawing_here(fb_working);
 	}
 }
-
 static void implement_your_drawing_here(unsigned *fb) 
 {
 	int i;
@@ -117,10 +100,11 @@ static void implement_your_drawing_here(unsigned *fb)
 
  // temp = VIC1INTENABLE_REG;
  // VIC1INTENCLEAR_REG = 0xffffffff;
+		printf("drawing on %d\n", fb);
 		printf("scene size : %d\n", size);
 		gfx_bitblck(fb, background,
-			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES-80,
-			0, 80);
+			S3CFB_HRES, S3CFB_VRES, S3CFB_HRES, S3CFB_VRES,
+			0, 0);
 
 
     //draw

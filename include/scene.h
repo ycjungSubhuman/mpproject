@@ -1,7 +1,7 @@
 #ifndef __SCENE_H
 #define __SCENE_H
 
-#define SCENE_MAX 80
+#define SCENE_MAX 120
 #define MASK_COLOR 0xFF00AA
 
 typedef struct rect{
