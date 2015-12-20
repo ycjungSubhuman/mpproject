@@ -104,6 +104,10 @@ void frame_service(void) {
 		//and working on the other frame buffer
 
 		frame_asserted = 0;
+		for(i=0; i<20; i++)
+		{
+			printf("fjioe\n");
+		}
 		implement_your_drawing_here(fb_working);
 	}
 }
